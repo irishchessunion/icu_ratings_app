@@ -1,0 +1,32 @@
+.header
+  %span= @page_title = "Top Irish Seniors"
+
+#seniors_form_div
+  = render "icu_ratings/seniors/form"
+
+#seniors_results.turbaned
+  = render "icu_ratings/seniors/results"
+
+= render "shared/ratings_graph/dialog"
+
+#help
+  %dl
+    %dt At what date are the players' ages calculated?
+    %dd
+      The one shown in the "Date" menu, which offers a number
+      of alternatives you can switch to including today,
+      the start of the year and the start of next year.
+    %dt What players are included in this list?
+    %dd
+      %p Those who satisfy the following criteria:
+      %ul
+        %li date of birth is known,
+        %li federation is not foreign,
+        - if @seniors.available?
+          %li
+            appeared in the
+            = year_month(@seniors.list)
+            rating list.
+    %dt If two or more players have the same rating, what is used as a tie breaker?
+    %dd DOB. Older players come higher up than younger ones.
+    = render partial: "shared/search_form_help"
