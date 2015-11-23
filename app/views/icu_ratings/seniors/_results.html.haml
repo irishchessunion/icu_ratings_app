@@ -1,0 +1,18 @@
+%table
+  %tr
+    %th
+    %th Player
+    %th G
+    %th Club
+    %th Rating
+  - @seniors.ratings.each_with_index do |r, i|
+    - p = r.icu_player
+    %tr
+      %td{class: "centered"}= i + 1
+      %td= p.name
+      %td= p.gender
+      %td= p.club
+      %td{class: "#{r.type}"}= link_to r.rating, icu_rating_path(r, format: "js"), remote: true
+  - if @seniors.ratings.size == 0
+    %tr
+      %td{class: "centered", colspan: 6} No matches

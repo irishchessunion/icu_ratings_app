@@ -1,0 +1,14 @@
+= form_tag seniors_icu_ratings_path, method: "get", id: handle_remote_id do
+  %table{class: "invisible"}
+    %tr
+      %th= label_tag :over
+      %th= label_tag :date
+      %th= label_tag :gender
+      %th= label_tag :club
+      %th
+    %tr
+      %td= select_tag :over, options_for_select(@seniors.over_menu, params[:over]), onchange: handle_remote
+      %td= select_tag :date, options_for_select(@seniors.date_menu, params[:date]), onchange: handle_remote
+      %td= select_tag :gender, options_for_select(gender_menu("Any"), params[:gender]), onchange: handle_remote
+      %td= select_tag :club, options_for_select(club_menu(nil), params[:club]), onchange: handle_remote
+      %td= submit_tag "Search"

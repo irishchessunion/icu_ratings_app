@@ -10,3 +10,5 @@ public/assets/*
 config/database.yml
 config/app_config.yml
 config/secrets.yml
+.idea/*
+
