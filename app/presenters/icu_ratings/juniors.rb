@@ -1,6 +1,6 @@
 module IcuRatings
   class Juniors
-    attr_reader :date
+    attr_reader :date, :live
 
     def initialize(params)
       params[:under] = under_range.first unless params[:under].present? && under_range.include?(params[:under])
@@ -13,6 +13,7 @@ module IcuRatings
 
       @gender = params[:gender]
       @club = params[:club]
+      @live = params[:live]
     end
 
     def list
@@ -44,13 +45,15 @@ module IcuRatings
     def ratings
       return @ratings if @ratings
       return [] unless available?
-      @ratings = IcuRating.unscoped.order("rating DESC, dob DESC").includes(:icu_player).references(:icu_player)
-      @ratings = ratings.where(list: list).where("icu_players.fed = 'IRL' OR icu_players.fed IS NULL")
-      @ratings = ratings.where("icu_players.gender = 'M' OR icu_players.gender IS NULL") if @gender == "M"
-      @ratings = ratings.where("icu_players.gender = 'F'") if @gender == "F"
-      @ratings = ratings.where("icu_players.club = ?", @club) if @club.present?
-      @ratings = ratings.where("icu_players.dob >  ?", @under)
-      @ratings = ratings.where("icu_players.dob <= ?", @least)
+      @ratings = @live ? LiveRating.unscoped : IcuRating.unscoped
+      @ratings = @ratings.order("rating DESC, dob DESC").includes(:icu_player).references(:icu_player)
+      @ratings = @ratings.where(list: list) unless @live
+      @ratings = @ratings.where("icu_players.fed = 'IRL' OR icu_players.fed IS NULL")
+      @ratings = @ratings.where("icu_players.gender = 'M' OR icu_players.gender IS NULL") if @gender == "M"
+      @ratings = @ratings.where("icu_players.gender = 'F'") if @gender == "F"
+      @ratings = @ratings.where("icu_players.club = ?", @club) if @club.present?
+      @ratings = @ratings.where("icu_players.dob >  ?", @under)
+      @ratings = @ratings.where("icu_players.dob <= ?", @least)
       @ratings
     end
 

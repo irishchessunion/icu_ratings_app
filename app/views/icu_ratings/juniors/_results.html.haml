@@ -14,7 +14,8 @@
       %td{class: "centered"}= p.age(@juniors.date)
       %td= p.gender
       %td= p.club
-      %td{class: "#{r.type}"}= link_to r.rating, icu_rating_path(r, format: "js"), remote: true
+      %td{class: "#{r.type}"}= IcuRating === r ? link_to(r.rating, icu_rating_path(r, format: "js"), remote: true) : r.rating
+
   - if @juniors.ratings.size == 0
     %tr
       %td{class: "centered", colspan: 6} No matches
