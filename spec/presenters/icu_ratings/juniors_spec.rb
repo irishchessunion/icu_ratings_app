@@ -78,6 +78,14 @@ module IcuRatings
         expect(ratings).to include(@r1)
         expect(ratings).to include(@r2)
       end
+
+      it "live ratings" do
+        live_rating = FactoryGirl.create(:live_rating, icu_player: @p1)
+        j = Juniors.new(live: "1")
+        ratings = j.ratings
+        expect(ratings.size).to eq(1)
+      end
+
     end
 
     describe "beginning of month" do
