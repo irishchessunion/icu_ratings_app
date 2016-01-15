@@ -28,9 +28,10 @@ group :test, :development do
   gem "rspec-rails"
   gem "capybara"
   gem "selenium-webdriver"
+  gem "chromedriver-helper"
   gem "launchy"
   gem "factory_girl_rails"
   gem "faker"
   gem "database_cleaner"
-  gem "byebug"
+  #gem "byebug"
 end
