@@ -21,7 +21,7 @@ every :hour, at: 15 do
   rake "sync:subs"
 end
 
-every :hour, at: 20 do
+every :day, at: "5:30am" do
   rake "export:ratings"
 end
 
