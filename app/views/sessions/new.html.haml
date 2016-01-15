@@ -9,7 +9,7 @@
     = password_field_tag :password
   .input
     = submit_tag "Log in"
-    = link_to "Forgot password?", "#", class: "help-link note"
+    = link_to_icu "Forgot password?", "password/new"
 
 #help
   %dl
@@ -22,11 +22,11 @@
       then you can use the same account to log in to this site.
     %dt What should I do if I've forgotten my password?
     %dd
-      Please email the ICU
-      = mail_to_icu(:webmaster)
-      requesting that your password be reset.
-      If the email address you used for your login is still in use, please send the message from that email.
-      If you can't send a message from that email, please state your PIN number.
+      Click on the
+      = link_to_icu "Forgot password?", "password/new"
+      link, and you will go to the main ICU website.
+      There you can enter your email that you use to login normally. You will receive an
+      email with a link, that allows you to set a new password.
       If you have a new email address you could, as an alternative to reseting your old password, just
       = link_to_icu "sign up", "sign_up"
       for a new login account. See
