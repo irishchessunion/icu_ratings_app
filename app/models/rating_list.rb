@@ -51,14 +51,26 @@ class RatingList < ActiveRecord::Base
 
   def self.auto_populate
     have = all.inject({}) { |h, l| h[l.date] = true; h }
-    date = Date.new(2012, 1, 1)  # first list of the new rating system
+    list_date = Date.new(2012, 1, 1)  # first list of the new rating system
     high = Date.today
+    start_monthly_lists = Date.new(2015, 9, 1)
     todo = []
-    while date <= high
-      todo.push(date) unless have[date]
-      date = date >> 4
+    while list_date <= high
+      todo.push(list_date) unless have[list_date]
+      if list_date >= start_monthly_lists # From Sep 2016 we produce a list every month
+        list_date = list_date >> 1
+      else
+        list_date = list_date >> 4
+      end
     end
-    todo.each { |date| create(date: date, tournament_cut_off: date.change(day: 15), payment_cut_off: date.end_of_month) }
+    todo.each do |date|
+      rl = new(date: date, tournament_cut_off: date.change(day: 15), payment_cut_off: date.end_of_month)
+      if rl.valid?
+        rl.save
+      else
+        Rails.logger.info rl.errors.inspect
+      end
+    end
   end
 
   def self.search(params, path)
