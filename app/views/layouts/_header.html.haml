@@ -79,6 +79,8 @@
           %li= link_to "Events", admin_events_path
         - if can? :read, Failure
           %li= link_to "Failures", admin_failures_path
+        - if can? :read, JuniorReport
+          %li= link_to "Junior Report", admin_junior_report_path
         %li
           = link_to "Downloads", downloads_path
           - if can? :create, Download

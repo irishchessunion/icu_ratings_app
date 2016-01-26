@@ -27,6 +27,7 @@ Ratings::Application.routes.draw do
     resources :failures,            only: [:index, :show, :destroy, :new]
     resources :fees,                only: [:index, :update]
     resources :fide_player_files,   only: [:index, :show, :new, :create, :destroy]
+    resource :junior_report,        only: [:show]
     resources :logins,              only: [:index]
     resources :new_players,         only: [:index]
     resources :old_players,         only: [:index, :show, :edit, :update]

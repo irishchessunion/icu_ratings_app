@@ -74,17 +74,5 @@ module IcuRatings
       date_range.inject([]) { |m, d| m.push [d == today ? "Today" : d, d] }
     end
 
-    # @return [Array<String>] An array of CSV lines
-    def self.junior_report_data
-      new(under: 21).ratings.map do |r|
-        "#{r.icu_id},\"#{r.icu_player.last_name}, #{r.icu_player.first_name}\",\"#{r.icu_player.title}\",\"#{r.icu_player.fed}\",#{r.rating},#{r.icu_player.dob.year},\"#{r.icu_player.gender}\",\"#{r.icu_player.club}\""
-      end
-    end
-
-    def self.generate_junior_report(filename)
-      File.open(filename, 'w') do |f|
-        f.write(junior_report_data.join("\n"))
-      end
-    end
   end
 end
