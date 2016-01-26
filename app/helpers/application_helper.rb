@@ -284,8 +284,8 @@ module ApplicationHelper
   # Returns a string showing results displayed plus next and previous links.
   def pagination_links(pager)
     links = Array.new
-    links.push(link_to "next", pager.next_page, remote: true) if pager.before_end
     links.push(link_to "prev", pager.prev_page, remote: true) if pager.after_start
+    links.push(link_to "next", pager.next_page, remote: true) if pager.before_end
     raw "#{pager.sequence} of #{pluralize(pager.total, "match")}#{links.size > 0 ? ": " : ""}#{links.join(", ")}"
   end
 
