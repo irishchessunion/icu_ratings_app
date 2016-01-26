@@ -5,7 +5,7 @@ module Admin
     def show
       send_data JuniorReport.rows.join("\n"),
                 filename: 'JuniorReport.csv',
-                type: 'application/csv',
+                type: 'text/csv',
                 disposition: 'inline'
     end
 
