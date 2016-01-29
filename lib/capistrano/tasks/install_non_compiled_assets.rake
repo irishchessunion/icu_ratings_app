@@ -5,8 +5,7 @@ task :install_non_compiled_assets do
       with rails_env: fetch(:rails_env) do
         source = release_path.join('app', 'assets', 'images', 'images')
         target = release_path.join('public', fetch(:assets_prefix), 'images')
-        run "echo cp #{source}/* #{target}"
-        #execute :rake, "assets:precompile"
+        execute :cp, "#{source}/* #{target}"
       end
     end
   end
