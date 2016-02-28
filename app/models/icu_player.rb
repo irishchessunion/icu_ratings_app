@@ -70,7 +70,16 @@ class IcuPlayer < ActiveRecord::Base
       name
     end
   end
- 
+
+  # Returns the hightide rating for a player in a given time frame
+  def hightide(from, to)
+    players.
+        joins(:tournament).
+        where(tournaments: {fed: ['IRL', nil]}).
+        where("tournaments.finish between ? and ?", from, to).
+        pluck(:new_rating).max
+  end
+
   def age(at=nil)
     return nil unless dob
     at ||= Date.today
