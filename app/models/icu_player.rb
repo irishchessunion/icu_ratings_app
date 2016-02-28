@@ -77,7 +77,7 @@ class IcuPlayer < ActiveRecord::Base
         joins(:tournament).
         where(tournaments: {fed: ['IRL', nil]}).
         where("tournaments.finish between ? and ?", from, to).
-        pluck(:new_rating).max
+        pluck(:new_rating).compact.max
   end
 
   def age(at=nil)
