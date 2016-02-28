@@ -75,9 +75,8 @@ class IcuPlayer < ActiveRecord::Base
   def hightide(from, to)
     players.
         joins(:tournament).
-        where(tournaments: {fed: ['IRL', nil]}).
         where("tournaments.finish between ? and ?", from, to).
-        pluck(:new_rating).compact.max
+        maximum(:new_rating)
   end
 
   def age(at=nil)
