@@ -6,8 +6,7 @@
     %th G
     %th Club
     %th Rating
-    - if current_user && current_user.role?("reporter")
-      %th Hightide
+    %th Hightide
   - @juniors.ratings.each_with_index do |r, i|
     - p = r.icu_player
     %tr
@@ -17,8 +16,7 @@
       %td= p.gender
       %td= p.club
       %td{class: "#{r.type}"}= IcuRating === r ? link_to(r.rating, icu_rating_path(r, format: "js"), remote: true) : r.rating
-      - if current_user && current_user.role?("reporter")
-        %td= p.hightide(Date.new(2016, 1, 1), Date.new(2016, 4, 1)) || r.rating
+      %td= p.hightide(Date.new(2016, 1, 1), Date.new(2016, 4, 1)) || r.rating
 
   - if @juniors.ratings.size == 0
     %tr
