@@ -74,4 +74,12 @@ class IcuRating < ActiveRecord::Base
   def self.lists
     unscoped.select("DISTINCT(list)").order(list: :desc).map(&:list)
   end
+
+  def hightide(from, to)
+    if full?
+      icu_player.hightide(from, to) || rating
+    else
+      nil
+    end
+  end
 end

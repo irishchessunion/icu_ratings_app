@@ -105,6 +105,14 @@ class LiveRating < ActiveRecord::Base
     RatingList.find_by(date: last_date)
   end
 
+  def hightide(from, to)
+    if full?
+      icu_player.hightide(from, to) || rating
+    else
+      nil
+    end
+  end
+
   private
 
   # Adapted from RatingList#get_subscriptions.

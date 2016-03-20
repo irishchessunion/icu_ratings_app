@@ -36,7 +36,8 @@ class IcuPlayer < ActiveRecord::Base
   has_many   :old_rating_histories
   has_many   :old_tournaments, through: :old_rating_histories
 
-  default_scope -> { order("last_name, first_name") }
+  default_scope -> { order('last_name, first_name') }
+  #scope :with_hightide, ->(from, to) { joins(players: :tournament).where('tournaments.finish between ? and ?', from, to).select('icu_players.*, max(players.new_rating) as ht_rating') }
 
   validates :first_name, :last_name, presence: true
   validates :fed, format: { with: /\A[A-Z]{3}\z/ }, allow_nil: true
