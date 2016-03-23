@@ -13,6 +13,7 @@
 
 class IcuRating < ActiveRecord::Base
   extend ICU::Util::Pagination
+  include Hightide
 
   belongs_to :icu_player, foreign_key: "icu_id"
 
@@ -63,6 +64,10 @@ class IcuRating < ActiveRecord::Base
     end
   end
 
+  def self.hightide_query
+    'SELECT MAX(players.new_rating) FROM players INNER JOIN tournaments ON tournaments.id = players.tournament_id WHERE players.icu_id = icu_ratings.icu_id AND (tournaments.finish between ? and ?)'
+  end
+
   def type
     full ? "full" : "provisional"
   end
@@ -73,13 +78,5 @@ class IcuRating < ActiveRecord::Base
 
   def self.lists
     unscoped.select("DISTINCT(list)").order(list: :desc).map(&:list)
-  end
-
-  def hightide(from, to)
-    if full?
-      icu_player.hightide(from, to) || rating
-    else
-      nil
-    end
   end
 end

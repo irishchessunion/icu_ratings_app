@@ -13,6 +13,7 @@
 
 class LiveRating < ActiveRecord::Base
   extend ICU::Util::Pagination
+  include Hightide
 
   belongs_to :icu_player, foreign_key: "icu_id"
 
@@ -103,14 +104,6 @@ class LiveRating < ActiveRecord::Base
   def self.get_last_list
     last_date = IcuRating.maximum(:list)
     RatingList.find_by(date: last_date)
-  end
-
-  def hightide(from, to)
-    if full?
-      icu_player.hightide(from, to) || rating
-    else
-      nil
-    end
   end
 
   private
