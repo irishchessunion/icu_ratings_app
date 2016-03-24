@@ -221,6 +221,7 @@ module ApplicationHelper
 
   # Turn a date into a year-month (e.g. 2011-11-01 => 2011 Nov).
   def year_month(date, fmt="yyyy mmm")
+    return nil unless date
     yyyy = date.year.to_s
     mmm = %w(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec)[date.month-1]
     case fmt

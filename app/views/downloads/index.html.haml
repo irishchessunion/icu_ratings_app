@@ -7,6 +7,7 @@
     %th Comment
     %th Content Type
     %th Size
+    %th List
     %th Created Ago
     %th Updated Ago
     - if can? :manage, Download
@@ -23,6 +24,7 @@
         %td= download.comment
         %td= download.content_type
         %td= number_to_human_size(download.data.size)
+        %td= year_month(download.rating_list_date)
         %td= time_ago_in_words(download.created_at, include_seconds: true)
         %td= time_ago_in_words(download.updated_at, include_seconds: true)
         - if can? :manage, Download

@@ -9,11 +9,14 @@
 #  data         :binary(16777215)
 #  created_at   :datetime
 #  updated_at   :datetime
+#  rating_list_id :integer
 #
 
 class Download < ActiveRecord::Base
   extend ICU::Util::Pagination
   include ICU::Util::Model
+
+  belongs_to :rating_list
 
   validates_presence_of :data, :content_type, :file_name
   validates_length_of   :data, maximum: 1.megabyte
@@ -25,8 +28,14 @@ class Download < ActiveRecord::Base
     self.data         = file.read
   end
 
+  def rating_list_date
+    if rating_list.present?
+      rating_list.date
+    end
+  end
+
   def self.search(params, path)
-    matches = order(updated_at: :desc)
+    matches = includes(:rating_list).order(updated_at: :desc)
     paginate(matches, path, params)
   end
 end

@@ -26,15 +26,20 @@ module ICU
             comment      = "Latest #{type} ratings"
             file_name    = "#{short}_ratings.zip"
             content_type = "application/zip"
+            if type == "published"
+              rating_list = RatingList.first
+            else
+              rating_list = nil
+            end
             data         = File.open(file, "r", encoding: "ASCII-8BIT") { |f| f.read }
-            download = Download.find_by_comment_and_file_name_and_content_type(comment, file_name, content_type)
+            download = Download.where(comment: comment, file_name: file_name, content_type: content_type, rating_list: rating_list)
             if download
               action = "updated"
               download.data = data
               download.save!
             else
               action = "created"
-              download = Download.create!(comment: comment, file_name: file_name, content_type: content_type, data: data)
+              download = Download.create!(comment: comment, file_name: file_name, content_type: content_type, rating_list: rating_list, data: data)
             end
             report.push "#{action} #{type} ratings download"
           else
