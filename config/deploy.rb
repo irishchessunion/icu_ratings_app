@@ -1,6 +1,6 @@
 set :application, "icu_ratings_app"
 
-set :repo_url, "git://github.com/ninkibah/icu_ratings_app.git"
+set :repo_url, "https://github.com/ninkibah/icu_ratings_app.git"
 set :branch, "master"
 
 set :deploy_to, "/var/apps/ratings"
