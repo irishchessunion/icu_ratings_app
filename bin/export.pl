@@ -315,12 +315,12 @@ sub export_sp
 
 sub export_sm
 {
-    my ($type, $ratings) = @_;
-    my $file = sprintf('%s/swiss_manager_%s.txt', $opt{f}, &_short($type));
-    open(FILE, '>:encoding(UTF-8)', $file) || die "can't write to file $file\n";
-
     # What month/year is it?
     my $mmyy = "\u$mon$year";
+
+    my ($type, $ratings) = @_;
+    my $file = sprintf('%s/swiss_manager_%s.%s.txt', $opt{f}, &_short($type), $mmyy);
+    open(FILE, '>:encoding(UTF-8)', $file) || die "can't write to file $file\n";
 
     # Write the header.
     my $header = "ID number Name                              TitlFed  $mmyy GamesBorn  Flag\n";
