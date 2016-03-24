@@ -28,7 +28,7 @@ module ICU
             content_type = "application/zip"
             data         = File.open(file, "r", encoding: "ASCII-8BIT") { |f| f.read }
             download = Download.find_by_comment_and_file_name_and_content_type(comment, file_name, content_type)
-            if (download)
+            if download
               action = "updated"
               download.data = data
               download.save!
