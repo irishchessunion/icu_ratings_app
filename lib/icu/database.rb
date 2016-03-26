@@ -771,7 +771,8 @@ module ICU
         push = ICU::Database::Push.new
         ratings_updated = 0
         success = true
-        IcuRating.where(list: RatingList.first.date).each do |rating|
+        list = IcuRating.maximum(:list)
+        IcuRating.where(list: list).each do |rating|
           error = push.update_player_rating(rating.icu_id, rating.rating)
           if error
             puts "sync_players_rating error for rating player #{rating.icu_id} #{icu_rating.rating}: #{error}"
@@ -780,7 +781,7 @@ module ICU
             ratings_updated += 1
           end
         end
-        Event.create(name: "Push Player Ratings Synchronisation", report: "Players ratings updated: #{ratings_updated}", time: Time.now - start, success: success)
+        Event.create(name: "Push Player Ratings Synchronisation", report: "With list #{list} players ratings updated : #{ratings_updated}", time: Time.now - start, success: success)
       end
     end
   end

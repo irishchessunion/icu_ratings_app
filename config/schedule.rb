@@ -25,7 +25,7 @@ every :day, at: "5:45am" do
   rake "sync:push_players_ratings"
 end
 
-every :day, at: "6:35pm" do
+every :day, at: "6:50pm" do
   rake "sync:push_players_ratings"
 end
 
