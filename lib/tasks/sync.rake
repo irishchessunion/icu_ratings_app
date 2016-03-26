@@ -7,6 +7,11 @@ namespace :sync do
     ICU::Database::Pull::Player.new.sync
   end
 
+  desc "Push latest ratings from ratings_production to www_production/players (schedule daily)"
+  task push_players_ratings: :environment do
+    ICU::Database::Push.sync_players_rating
+  end
+
   desc "Synchronize ratings_production/users with www_production/users (schedule daily, after players sync)"
   task users: :environment do
     ICU::Database::Pull::User.new.sync
@@ -35,7 +40,7 @@ namespace :sync do
   end
 
   desc "Synchronize everything in the correct order"
-  task all: [:players, :users, :icu_items, :irish_fide_players, :other_fide_players]
+  task all: [:players, :users, :icu_items, :irish_fide_players, :other_fide_players, :push_players_ratings]
   
   desc "Print stats about the players in the two databases (run manually anytime you want)"
   task stats: :environment do

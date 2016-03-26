@@ -751,6 +751,28 @@ module ICU
       rescue => e
         return "error: #{e.message}"
       end
+
+      # Updates the latest_rating column of the players record from the www database
+      def update_player_rating(id, rating)
+        players = @client.query("SELECT id FROM players WHERE id = #{id}")
+        return "couldn't find player with ID #{id}" if players.size == 0
+        return "found more than one (#{players.size}) players with ID #{id}" if players.size > 1
+        @client.query("UPDATE players SET latest_rating = #{rating} WHERE id = #{id}")
+        nil
+      rescue Mysql2::Error => e
+        return "mysql error: #{e.message}"
+      rescue => e
+        return "error: #{e.message}"
+      end
+
+      # Goes through each player and updates the www database version with the current rating for that player
+      def self.sync_players_rating
+        push = ICU::Database::Push.new
+        IcuRating.where(list: RatingList.first.date).each do |rating|
+          error = push.update_player_rating(rating.icu_id, rating.rating)
+          puts "sync_players_rating error for rating player #{rating.icu_id} #{icu_rating.rating}: #{error}" if error
+        end
+      end
     end
   end
 end
