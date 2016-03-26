@@ -767,11 +767,20 @@ module ICU
 
       # Goes through each player and updates the www database version with the current rating for that player
       def self.sync_players_rating
+        start = Time.now
         push = ICU::Database::Push.new
+        ratings_updated = 0
+        success = true
         IcuRating.where(list: RatingList.first.date).each do |rating|
           error = push.update_player_rating(rating.icu_id, rating.rating)
-          puts "sync_players_rating error for rating player #{rating.icu_id} #{icu_rating.rating}: #{error}" if error
+          if error
+            puts "sync_players_rating error for rating player #{rating.icu_id} #{icu_rating.rating}: #{error}"
+            success = false
+          else
+            ratings_updated += 1
+          end
         end
+        Event.create(name: "Push Player Ratings Synchronisation", report: "Players ratings updated: #{ratings_updated}", time: Time.now - start, success: success)
       end
     end
   end
