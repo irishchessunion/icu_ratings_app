@@ -14,7 +14,7 @@ class JuniorReport
     name = "\"#{r.icu_player.last_name}, #{r.icu_player.first_name}\""
     title = r.icu_player.title
     fed = r.icu_player.fed
-    hightide = r.icu_player.hightide(Date.new(2016, 1, 1), Date.new(2016, 4, 1)) || r.rating
+    hightide = r.hightide
     full_rating = r.full ? '' : 'Prov'
     yob = r.icu_player.dob.year
     gender = r.icu_player.gender
