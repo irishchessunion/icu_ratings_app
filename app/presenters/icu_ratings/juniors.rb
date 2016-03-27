@@ -54,7 +54,7 @@ module IcuRatings
       @ratings = @ratings.where("icu_players.club = ?", @club) if @club.present?
       @ratings = @ratings.where("icu_players.dob >  ?", @under)
       @ratings = @ratings.where("icu_players.dob <= ?", @least)
-      @ratings
+      @ratings.to_a.sort {|a, b| (b.hightide || 0) <=> (a.hightide || 0)}
     end
 
     def available?

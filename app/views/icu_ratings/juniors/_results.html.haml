@@ -16,7 +16,7 @@
       %td= p.gender
       %td= p.club
       %td{class: "#{r.type}"}= IcuRating === r ? link_to(r.rating, icu_rating_path(r, format: "js"), remote: true) : r.rating
-      %td= r.hightide(Date.new(2016, 1, 1), Date.new(2016, 5, 2))
+      %td= r.hightide
 
   - if @juniors.ratings.size == 0
     %tr

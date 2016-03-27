@@ -4,14 +4,15 @@
 #   icu_player
 #   rating
 module Hightide
-  # @param from [Date]
-  # @param to [Date]
-  def hightide(from, to)
+  FROM = Date.new(2016, 1, 1)
+  TO = Date.new(2016, 5, 2)
+
+  def hightide
     if full?
-      icu_player.
+      @hightide ||= icu_player.
           players.
           joins(:tournament).
-          where('tournaments.finish between ? and ?', from, to).
+          where('tournaments.finish between ? and ?', FROM, TO).
           maximum(:new_rating) || rating
     else
       nil
