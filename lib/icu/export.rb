@@ -32,7 +32,7 @@ module ICU
               rating_list = nil
             end
             data         = File.open(file, "r", encoding: "ASCII-8BIT") { |f| f.read }
-            download = Download.where(comment: comment, file_name: file_name, content_type: content_type, rating_list: rating_list)
+            download = Download.where(comment: comment, file_name: file_name, content_type: content_type, rating_list: rating_list).first
             if download
               action = "updated"
               download.data = data
@@ -49,6 +49,7 @@ module ICU
         end
       rescue => e
         report.push "EXCEPTION: #{e.message}"
+        report += e.backtrace[0..10]
         success = false
       end
 
