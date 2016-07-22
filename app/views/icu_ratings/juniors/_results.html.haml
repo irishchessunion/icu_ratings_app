@@ -6,7 +6,8 @@
     %th G
     %th Club
     %th Rating
-    %th Hightide
+    -if @use_hightide_ratings
+      %th Hightide
   - @juniors.ratings.each_with_index do |r, i|
     - p = r.icu_player
     %tr
@@ -16,7 +17,8 @@
       %td= p.gender
       %td= p.club
       %td{class: "#{r.type}"}= IcuRating === r ? link_to(r.rating, icu_rating_path(r, format: "js"), remote: true) : r.rating
-      %td= r.hightide
+      -if @use_hightide_ratings
+        %td= r.hightide
 
   - if @juniors.ratings.size == 0
     %tr

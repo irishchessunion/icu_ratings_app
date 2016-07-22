@@ -54,7 +54,11 @@ module IcuRatings
       @ratings = @ratings.where("icu_players.club = ?", @club) if @club.present?
       @ratings = @ratings.where("icu_players.dob >  ?", @under)
       @ratings = @ratings.where("icu_players.dob <= ?", @least)
-      @ratings.to_a.sort {|a, b| (b.hightide || 0) <=> (a.hightide || 0)}
+      if Juniors.use_hightide_sorting?
+        @ratings.to_a.sort {|a, b| (b.hightide || 0) <=> (a.hightide || 0)}
+      else
+        @ratings
+      end
     end
 
     def available?
@@ -74,5 +78,12 @@ module IcuRatings
       date_range.inject([]) { |m, d| m.push [d == today ? "Today" : d, d] }
     end
 
+    def self.use_hightide_sorting?
+      # Turn on hightide ratings between January and July 15th.
+      today = Date.today
+      return true if today.month < 7
+      return false if today.month > 7
+      return true if today.day < 16
+    end
   end
 end

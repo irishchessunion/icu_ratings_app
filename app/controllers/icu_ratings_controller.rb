@@ -26,6 +26,7 @@ class IcuRatingsController < ApplicationController
   end
 
   def juniors
+    @use_hightide_ratings = IcuRatings::Juniors.use_hightide_sorting?
     @juniors = IcuRatings::Juniors.new(params)
     render "icu_ratings/juniors/#{ request.xhr? ? 'results' : 'index' }"
   end

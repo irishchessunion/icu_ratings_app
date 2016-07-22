@@ -4,8 +4,9 @@
 #   icu_player
 #   rating
 module Hightide
-  FROM = Date.new(2016, 1, 1)
-  TO = Date.new(2016, 5, 2)
+  THIS_YEAR = 2017 # Date.today.year # Use Date.today.year only if you remember to reboot the server on January 1st.
+  FROM = Date.new(THIS_YEAR, 1, 1)
+  TO = Date.new(THIS_YEAR, 5, 2)
 
   def hightide
     if full?
