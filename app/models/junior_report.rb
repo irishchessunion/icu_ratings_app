@@ -1,7 +1,7 @@
 class JuniorReport
   # @return [Array<String>] An array of CSV lines including the header
   def self.rows
-    rows = ['ICU id,Name,Title,Fed,Rating,High Tide,Full?,YOB,M/F,Club']
+    rows = ['ICU id,Name,Title,Fed,Rating,High Tide,Full?,YOB,M/F,Club,Email,Phone nr']
     IcuRatings::Juniors.new(under: 21).ratings.each do |r|
       rows << row(r)
     end
@@ -19,7 +19,9 @@ class JuniorReport
     yob = r.icu_player.dob.year
     gender = r.icu_player.gender
     club = "\"#{r.icu_player.club}\""
-    [r.icu_id, name, title, fed, r.rating, hightide, full_rating, yob, gender, club].
+    email = r.icu_player.email
+    phone = r.icu_player.phone_numbers
+    [r.icu_id, name, title, fed, r.rating, hightide, full_rating, yob, gender, club, email, phone].
         map {|val| val.to_s }.join(',')
   end
 
@@ -27,5 +29,10 @@ class JuniorReport
     File.open(filename, 'w') do |f|
       f.write(rows.join("\n"))
     end
+  end
+
+  # @param player [IcuPlayer]
+  def self.email_addresses_for(player)
+    player.users.map(&:email).compact.join(";")
   end
 end
