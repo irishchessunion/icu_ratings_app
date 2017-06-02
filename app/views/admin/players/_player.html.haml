@@ -52,7 +52,7 @@
     %td= t @player.category, default: "Unclassified"
   %tr
     %th Status
-    - if @player.status_ok?
+    - if @player.status_ok?(true)
       %td= @player.status
     - else
       %td{class: "error"}
@@ -61,4 +61,5 @@
         %ul
           - @player.status.split("|").each do |item|
             %li= item
-        = link_to "Auto-fix", autofix_admin_player_path(@player), method: "POST", class: "button"
+        - if @player.autofixable
+          = link_to "Auto-fix", autofix_admin_player_path(@player), method: "POST", class: "button"

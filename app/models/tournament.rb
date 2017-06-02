@@ -146,6 +146,10 @@ class Tournament < ActiveRecord::Base
     paginate(matches, path, params)
   end
 
+  def find_first_player_with_errors
+    players.in_error.alphabetical.first
+  end
+
   # The latest tournaments for members and guests.
   def self.latest(limit=10)
     ordered.where(status: "ok").where("stage != 'initial'").limit(limit)

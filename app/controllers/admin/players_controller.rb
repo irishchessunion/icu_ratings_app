@@ -42,7 +42,16 @@ module Admin
     def autofix
       @player = Player.includes(results: [:opponent]).find(params[:id])
       @player.autofix
-      redirect_to [:admin, @player], notice: "Autofixed player #{@player.name}"
+      if @player.status_ok?(true)
+        next_player_in_error = @player.tournament.find_first_player_with_errors
+        if next_player_in_error
+          redirect_to [:admin, next_player_in_error], notice: "Autofixed player #{@player.name}"
+        else
+          redirect_to [:admin, @player.tournament], notice: "Autofixed player #{@player.name}"
+        end
+      else
+        redirect_to [:admin, @player], notice: "Autofixed player #{@player.name} not all problems fixed"
+      end
     end
 
     private

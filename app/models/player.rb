@@ -57,11 +57,16 @@ class Player < ActiveRecord::Base
   GENDERS = %w[M F]
   CATEGORY = %w[icu_player foreign_player new_player]
 
+  attr_reader :autofixable
+
   belongs_to :tournament, -> { includes(:players) }
   belongs_to :last_player, class_name: "Player"
   belongs_to :icu_player, foreign_key: "icu_id"
   belongs_to :fide_player, foreign_key: "fide_id"
   has_many :results, dependent: :destroy
+
+  scope :in_error, -> { where("status <> 'ok'") }
+  scope :alphabetical, -> { order("last_name, first_name") }
 
   before_validation :normalise_attributes, :canonicalize_names, :deduce_category_and_status
 
@@ -442,13 +447,20 @@ SQL
 
   # Copies the usual stuff from the icu player table
   def autofix
-    return unless icu_player
-    self.first_name = icu_player.first_name
-    self.last_name = icu_player.last_name
-    self.fed = icu_player.fed if icu_player.fed.present?
-    self.gender = icu_player.gender if icu_player.gender.present?
-    self.dob = icu_player.dob if icu_player.dob.present?
-    save
+    if icu_id.present?
+      self.first_name = icu_player.first_name
+      self.last_name = icu_player.last_name
+      self.fed = icu_player.fed if icu_player.fed.present?
+      self.gender = icu_player.gender if icu_player.gender.present?
+      self.dob = icu_player.dob if icu_player.dob.present?
+      save
+    elsif fide_id.present?
+      self.first_name = fide_player.first_name
+      self.last_name = fide_player.last_name
+      self.fed = fide_player.fed if fide_player.fed.present?
+      self.gender = fide_player.gender if fide_player.gender.present?
+      save
+    end
   end
 
   private
@@ -457,6 +469,7 @@ SQL
   def deduce_category_and_status
     errors = Array.new
     category = nil
+    @autofixable = true
 
     # Check for ICU and FIDE errors.
     match_icu(errors)
@@ -471,8 +484,10 @@ SQL
         category = "foreign_player"
       when icu_id.blank? && icu_rating.blank? && fide_rating.blank?
         category = "new_player"
+        @autofixable = false
       else
         errors.push "cannot determine category"
+        @autofixable = false
       end
     end
 
@@ -494,6 +509,7 @@ SQL
       end
       if icu_player.master_id
         errors.push("Match with duplicate ICU player")
+        @autofixable = false
       else
         %w[dob fed gender].each do |attr|
           a = icu_player.send(attr).presence || next
@@ -505,6 +521,7 @@ SQL
       end
     else
       errors.push "#{icu_id}: no such ICU player"
+      @autofixable = false
     end
   end
 
@@ -525,6 +542,7 @@ SQL
       if fide_player.born.present? && self.dob.present?
         unless fide_player.born == self.dob.year
           errors.push("FIDE year of birth mismatch: #{fide_player.born}")
+          @autofixable = false
         end
       end
     else
