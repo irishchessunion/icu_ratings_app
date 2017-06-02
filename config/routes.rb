@@ -37,13 +37,18 @@ Ratings::Application.routes.draw do
     resources :players,             only: [:index, :show, :edit, :update, :destroy] do
       member do
         post :autofix
+        get :nextstep
       end
     end
     resources :rating_lists,        only: [:index, :show, :edit, :update] { resources :publications, only: [:show, :create, :edit, :update] }
     resources :rating_runs,         only: [:index, :show, :create, :edit, :update, :destroy]
     resources :results,             only: [:new, :create, :edit, :update]
     resources :subscriptions,       only: [:index]
-    resources :tournaments,         only: [:index, :show, :edit, :update, :destroy]
+    resources :tournaments,         only: [:index, :show, :edit, :update, :destroy] do
+      member do
+        get :nextstep
+      end
+    end
     resources :uploads,             only: [:index, :show, :new, :create, :destroy]
     resources :users,               only: [:index, :show, :edit, :update]
   end

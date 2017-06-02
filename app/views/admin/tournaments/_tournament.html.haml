@@ -154,6 +154,10 @@
         = link_to edit_admin_tournament_path(@tournament, notes: ""), remote: true do
           = icon_tag "edit", "Edit Notes"
 
+- unless @tournament.status_ok?
+  %p.middle
+    = link_to "Start fixing players", nextstep_admin_tournament_path(@tournament), class: "button"
+
 %table
   %tr
     %td{class: "centered"}

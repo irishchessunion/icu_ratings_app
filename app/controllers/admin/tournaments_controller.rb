@@ -89,6 +89,16 @@ module Admin
       end
     end
 
+    def nextstep
+      @tournament = Tournament.find(params[:id])
+      next_player_in_error = @tournament.find_first_player_with_errors
+      if next_player_in_error
+        redirect_to [:admin, next_player_in_error], notice: notice
+      else
+        redirect_to [:admin, @tournament], notice: notice
+      end
+    end
+
     private
 
     def view(file, group=nil)

@@ -61,5 +61,8 @@
         %ul
           - @player.status.split("|").each do |item|
             %li= item
-        - if @player.autofixable
-          = link_to "Auto-fix", autofix_admin_player_path(@player), method: "POST", class: "button"
+%p.middle
+  - if @player.status_ok?
+    = link_to "Next Step", nextstep_admin_player_path(@player), class: "button"
+  - if !@player.status_ok? && @player.autofixable
+    = link_to "Auto-fix", autofix_admin_player_path(@player), method: "POST", class: "button"

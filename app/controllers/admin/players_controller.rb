@@ -42,19 +42,30 @@ module Admin
     def autofix
       @player = Player.includes(results: [:opponent]).find(params[:id])
       @player.autofix
-      if @player.status_ok?(true)
-        next_player_in_error = @player.tournament.find_first_player_with_errors
-        if next_player_in_error
-          redirect_to [:admin, next_player_in_error], notice: "Autofixed player #{@player.name}"
-        else
-          redirect_to [:admin, @player.tournament], notice: "Autofixed player #{@player.name}"
-        end
-      else
-        redirect_to [:admin, @player], notice: "Autofixed player #{@player.name} not all problems fixed"
-      end
+      redirect_to_next_step(@player, "Autofixed player #{@player.name}")
+    end
+
+    def nextstep
+      @player = Player.includes(results: [:opponent]).find(params[:id])
+      redirect_to_next_step(@player, "")
     end
 
     private
+
+    # Redirects to the appropriate place depending on the status of a player
+    # This can be to the show page for the player
+    def redirect_to_next_step(player, notice)
+      if player.status_ok?(true)
+        next_player_in_error = player.tournament.find_first_player_with_errors
+        if next_player_in_error
+          redirect_to [:admin, next_player_in_error], notice: notice
+        else
+          redirect_to [:admin, player.tournament], notice: notice
+        end
+      else
+        redirect_to [:admin, player], notice: "Not all problems fixed on this page, please fix and try again"
+      end
+    end
 
     def update_from_id(params)
       hash = ActiveSupport::HashWithIndifferentAccess.new
