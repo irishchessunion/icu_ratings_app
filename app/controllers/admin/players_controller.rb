@@ -39,6 +39,12 @@ module Admin
       end
     end
 
+    def autofix
+      @player = Player.includes(results: [:opponent]).find(params[:id])
+      @player.autofix
+      redirect_to [:admin, @player], notice: "Autofixed player #{@player.name}"
+    end
+
     private
 
     def update_from_id(params)
@@ -64,8 +70,6 @@ module Admin
         @next = @tournament.players.where("num = ?", @player.num + 1).first || @tournament.players.order("num").first
       end
     end
-
-    private
 
     def player_params
       params.require(:player).permit(:first_name, :last_name, :icu_id, :fide_id, :fed, :title, :gender, :dob, :icu_rating, :fide_rating)

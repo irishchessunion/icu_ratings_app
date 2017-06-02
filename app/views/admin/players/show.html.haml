@@ -22,8 +22,8 @@
 = render "shared/dialog", id: "search_fide_player", width: 1000, button: false
 = icu_player_details_dialog
 = fide_player_details_dialog
-- html = render "shared/pipe_list", :error => @player.status
-= render "shared/dialog", id: "status", button: false, cancel: "Dismiss", html: html
+//- html = render "shared/pipe_list", :error => @player.status
+//= render "shared/dialog", id: "status", button: false, cancel: "Dismiss", html: html
 
 - if @tournament.stage == "rated"
   %table{class: "turbaned"}

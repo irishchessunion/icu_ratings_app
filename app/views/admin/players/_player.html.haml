@@ -55,5 +55,10 @@
     - if @player.status_ok?
       %td= @player.status
     - else
-      %td{class: "error centered"}
-        %a{href: "javascript: $('#dialog_status').dialog('open'); void(0)"} Problems
+      %td{class: "error"}
+        Problems
+        %br
+        %ul
+          - @player.status.split("|").each do |item|
+            %li= item
+        = link_to "Auto-fix", autofix_admin_player_path(@player), method: "POST", class: "button"

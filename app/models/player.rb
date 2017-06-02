@@ -440,6 +440,17 @@ SQL
     @next_player ||= Player.where(last_player_id: id).joins(:tournament).where("tournaments.stage = 'rated'").first
   end
 
+  # Copies the usual stuff from the icu player table
+  def autofix
+    return unless icu_player
+    self.first_name = icu_player.first_name
+    self.last_name = icu_player.last_name
+    self.fed = icu_player.fed if icu_player.fed.present?
+    self.gender = icu_player.gender if icu_player.gender.present?
+    self.dob = icu_player.dob if icu_player.dob.present?
+    save
+  end
+
   private
 
   # Correlated with the Help text in admin/players/show.
