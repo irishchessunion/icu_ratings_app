@@ -23,6 +23,8 @@ gem "jbuilder"
 
 group :development do
   gem "capistrano-rails", "~> 1.1"
+  # Include capistrano-ssh-doctor to check for ssh errors running capistrano
+  # gem 'capistrano-ssh-doctor', '~> 1.0'
   gem "wirble"
 end
 
