@@ -1,4 +1,7 @@
 class IcuRatingsController < ApplicationController
+  load_resource only: ["show"]
+  authorize_resource
+
   def index
     if current_user && params[:commit] == "CSV"
       @icu_ratings = IcuRating.search(params, icu_ratings_path, false)

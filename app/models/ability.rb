@@ -6,10 +6,12 @@ class Ability
     user ||= User.new
 
     can :read, Article
-    can :graph, IcuPlayer
+    can :index, IcuRating
+    can :index, FideRating
 
     return unless user.role? :member
 
+    can :graph, IcuPlayer
     can :show, IcuPlayer, id: user.icu_id
     can :show, Player
     can :my_home, Pages::MyHome

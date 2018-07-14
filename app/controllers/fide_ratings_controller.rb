@@ -1,4 +1,7 @@
 class FideRatingsController < ApplicationController
+  load_resource only: ["show"]
+  authorize_resource
+
   def index
     @fide_ratings = FideRating.search(params, fide_ratings_path)
     render :results if request.xhr?

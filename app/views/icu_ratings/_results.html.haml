@@ -25,7 +25,10 @@
         - if @show_id
           = render "shared/rowspan", rowspan: @icu_ratings.rowspan(i, icu_id), attrs: { class: "righted" }
         = render "shared/rowspan", rowspan: @icu_ratings.rowspan(i, list)
-        %td{class: "#{r.type}"}= link_to r.rating, icu_rating_path(r, format: "js"), remote: true
+        - if can?(:graph, IcuPlayer)
+          %td{class: "#{r.type}"}= link_to r.rating, icu_rating_path(r, format: "js"), remote: true
+        - else
+          %td{class: "#{r.type}"}= r.rating
         - if @show_original
           %td{class: "#{r.original_type}"}= r.original_rating
         = render "shared/rowspan", rowspan: @icu_ratings.rowspan(i, fed)
