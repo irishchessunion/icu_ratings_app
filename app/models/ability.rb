@@ -11,6 +11,8 @@ class Ability
 
     return unless user.role? :member
 
+    can :live, IcuRating
+    can :read, LiveRating
     can :war, IcuRating
     can :juniors, IcuRating
     can :seniors, IcuRating
