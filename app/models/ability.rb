@@ -26,7 +26,7 @@ class Ability
 
     can [:read, :create], Upload
     can :modify, Upload, user_id: user.id
-    can :read, [Player, Result, Tournament]
+    can :read, [Player, Result, Tournament, Download]
     can :read, [FidePlayer, IcuPlayer, OldRatingHistory, OldTournament, OldRating]
     can :overview, Pages::Overview
     can :their_home, Pages::MyHome
