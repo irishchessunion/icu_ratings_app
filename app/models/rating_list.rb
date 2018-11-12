@@ -255,7 +255,7 @@ class RatingList < ActiveRecord::Base
 
   def get_subscriptions
     season = Subscription.season(date)
-    last_season = Subscription.last_season(date) if date.month == 9
+    last_season = Subscription.last_season(date) if date.month == 11
     header = "Subscriptions in season #{season} (paid on or before #{payment_cut_off})"
     header << " and in season #{last_season}" if last_season
     report_header header

@@ -13,6 +13,7 @@
 class Subscription < ActiveRecord::Base
   extend ICU::Util::Pagination
   CATEGORY = %w(online offline lifetime)
+  LAST_MONTH_IN_SEASON = 12
 
   belongs_to :icu_player, foreign_key: "icu_id"
 
@@ -35,7 +36,7 @@ class Subscription < ActiveRecord::Base
   def self.season(time=nil)
     time ||= Time.now
     year = time.year
-    year-= 1 if time.month < 9
+    year-= 1 if time.month < LAST_MONTH_IN_SEASON
     "#{year}-#{year - 1999}"
   end
 
