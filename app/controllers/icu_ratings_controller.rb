@@ -4,7 +4,11 @@ class IcuRatingsController < ApplicationController
 
   def index
     if current_user && params[:commit] == "CSV"
-      @icu_ratings = IcuRating.search(params, icu_ratings_path, false)
+      if params[:list]
+        @icu_ratings = IcuRating.search(params, icu_ratings_path, false)
+      else
+        @icu_ratings = []
+      end
       send_data IcuRating.to_csv(@icu_ratings), type: "text/csv; charset=utf-8", filename: "icu_ratings.csv"
     else
       @icu_ratings = IcuRating.search(params, icu_ratings_path)
