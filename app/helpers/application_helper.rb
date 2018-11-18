@@ -95,7 +95,7 @@ module ApplicationHelper
 
   def icu_rating_list_menu(any=nil)
     menu = IcuRating.lists.map { |list| [year_month(list), list] }
-    menu.unshift([any, ""]) if any
+    menu.push([any, ""]) if any
     menu
   end
 
