@@ -4,16 +4,14 @@
 #   icu_player
 #   rating
 module Hightide
-  THIS_YEAR = 2018 # Date.today.year # Use Date.today.year only if you remember to reboot the server on January 1st.
-  FROM = Date.new(THIS_YEAR, 1, 1)
-  TO = Date.new(THIS_YEAR, 5, 7) # Consider moving this to a config file.
-
   def hightide
     if full?
+      from = Date.new(Date.today.year, 1, 1)
+      to = Date.new(from.year, 5, 7)
       @hightide ||= icu_player.
           players.
           joins(:tournament).
-          where('tournaments.finish between ? and ?', FROM, TO).
+          where('tournaments.finish between ? and ?', from, to).
           maximum(:new_rating) || rating
     else
       nil
