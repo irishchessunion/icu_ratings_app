@@ -116,4 +116,8 @@ class IcuPlayer < ActiveRecord::Base
       matches
     end
   end
+
+  def latest_rating
+    icu_ratings.order("list desc").first || IcuRating.new(list: "", rating: 0, full: false)
+  end
 end

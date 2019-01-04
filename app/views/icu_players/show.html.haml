@@ -65,6 +65,33 @@
           %th Title
           - title = @icu_player.title
           %td= title && title != "NM" ? title : "None"
+    - if current_user.role?("admin")
+      %td
+        %table{class: "right-headers"}
+          %tr
+            %th{class: "centered", colspan: 2} Old Rating
+          %tr
+            %th Legacy Rating
+            %td= @icu_player.old_rating && @icu_player.old_rating.rating
+          %tr
+            %th Legacy games
+            %td= @icu_player.old_rating && @icu_player.old_rating.games
+          %tr
+            %th Legacy rating type
+            %td= @icu_player.old_rating && @icu_player.old_rating.type
+      %td
+        %table{class: "right-headers"}
+          %tr
+            %th{class: "centered", colspan: 2} Latest Rating
+          %tr
+            %th Rating
+            %td= @icu_player.latest_rating.rating
+          %tr
+            %th List
+            %td= @icu_player.latest_rating.list
+          %tr
+            %th Rating type
+            %td= @icu_player.latest_rating.type
 
 - if current_user.icu_id == @icu_player.id && !@icu_player.master_id
   %div.blurb.turbaned
