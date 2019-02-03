@@ -37,7 +37,7 @@ class Ability
     can :read, [Event, Subscription, JuniorReport]
     can [:read, :create], Publication
     can [:read, :create, :destroy], RatingRun
-    can :manage, [Article, Download, Fee, FidePlayer, FidePlayerFile, Player, RatingList, Result, Tournament, Upload]
+    can :manage, [Article, Download, Fee, IcuPlayer, FidePlayer, FidePlayerFile, Player, RatingList, Result, Tournament, Upload]
     cannot_if_locked
 
     return unless user.role? :admin
