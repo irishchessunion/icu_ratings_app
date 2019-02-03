@@ -6,7 +6,7 @@ gem "mysql2"
 gem "icu_tournament", "1.9.7"
 gem "icu_utils", "1.3.2"
 gem "icu_ratings"
-gem "icu_name"
+gem "icu_name", "1.2.5"
 gem "whenever", :require => false
 gem "redcarpet"
 gem "nokogiri"
