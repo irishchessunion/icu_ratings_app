@@ -29,6 +29,7 @@ class LiveRating < ActiveRecord::Base
   # Adapted from IcuRating#search.
   def self.search(params, path, paginated=true)
     matches = all
+    matches = matches.where("deceased = ?", false)
     matches = matches.where("first_name LIKE ?", "%#{params[:first_name]}%") if params[:first_name].present?
     matches = matches.where("last_name LIKE ?", "%#{params[:last_name]}%") if params[:last_name].present?
     matches = matches.where("club IS NULL") if params[:club] == "None"
