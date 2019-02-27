@@ -539,7 +539,7 @@ class Tournament < ActiveRecord::Base
       # DOB. Set this if we don't have an ID, otherwise prefer to omitt it.
       dob = icu_player.dob
       if fide_player
-        if fide_player.born && fide_player.born != dob.year
+        if dob && fide_player.born && fide_player.born != dob.year
           comments[:dob_mismatch].push player
         end
         if player.dob
