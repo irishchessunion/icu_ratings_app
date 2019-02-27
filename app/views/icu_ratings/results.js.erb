@@ -1,1 +1,5 @@
 $("#icu_rating_results").html("<%= j render('results') %>");
+
+$("#csv_submit_button").removeClass('ui-helper-hidden');
+$("#csv_submit_button").addClass("<%= params[:list].present? ? '' : 'ui-helper-hidden' %>");
+

@@ -26,7 +26,7 @@ class Ability
 
     can [:read, :create], Upload
     can :modify, Upload, user_id: user.id
-    can :read, [Player, Result, Tournament]
+    can :read, [Player, Result, Tournament, Download]
     can :read, [FidePlayer, IcuPlayer, OldRatingHistory, OldTournament, OldRating]
     can :overview, Pages::Overview
     can :their_home, Pages::MyHome
@@ -37,7 +37,7 @@ class Ability
     can :read, [Event, Subscription, JuniorReport]
     can [:read, :create], Publication
     can [:read, :create, :destroy], RatingRun
-    can :manage, [Article, Download, Fee, FidePlayer, FidePlayerFile, Player, RatingList, Result, Tournament, Upload]
+    can :manage, [Article, Download, Fee, IcuPlayer, FidePlayer, FidePlayerFile, Player, RatingList, Result, Tournament, Upload]
     cannot_if_locked
 
     return unless user.role? :admin

@@ -382,6 +382,7 @@ module FIDE
         self.rating = hash["rating"]   if hash["rating"]
         self.games  = hash["games"]    if hash["games"]
         self.active = hash["flag"]
+        self.gender ||= 'M' # The special rule for when FIDE players don't have a gender. Only need it for one player.
       end
 
       def id=(fideid)

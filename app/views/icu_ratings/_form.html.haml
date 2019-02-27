@@ -19,7 +19,7 @@
       %td= text_field_tag :icu_id, params[:icu_id], onchange: handleRemote, class: "centered", size: 10
       %td= submit_tag "Search"
       - if current_user
-        %td= submit_tag "CSV"
+        %td= submit_tag("CSV", id: "csv_submit_button", class: "ui-helper-hidden")
   %table{class: "invisible"}
     %tr
       %th= label_tag :club, "Club"
