@@ -70,14 +70,15 @@ module Admin
     def update_from_id(params)
       hash = ActiveSupport::HashWithIndifferentAccess.new
       keys = [:first_name, :last_name, :fed, :title, :gender]
+      allow_null = [:first_name, :last_name]
       if params[:icu_id] && ip = IcuPlayer.find_by_id(params[:icu_id])
         hash[:icu_id] = params[:icu_id]
-        keys.each { |k| v = ip.send(k); hash[k] = v if v.present? }
+        keys.each { |k| v = ip.send(k); hash[k] = v if (v.present? || allow_null.include?(k)) }
         hash[:dob] = ip.dob if ip.dob.present?
         hash[:fide_id] = ip.fide_player.id if ip.fide_player
       elsif params[:fide_id] && fp = FidePlayer.find_by_id(params[:fide_id])
         hash[:fide_id] = params[:fide_id]
-        keys.each { |k| v = fp.send(k); hash[k] = v if v.present? }
+        keys.each { |k| v = fp.send(k); hash[k] = v if (v.present? || allow_null.include?(k))}
         hash[:fide_rating] = fp.rating unless @player.fide_rating
       end
       params[:player] = hash

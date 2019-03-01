@@ -70,7 +70,7 @@ class Player < ActiveRecord::Base
 
   before_validation :normalise_attributes, :canonicalize_names, :deduce_category_and_status
 
-  validates :first_name, :last_name, :original_name, :status, presence: true
+  validates :last_name, :original_name, :status, presence: true
   validates :icu_id, :original_icu_id, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
   validates :fide_id, :original_fide_id, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
   validates :fed, :original_fed, inclusion: { in: FEDS, message: "(%{value}) is invalid" }, allow_nil: true
