@@ -20,6 +20,8 @@ Capybara.configure do |config|
   config.default_wait_time = 15
 end
 
+# As of 2019 Chrome is throwing an error about an extension
+
 # Switch to using chrome as default browser in tests
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, :browser => :chrome)
