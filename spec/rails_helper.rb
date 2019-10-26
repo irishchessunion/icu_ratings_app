@@ -3,7 +3,6 @@ ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'factory_girl_rails'
-require 'icu/util/hacks'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -11,9 +10,6 @@ require 'icu/util/hacks'
 
 # Checks for pending migrations before tests are run.
 ActiveRecord::Migration.maintain_test_schema!
-
-# Permit Capybara to recognize ".tab" as a text/plain when file is uploaded.
-ICU::Util::Hacks.fix_mime_types
 
 # Be patient with Ajax wait times.
 Capybara.configure do |config|

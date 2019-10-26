@@ -36,7 +36,7 @@ class Upload < ActiveRecord::Base
     self.size = file.size
     return if size == 0
     self.name = base_part_of(file.original_filename)
-    self.content_type = file.content_type
+    self.content_type = file.content_type.blank? ? "text/plain" : file.content_type
     self.file_type = %x{file -b #{file.tempfile.path}}.chomp
 
     opts = {}
