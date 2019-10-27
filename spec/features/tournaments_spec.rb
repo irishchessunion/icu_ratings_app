@@ -326,7 +326,8 @@ describe "Tournament" do
 
       # This button seems to need a little bit more time to complete.
       @update = Proc.new do
-        page.first(:xpath, "//button/span[.='Update']").click
+        expect(page).to have_button('Update')
+        page.find_button('Update').click
         sleep 0.2
       end
     end
