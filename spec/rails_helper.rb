@@ -13,10 +13,11 @@ ActiveRecord::Migration.maintain_test_schema!
 
 # Be patient with Ajax wait times.
 Capybara.configure do |config|
-  config.default_wait_time = 15
+  config.default_max_wait_time = 15
 end
 
-# As of 2019 Chrome is throwing an error about an extension
+# As of 2019 Chrome is throwing an error about an extension,
+# so we switched back to Firefox (the default for Capybara/Selenium)
 
 # Switch to using chrome as default browser in tests
 #Capybara.register_driver :selenium do |app|
