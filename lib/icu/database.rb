@@ -340,7 +340,7 @@ module ICU
         end
 
         def sql
-          "SELECT #{MAP.keys.join(', ')} FROM items WHERE status IN ('paid', 'refunded') and description = 'Foreign Rating Fee'"
+          "SELECT #{MAP.keys.join(', ')} FROM items WHERE status IN ('paid', 'refunded') and description IN ('Foreign Event Rating Fee', 'Foreign Rating Fee')"
         end
 
         def report
