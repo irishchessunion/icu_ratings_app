@@ -8,9 +8,9 @@ describe RatingList do
   end
 
   context "dates" do
-    it "should have it's dates set" do
+    it "should not be valid if dates not set" do
       l = RatingList.new
-      expect { l.save! }.to raise_error
+      expect(l.valid?).to be false
     end
 
     it "should have a date on the 1st of the month" do

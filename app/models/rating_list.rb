@@ -299,6 +299,7 @@ class RatingList < ActiveRecord::Base
   end
 
   def cut_off_rules
+    return if date.nil?
     unless tournament_cut_off >= date.beginning_of_month && tournament_cut_off <= date.end_of_month
       errors.add(:tournament_cut_off, "must be same month as list date")
     end
