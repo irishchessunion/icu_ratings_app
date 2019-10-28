@@ -23,15 +23,25 @@ describe IcuRating do
       expect(page).to have_selector(@xp, count: 4)
     end
 
-    it "club" do
+    it "club - Any list" do
       visit icu_ratings_path
+      page.select "Any", from: "list"
       page.select "Bangor", from: "club"
       click_button "Search"
       expect(page).to have_selector(@xp, count: 3)
     end
 
+    it "club - Specific list" do
+      visit icu_ratings_path
+      page.select "2011 Sep", from: "list"
+      page.select "Bangor", from: "club"
+      click_button "Search"
+      expect(page).to have_selector(@xp, count: 2)
+    end
+
     it "gender" do
       visit icu_ratings_path
+      page.select "Any", from: "list"
       page.select "Male", from: "gender"
       click_button "Search"
       expect(page).to have_selector(@xp, count: 5)
@@ -42,6 +52,7 @@ describe IcuRating do
 
     it "federation" do
       visit icu_ratings_path
+      page.select "Any", from: "list"
       page.select "Ireland", from: "fed"
       click_button "Search"
       expect(page).to have_selector(@xp, count: 4)
@@ -55,6 +66,7 @@ describe IcuRating do
 
     it "ICU ID" do
       visit icu_ratings_path
+      page.select "Any", from: "list"
       page.fill_in "ICU ID", with: @r1.icu_player.id
       click_button "Search"
       expect(page).to have_selector(@xp, count: 3)
@@ -62,6 +74,7 @@ describe IcuRating do
 
     it "full or provisional" do
       visit icu_ratings_path
+      page.select "Any", from: "list"
       page.select "Full", from: "type"
       click_button "Search"
       expect(page).to have_selector(@xp, count: 4)

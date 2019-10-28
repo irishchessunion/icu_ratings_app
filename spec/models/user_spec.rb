@@ -103,7 +103,10 @@ describe User do
       @u2 = FactoryGirl.create(:user, password: @p)
     end
 
-    it "with salt" do
+    it "with salt (if this fails, see the comment)" do
+      # if this fails, it is likely because your hasher defined in secrets.yml does not match the
+      # hasher used in production (currently in /var/apps/ratings/shared/config/secrets.yml)
+      # hasher: "Digest::MD5.hexdigest(Digest::MD5.hexdigest(salt[0,15] + pass + salt[17,15]))"
       expect(@u1.password_ok?(@p)).to be true
     end
 
