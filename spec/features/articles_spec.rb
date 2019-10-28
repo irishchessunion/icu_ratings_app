@@ -4,7 +4,7 @@ describe "Article" do
   describe "officer" do
     before(:each) do
       @user = login("officer")
-      @article = FactoryGirl.create(:article)
+      @article = FactoryBot.create(:article)
     end
 
     it "can create, edit and delete an article" do
@@ -50,7 +50,7 @@ describe "Article" do
     describe type do
       before(:each) do
         @user = login(type)
-        @article = [ FactoryGirl.create(:article), FactoryGirl.create(:article, user: @user) ]
+        @article = [ FactoryBot.create(:article), FactoryBot.create(:article, user: @user) ]
       end
 
       it "cannot manage articles, even their own" do
@@ -73,7 +73,7 @@ describe "Article" do
 
   describe "anyone" do
     before(:each) do
-      @article = (1..3).map { |i| FactoryGirl.create(:article) }
+      @article = (1..3).map { |i| FactoryBot.create(:article) }
     end
 
     it "can list and read articles" do
@@ -98,7 +98,7 @@ describe "Article" do
 
   describe "home_page" do
     before(:each) do
-      @article = (1..3).map { |i| FactoryGirl.create(:article, published: false) }
+      @article = (1..3).map { |i| FactoryBot.create(:article, published: false) }
     end
 
     it "has only published items" do

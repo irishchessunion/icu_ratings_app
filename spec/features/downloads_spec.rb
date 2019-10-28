@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "Download" do
   describe "guests and members" do
     before(:each) do
-      @download = FactoryGirl.create(:download)
+      @download = FactoryBot.create(:download)
     end
 
     it "cannot create, update or view downloads" do
@@ -20,7 +20,7 @@ describe "Download" do
   describe "reporters" do
     before(:each) do
       login("reporter")
-      @download = FactoryGirl.create(:download)
+      @download = FactoryBot.create(:download)
     end
 
     it "can view downloads" do
@@ -93,7 +93,7 @@ describe "Download" do
   describe "paging" do
     before(:each) do
       login("reporter")
-      (1..16).each { FactoryGirl.create(:download) }
+      (1..16).each { FactoryBot.create(:download) }
       @xpath = '//a[contains(.,".txt") and starts-with(@href,"/downloads/")]'
     end
 

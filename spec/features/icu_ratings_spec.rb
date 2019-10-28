@@ -3,11 +3,11 @@ require 'rails_helper'
 describe IcuRating do
   describe "list", js: true do
     before(:each) do
-      @r1 = FactoryGirl.create(:icu_rating, list: "2011-09-01", full:true,  icu_player: FactoryGirl.create(:icu_player, club: "Bangor", fed: "IRL"))
-      @r2 = FactoryGirl.create(:icu_rating, list: "2011-09-01", full:false, icu_player: FactoryGirl.create(:icu_player, club: "Galway", fed: "IRL", gender: "F"))
-      @r3 = FactoryGirl.create(:icu_rating, list: "2011-09-01", full:true,  icu_player: FactoryGirl.create(:icu_player, club: nil,      fed: "SCO"))
-      @r4 = FactoryGirl.create(:icu_rating, list: "2011-05-01", full:true,  icu_player: FactoryGirl.create(:icu_player, club: nil,      fed:  nil ))
-      @r5 = FactoryGirl.create(:icu_rating, list: "2011-05-01", full:false, icu_player: @r1.icu_player)
+      @r1 = FactoryBot.create(:icu_rating, list: "2011-09-01", full:true,  icu_player: FactoryBot.create(:icu_player, club: "Bangor", fed: "IRL"))
+      @r2 = FactoryBot.create(:icu_rating, list: "2011-09-01", full:false, icu_player: FactoryBot.create(:icu_player, club: "Galway", fed: "IRL", gender: "F"))
+      @r3 = FactoryBot.create(:icu_rating, list: "2011-09-01", full:true,  icu_player: FactoryBot.create(:icu_player, club: nil,      fed: "SCO"))
+      @r4 = FactoryBot.create(:icu_rating, list: "2011-05-01", full:true,  icu_player: FactoryBot.create(:icu_player, club: nil,      fed:  nil ))
+      @r5 = FactoryBot.create(:icu_rating, list: "2011-05-01", full:false, icu_player: @r1.icu_player)
       @xp = "#icu_rating_results table tr"
     end
 

@@ -6,8 +6,8 @@ require 'rails_helper'
 describe FidePlayer do
   describe "update ICU ID", js: true do
     before(:each) do
-      @i = FactoryGirl.create(:icu_player, id: 1350, last_name: "Orr", first_name: "Mark", fed: "IRL", dob: "1955-09-11", title: "IM", gender: "M")
-      @f = FactoryGirl.create(:fide_player, id: 250035, last_name: "Orr", first_name: "Mark", fed: "IRL", born: 1955, title: "IM", gender: "M", icu_player: nil)
+      @i = FactoryBot.create(:icu_player, id: 1350, last_name: "Orr", first_name: "Mark", fed: "IRL", dob: "1955-09-11", title: "IM", gender: "M")
+      @f = FactoryBot.create(:fide_player, id: 250035, last_name: "Orr", first_name: "Mark", fed: "IRL", born: 1955, title: "IM", gender: "M", icu_player: nil)
       @link = "Link FIDE player to this ICU player"
       @unlink = "Unlink FIDE player from this ICU player"
       login("admin")

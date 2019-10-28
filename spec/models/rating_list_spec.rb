@@ -4,7 +4,7 @@ describe RatingList do
   before(:all) do
     # Try to avoid the tendancy of before(:each) (in each group that needs it) to get an
     # ActiveRecord::RecordNotUnique error when all tests are run (but not just this file).
-    @u = FactoryGirl.create(:user, role: "officer")
+    @u = FactoryBot.create(:user, role: "officer")
   end
 
   context "dates" do
@@ -14,25 +14,25 @@ describe RatingList do
     end
 
     it "should have a date on the 1st of the month" do
-      l = FactoryGirl.build(:rating_list, date: Date.new(2012, 1, 2))
+      l = FactoryBot.build(:rating_list, date: Date.new(2012, 1, 2))
       expect { l.save! }.to raise_error(/1st day of month/)
       l.date = l.date.beginning_of_month
       expect { l.save! }.to_not raise_error
     end
 
     it "should not have a date in the future" do
-      expect { FactoryGirl.create(:rating_list, date: Date.today.end_of_year.tomorrow) }.to raise_error(/on or before/)
+      expect { FactoryBot.create(:rating_list, date: Date.today.end_of_year.tomorrow) }.to raise_error(/on or before/)
     end
 
     it "should not be before Jan 2012 (the first list of the new system)" do
-      expect { FactoryGirl.create(:rating_list, date: Date.new(2011, 9, 1)) }.to raise_error(/on or after/)
+      expect { FactoryBot.create(:rating_list, date: Date.new(2011, 9, 1)) }.to raise_error(/on or after/)
     end
 
     it "should have same month for date and tournament cut-off" do
       d = Date.new(2012, 5, 1)
-      l = FactoryGirl.build(:rating_list, date: d, tournament_cut_off: d.advance(months: 1))
+      l = FactoryBot.build(:rating_list, date: d, tournament_cut_off: d.advance(months: 1))
       expect { l.save! }.to raise_error(/same month/)
-      l = FactoryGirl.build(:rating_list, date: d, tournament_cut_off: d.yesterday)
+      l = FactoryBot.build(:rating_list, date: d, tournament_cut_off: d.yesterday)
       expect { l.save! }.to raise_error(/same month/)
       l.tournament_cut_off = d.change(day: 16)
       expect { l.save! }.to_not raise_error
@@ -40,7 +40,7 @@ describe RatingList do
 
     it "should have same month or next month for and payment cut-off" do
       d = Date.new(2012, 5, 1)
-      l = FactoryGirl.build(:rating_list, date: d, payment_cut_off: d.advance(months: 2))
+      l = FactoryBot.build(:rating_list, date: d, payment_cut_off: d.advance(months: 2))
       expect { l.save! }.to raise_error(/same month or next/)
       l.payment_cut_off = d.yesterday
       expect { l.save! }.to raise_error(/same month or next/)
@@ -144,7 +144,7 @@ describe RatingList do
       expect(IcuRating.where("rating != original_rating").count).to eq(0)
 
       # Simulate adding a subscription and re-publishing the list within January.
-      @subs[5722] = FactoryGirl.create(:subscription, icu_id: 5722, category: "offline", season: "2011-12", pay_date: "2012-01-22")
+      @subs[5722] = FactoryBot.create(:subscription, icu_id: 5722, category: "offline", season: "2011-12", pay_date: "2012-01-22")
       subs1 += 1
       pub_date = Date.new(2012, 1, 23)
       @l1.publish(pub_date)

@@ -3,10 +3,10 @@ require 'rails_helper'
 describe "Pages" do
   describe "contacts" do
     before(:each) do
-      @members   = (1..4).map { |i| FactoryGirl.create(:user, role: "member") }
-      @reporters = (1..3).map { |i| FactoryGirl.create(:user, role: "reporter") }
-      @officers  = (1..2).map { |i| FactoryGirl.create(:user, role: "officer") }
-      @admins    = (1..1).map { |i| FactoryGirl.create(:user, role: "admin") }
+      @members   = (1..4).map { |i| FactoryBot.create(:user, role: "member") }
+      @reporters = (1..3).map { |i| FactoryBot.create(:user, role: "reporter") }
+      @officers  = (1..2).map { |i| FactoryBot.create(:user, role: "officer") }
+      @admins    = (1..1).map { |i| FactoryBot.create(:user, role: "admin") }
     end
 
     it "should have correctly pluralized headers and correct numbers of contacts under each" do
@@ -33,7 +33,7 @@ describe "Pages" do
     before(:each) do
       load_icu_players
       load_old_ratings
-      u = FactoryGirl.create(:user, role: "officer")
+      u = FactoryBot.create(:user, role: "officer")
       @t1, @t2 = %w{bunratty_masters_2011.tab kilkenny_masters_2011.tab}.map do |f|
         t = test_tournament(f, u.id)
         t.move_stage("ready", u)
@@ -52,10 +52,10 @@ describe "Pages" do
       p1 = @t1.players.find_by_last_name("Cafolla")
       p2 = @t2.players.find_by_last_name("Cafolla")
       m1 = p1.icu_player
-      FactoryGirl.create(:icu_rating, icu_player: m1, rating: 2000, list: "2012-01-01")
-      FactoryGirl.create(:icu_rating, icu_player: m1, rating: 2100, list: "2011-09-01")
-      FactoryGirl.create(:icu_rating, icu_player: m1, rating: 1900, list: "2011-05-01")
-      u1 = FactoryGirl.create(:user, icu_player: m1)
+      FactoryBot.create(:icu_rating, icu_player: m1, rating: 2000, list: "2012-01-01")
+      FactoryBot.create(:icu_rating, icu_player: m1, rating: 2100, list: "2011-09-01")
+      FactoryBot.create(:icu_rating, icu_player: m1, rating: 1900, list: "2011-05-01")
+      u1 = FactoryBot.create(:user, icu_player: m1)
       login(u1)
       expect(page).to have_selector("div.header span", text: m1.name(false))
       expect(page).to have_selector("table#recent_tournaments")
@@ -72,7 +72,7 @@ describe "Pages" do
     it "player with recent tournaments but no published ratings" do
       p = @t1.players.find_by_last_name("Fox")
       m = p.icu_player
-      u = FactoryGirl.create(:user, icu_player: m)
+      u = FactoryBot.create(:user, icu_player: m)
       login(u)
       expect(page).to have_selector("div.header span", text: m.name(false))
       expect(page).to have_selector("table#recent_tournaments")
@@ -84,8 +84,8 @@ describe "Pages" do
 
     it "player with no recent tournaments but published ratings" do
       m = IcuPlayer.find(90)
-      u = FactoryGirl.create(:user, icu_player: m)
-      FactoryGirl.create(:icu_rating, icu_player: m, rating: 2000, list: "2012-01-01")
+      u = FactoryBot.create(:user, icu_player: m)
+      FactoryBot.create(:icu_rating, icu_player: m, rating: 2000, list: "2012-01-01")
       login(u)
       expect(page).to have_selector("div.header span", text: m.name(false))
       expect(page).to have_no_selector("table#recent_tournaments")
@@ -97,7 +97,7 @@ describe "Pages" do
 
     it "player with no recent tournaments, no published ratings but with old rating" do
       m = IcuPlayer.find(13001)
-      u = FactoryGirl.create(:user, icu_player: m)
+      u = FactoryBot.create(:user, icu_player: m)
       login(u)
       expect(page).to have_selector("div.header span", text: u.icu_player.name(false))
       expect(page).to have_no_selector("table#recent_tournaments")
@@ -109,7 +109,7 @@ describe "Pages" do
     end
 
     it "player with no recent tournaments, no published ratings and no old rating" do
-      u = FactoryGirl.create(:user)
+      u = FactoryBot.create(:user)
       login(u)
       expect(page).to have_selector("div.header span", text: u.icu_player.name(false))
       expect(page).to have_no_selector("table#recent_tournaments")

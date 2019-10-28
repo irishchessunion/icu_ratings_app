@@ -36,7 +36,7 @@ group :test, :development do
   gem "selenium-webdriver"
   gem "chromedriver-helper"
   gem "launchy"
-  gem "factory_girl_rails"
+  gem "factory_bot_rails"
   gem "faker"
   gem "database_cleaner"
   #gem "byebug"

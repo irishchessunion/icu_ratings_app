@@ -4,8 +4,8 @@ describe IcuPlayer do
   describe "show" do
     describe "member" do
       before(:each) do
-        @player = FactoryGirl.create(:icu_player, title: "IM", club: "Bangor", dob: "1955-09-11", joined: "1976-09-01")
-        @user = FactoryGirl.create(:user, icu_player: @player)
+        @player = FactoryBot.create(:icu_player, title: "IM", club: "Bangor", dob: "1955-09-11", joined: "1976-09-01")
+        @user = FactoryBot.create(:user, icu_player: @player)
         login(@user)
       end
 
@@ -36,9 +36,9 @@ describe IcuPlayer do
 
     describe "reporter" do
       before(:each) do
-        @player = FactoryGirl.create(:icu_player)
-        @user = FactoryGirl.create(:user, icu_player: @player, role: "reporter")
-        @member = FactoryGirl.create(:icu_player)
+        @player = FactoryBot.create(:icu_player)
+        @user = FactoryBot.create(:user, icu_player: @player, role: "reporter")
+        @member = FactoryBot.create(:icu_player)
         login(@user)
       end
 

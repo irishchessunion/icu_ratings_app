@@ -43,9 +43,9 @@ describe "FidePlayerFile" do
 
     context "only FIDE matches" do
       it "should find them" do
-        FactoryGirl.create(:fide_player, id: 2500035, last_name: "Orr", first_name: "Mark", fed: "IRL", born: 1955, title: "IM", gender: "M", icu_player: nil)
-        FactoryGirl.create(:fide_player, id: 2500370, last_name: "Cronin", first_name: "April", fed: "IRL", born: 1960, gender: "F", icu_player: nil)
-        FactoryGirl.create(:fide_player, id: 2507382, last_name: "O`Muireagain", first_name: "Colm", fed: "IRL", born: 1966, gender: "M", icu_player: nil)
+        FactoryBot.create(:fide_player, id: 2500035, last_name: "Orr", first_name: "Mark", fed: "IRL", born: 1955, title: "IM", gender: "M", icu_player: nil)
+        FactoryBot.create(:fide_player, id: 2500370, last_name: "Cronin", first_name: "April", fed: "IRL", born: 1960, gender: "F", icu_player: nil)
+        FactoryBot.create(:fide_player, id: 2507382, last_name: "O`Muireagain", first_name: "Colm", fed: "IRL", born: 1966, gender: "M", icu_player: nil)
         load_file("fide_player_file.xml")
         expect(FidePlayer.count).to eq(3)
         expect(fpf = FidePlayerFile.first).to_not be_nil
@@ -63,10 +63,10 @@ describe "FidePlayerFile" do
 
     context "only ICU matches" do
       it "should find them" do
-        FactoryGirl.create(:icu_player, id: 1350, last_name: "Orr", first_name: "Mark", fed: "IRL", dob: "1955-11-09", gender: "M")
-        FactoryGirl.create(:icu_player, id: 87, last_name: "Bradley", first_name: "John", fed: "IRL", dob: "1954-01-11", gender: "M")
-        FactoryGirl.create(:icu_player, id: 12275, last_name: "O'Muireagain", first_name: "Colm", fed: "IRL", dob: "1966-09-25", gender: "M")
-        FactoryGirl.create(:icu_player, id: 3364, last_name: "Ui Laighleis", first_name: "Gearoidin", fed: "IRL", dob: "1964-06-10", gender: "F")
+        FactoryBot.create(:icu_player, id: 1350, last_name: "Orr", first_name: "Mark", fed: "IRL", dob: "1955-11-09", gender: "M")
+        FactoryBot.create(:icu_player, id: 87, last_name: "Bradley", first_name: "John", fed: "IRL", dob: "1954-01-11", gender: "M")
+        FactoryBot.create(:icu_player, id: 12275, last_name: "O'Muireagain", first_name: "Colm", fed: "IRL", dob: "1966-09-25", gender: "M")
+        FactoryBot.create(:icu_player, id: 3364, last_name: "Ui Laighleis", first_name: "Gearoidin", fed: "IRL", dob: "1964-06-10", gender: "F")
         load_file("fide_player_file.xml")
         expect(FidePlayer.count).to eq(0)
         expect(fpf = FidePlayerFile.first).to_not be_nil
@@ -85,19 +85,19 @@ describe "FidePlayerFile" do
     context "FIDE and ICU matches" do
       it "should find them" do
         # FIDE and matched ICU
-        icu = FactoryGirl.create(:icu_player, id: 1350, last_name: "Orr", first_name: "Mark", fed: "IRL", dob: "1955-11-09", gender: "M")
-        FactoryGirl.create(:fide_player, id: 2500035, last_name: "Orr", first_name: "Mark", fed: "IRL", born: 1955, title: "IM", gender: "M", icu_player: icu)
-        icu = FactoryGirl.create(:icu_player, id: 87, last_name: "Bradley", first_name: "John", fed: "IRL", dob: "1954-01-11", gender: "M")
-        FactoryGirl.create(:fide_player, id: 2500132, last_name: "Bradley", first_name: "Sean", fed: "IRL", born: 1954, gender: "M", icu_player: icu)
+        icu = FactoryBot.create(:icu_player, id: 1350, last_name: "Orr", first_name: "Mark", fed: "IRL", dob: "1955-11-09", gender: "M")
+        FactoryBot.create(:fide_player, id: 2500035, last_name: "Orr", first_name: "Mark", fed: "IRL", born: 1955, title: "IM", gender: "M", icu_player: icu)
+        icu = FactoryBot.create(:icu_player, id: 87, last_name: "Bradley", first_name: "John", fed: "IRL", dob: "1954-01-11", gender: "M")
+        FactoryBot.create(:fide_player, id: 2500132, last_name: "Bradley", first_name: "Sean", fed: "IRL", born: 1954, gender: "M", icu_player: icu)
         # FIDE and unmatched ICU
-        FactoryGirl.create(:icu_player, id: 1402, last_name: "Quinn", first_name: "Mark", fed: "IRL", dob: "1976-08-08", gender: "M")
-        FactoryGirl.create(:fide_player, id: 2500450, last_name: "Quinn", first_name: "Mark", fed: "IRL", born: 1976, gender: "M", icu_player: nil)
+        FactoryBot.create(:icu_player, id: 1402, last_name: "Quinn", first_name: "Mark", fed: "IRL", dob: "1976-08-08", gender: "M")
+        FactoryBot.create(:fide_player, id: 2500450, last_name: "Quinn", first_name: "Mark", fed: "IRL", born: 1976, gender: "M", icu_player: nil)
         # FIDE only
-        FactoryGirl.create(:fide_player, id: 2501333, last_name: "Quinn", first_name: "Deborah", fed: "IRL", born: 1969, gender: "F", icu_player: nil)
+        FactoryBot.create(:fide_player, id: 2501333, last_name: "Quinn", first_name: "Deborah", fed: "IRL", born: 1969, gender: "F", icu_player: nil)
         # ICU only
-        FactoryGirl.create(:icu_player, id: 7085, last_name: "Baburin", first_name: "Alexander", fed: "IRL", dob: "1967-02-19", gender: "M")
-        FactoryGirl.create(:icu_player, id: 90, last_name: "Brady", first_name: "Stephen", fed: "IRL", dob: "1969-03-12", gender: "M")
-        FactoryGirl.create(:icu_player, id: 3364, last_name: "Ui Laighleis", first_name: "Gearoidin", fed: "IRL", dob: "1964-06-10", gender: "F")
+        FactoryBot.create(:icu_player, id: 7085, last_name: "Baburin", first_name: "Alexander", fed: "IRL", dob: "1967-02-19", gender: "M")
+        FactoryBot.create(:icu_player, id: 90, last_name: "Brady", first_name: "Stephen", fed: "IRL", dob: "1969-03-12", gender: "M")
+        FactoryBot.create(:icu_player, id: 3364, last_name: "Ui Laighleis", first_name: "Gearoidin", fed: "IRL", dob: "1964-06-10", gender: "F")
         load_file("fide_player_file.xml")
         expect(FidePlayer.count).to eq(4)
         expect(fpf = FidePlayerFile.first).to_not be_nil
@@ -178,9 +178,9 @@ describe "FidePlayerFile" do
 
     context "only FIDE matches" do
       it "should not create any new records" do
-        FactoryGirl.create(:fide_player, id: 2500035, last_name: "Orr", first_name: "Mark", fed: "IRL", born: 1955, title: "IM", gender: "M", icu_player: nil)
-        FactoryGirl.create(:fide_player, id: 2500370, last_name: "Cronin", first_name: "April", fed: "IRL", born: 1960, gender: "F", icu_player: nil)
-        FactoryGirl.create(:fide_player, id: 2507382, last_name: "O`Muireagain", first_name: "Colm", fed: "IRL", born: 1966, gender: "M", icu_player: nil)
+        FactoryBot.create(:fide_player, id: 2500035, last_name: "Orr", first_name: "Mark", fed: "IRL", born: 1955, title: "IM", gender: "M", icu_player: nil)
+        FactoryBot.create(:fide_player, id: 2500370, last_name: "Cronin", first_name: "April", fed: "IRL", born: 1960, gender: "F", icu_player: nil)
+        FactoryBot.create(:fide_player, id: 2507382, last_name: "O`Muireagain", first_name: "Colm", fed: "IRL", born: 1966, gender: "M", icu_player: nil)
         load_file("fide_player_file.xml", true)
         expect(FidePlayer.count).to eq(3)
         expect(fpf = FidePlayerFile.first).to_not be_nil
@@ -195,10 +195,10 @@ describe "FidePlayerFile" do
 
     context "only ICU matches" do
       it "should create new records and mappings" do
-        FactoryGirl.create(:icu_player, id: 1350, last_name: "Orr", first_name: "Mark", fed: "IRL", dob: "1955-11-09", gender: "M")
-        FactoryGirl.create(:icu_player, id: 87, last_name: "Bradley", first_name: "John", fed: "IRL", dob: "1954-01-11", gender: "M")
-        FactoryGirl.create(:icu_player, id: 12275, last_name: "O'Muireagain", first_name: "Colm", fed: "IRL", dob: "1966-09-25", gender: "M")
-        FactoryGirl.create(:icu_player, id: 3364, last_name: "Ui Laighleis", first_name: "Gearoidin", fed: "IRL", dob: "1964-06-10", gender: "F")
+        FactoryBot.create(:icu_player, id: 1350, last_name: "Orr", first_name: "Mark", fed: "IRL", dob: "1955-11-09", gender: "M")
+        FactoryBot.create(:icu_player, id: 87, last_name: "Bradley", first_name: "John", fed: "IRL", dob: "1954-01-11", gender: "M")
+        FactoryBot.create(:icu_player, id: 12275, last_name: "O'Muireagain", first_name: "Colm", fed: "IRL", dob: "1966-09-25", gender: "M")
+        FactoryBot.create(:icu_player, id: 3364, last_name: "Ui Laighleis", first_name: "Gearoidin", fed: "IRL", dob: "1964-06-10", gender: "F")
         load_file("fide_player_file.xml", true)
         expect(FidePlayer.count).to eq(4)
         expect(fpf = FidePlayerFile.first).to_not be_nil
@@ -218,19 +218,19 @@ describe "FidePlayerFile" do
     context "FIDE and ICU matches" do
       it "should create new records and mappings" do
         # FIDE and matched ICU
-        icu = FactoryGirl.create(:icu_player, id: 1350, last_name: "Orr", first_name: "Mark", fed: "IRL", dob: "1955-11-09", gender: "M")
-        FactoryGirl.create(:fide_player, id: 2500035, last_name: "Orr", first_name: "Mark", fed: "IRL", born: 1955, title: "IM", gender: "M", icu_player: icu)
-        icu = FactoryGirl.create(:icu_player, id: 87, last_name: "Bradley", first_name: "John", fed: "IRL", dob: "1954-01-11", gender: "M")
-        FactoryGirl.create(:fide_player, id: 2500132, last_name: "Bradley", first_name: "Sean", fed: "IRL", born: 1954, gender: "M", icu_player: icu)
+        icu = FactoryBot.create(:icu_player, id: 1350, last_name: "Orr", first_name: "Mark", fed: "IRL", dob: "1955-11-09", gender: "M")
+        FactoryBot.create(:fide_player, id: 2500035, last_name: "Orr", first_name: "Mark", fed: "IRL", born: 1955, title: "IM", gender: "M", icu_player: icu)
+        icu = FactoryBot.create(:icu_player, id: 87, last_name: "Bradley", first_name: "John", fed: "IRL", dob: "1954-01-11", gender: "M")
+        FactoryBot.create(:fide_player, id: 2500132, last_name: "Bradley", first_name: "Sean", fed: "IRL", born: 1954, gender: "M", icu_player: icu)
         # FIDE and unmatched ICU
-        FactoryGirl.create(:icu_player, id: 1402, last_name: "Quinn", first_name: "Mark", fed: "IRL", dob: "1976-08-08", gender: "M")
-        FactoryGirl.create(:fide_player, id: 2500450, last_name: "Quinn", first_name: "Mark", fed: "IRL", born: 1976, gender: "M", icu_player: nil)
+        FactoryBot.create(:icu_player, id: 1402, last_name: "Quinn", first_name: "Mark", fed: "IRL", dob: "1976-08-08", gender: "M")
+        FactoryBot.create(:fide_player, id: 2500450, last_name: "Quinn", first_name: "Mark", fed: "IRL", born: 1976, gender: "M", icu_player: nil)
         # FIDE only
-        FactoryGirl.create(:fide_player, id: 2501333, last_name: "Quinn", first_name: "Deborah", fed: "IRL", born: 1969, gender: "F", icu_player: nil)
+        FactoryBot.create(:fide_player, id: 2501333, last_name: "Quinn", first_name: "Deborah", fed: "IRL", born: 1969, gender: "F", icu_player: nil)
         # ICU only
-        FactoryGirl.create(:icu_player, id: 7085, last_name: "Baburin", first_name: "Alexander", fed: "IRL", dob: "1967-02-19", gender: "M")
-        FactoryGirl.create(:icu_player, id: 90, last_name: "Brady", first_name: "Stephen", fed: "IRL", dob: "1969-03-12", gender: "M")
-        FactoryGirl.create(:icu_player, id: 3364, last_name: "Ui Laighleis", first_name: "Gearoidin", fed: "IRL", dob: "1964-06-10", gender: "F")
+        FactoryBot.create(:icu_player, id: 7085, last_name: "Baburin", first_name: "Alexander", fed: "IRL", dob: "1967-02-19", gender: "M")
+        FactoryBot.create(:icu_player, id: 90, last_name: "Brady", first_name: "Stephen", fed: "IRL", dob: "1969-03-12", gender: "M")
+        FactoryBot.create(:icu_player, id: 3364, last_name: "Ui Laighleis", first_name: "Gearoidin", fed: "IRL", dob: "1964-06-10", gender: "F")
         load_file("fide_player_file.xml", true)
         expect(FidePlayer.count).to eq(7)
         expect(fpf = FidePlayerFile.first).to_not be_nil
@@ -257,8 +257,8 @@ describe "FidePlayerFile" do
 
     context "duplicates" do
       it "should not create new records based on duplicates" do
-        FactoryGirl.create(:icu_player, id: 1350, last_name: "Orr", first_name: "Mark", fed: "IRL", dob: "1955-11-09", gender: "M")
-        FactoryGirl.create(:icu_player, id: 271, last_name: "Cronin", first_name: "April", fed: "IRL", dob: "1960-02-20", gender: "F")
+        FactoryBot.create(:icu_player, id: 1350, last_name: "Orr", first_name: "Mark", fed: "IRL", dob: "1955-11-09", gender: "M")
+        FactoryBot.create(:icu_player, id: 271, last_name: "Cronin", first_name: "April", fed: "IRL", dob: "1960-02-20", gender: "F")
         load_file("fide_player_file_duplicates.xml", true)
         expect(FidePlayer.count).to eq(0)
         expect(fpf = FidePlayerFile.first).to_not be_nil

@@ -2,13 +2,13 @@ require 'rails_helper'
 
 describe OldRating do
   it "factory" do
-    old = FactoryGirl.create(:old_rating, icu_id: 1350)
+    old = FactoryBot.create(:old_rating, icu_id: 1350)
     expect(old.id).to eq(1)
     expect(old.icu_id).to eq(1350)
     expect(old.rating).to be <= 2400
     expect(old.games).to be <= 500
     expect(old.full).to be true
-    old = FactoryGirl.create(:old_rating, icu_id: 159, rating: 2198, games: 329, full: false)
+    old = FactoryBot.create(:old_rating, icu_id: 159, rating: 2198, games: 329, full: false)
     expect(old.id).to eq(2)
     expect(old.icu_id).to eq(159)
     expect(old.rating).to eq(2198)

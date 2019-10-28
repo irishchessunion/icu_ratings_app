@@ -68,7 +68,7 @@ describe "authorized to follow" do
   %w[guest member reporter officer admin].each do |role|
     describe "#{role}s" do
       before(:each) do
-        FactoryGirl.create(:icu_player, id: 1)
+        FactoryBot.create(:icu_player, id: 1)
         role == "guest" ? visit("/home") : login(role)
       end
 

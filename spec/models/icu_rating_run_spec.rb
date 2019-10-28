@@ -36,7 +36,7 @@ describe ICU::RatingRun do
       tests = %w[isle_of_man_2007.csv junior_championships_u19_2010.txt kilbunny_masters_2011.tab]
       load_icu_players_for(tests)
       load_old_ratings
-      @u = FactoryGirl.create(:user, role: "officer")
+      @u = FactoryBot.create(:user, role: "officer")
       @t1, @t2, @t3 = tests.map do |f|
         t = test_tournament(f, @u.id)
         t.move_stage("ready", @u)

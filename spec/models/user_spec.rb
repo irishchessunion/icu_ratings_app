@@ -3,28 +3,28 @@ require 'rails_helper'
 describe User do
   context "validation" do
     it "the factory test user is valid" do
-      expect { FactoryGirl.create(:user) }.to_not raise_error
+      expect { FactoryBot.create(:user) }.to_not raise_error
     end
 
     it "should not allow duplicate emails (case insensitively)" do
-      user = FactoryGirl.create(:user)
-      expect { FactoryGirl.create(:user, email: user.email) }.to raise_error(/email.*already.*taken/i)
-      expect { FactoryGirl.create(:user, email: user.email.upcase) }.to raise_error(/email.*already.*taken/i)
+      user = FactoryBot.create(:user)
+      expect { FactoryBot.create(:user, email: user.email) }.to raise_error(/email.*already.*taken/i)
+      expect { FactoryBot.create(:user, email: user.email.upcase) }.to raise_error(/email.*already.*taken/i)
     end
 
     it "should reject invalid roles" do
-      expect { FactoryGirl.create(:user, role: "superuser") }.to raise_error(/role.*invalid/i)
+      expect { FactoryBot.create(:user, role: "superuser") }.to raise_error(/role.*invalid/i)
     end
 
     it "should have a minimum expiry date" do
-      expect { FactoryGirl.create(:user, expiry: "2003-12-31") }.to raise_error(/expiry must be/i)
-      expect { FactoryGirl.create(:user, expiry: "2005-12-31") }.to_not raise_error
+      expect { FactoryBot.create(:user, expiry: "2003-12-31") }.to raise_error(/expiry must be/i)
+      expect { FactoryBot.create(:user, expiry: "2005-12-31") }.to_not raise_error
     end
   end
 
   context "roles" do
     it "members" do
-      user = FactoryGirl.create(:user)
+      user = FactoryBot.create(:user)
       expect(user.role?(:member)).to be true
       expect(user.role?(:reporter)).to be false
       expect(user.role?(:officer)).to be false
@@ -34,7 +34,7 @@ describe User do
     end
 
     it "tournament reporters" do
-      user = FactoryGirl.create(:user, role: "reporter")
+      user = FactoryBot.create(:user, role: "reporter")
       expect(user.role?(:member)).to be true
       expect(user.role?(:reporter)).to be true
       expect(user.role?(:officer)).to be false
@@ -44,7 +44,7 @@ describe User do
     end
 
     it "rating officers" do
-      user = FactoryGirl.create(:user, role: "officer")
+      user = FactoryBot.create(:user, role: "officer")
       expect(user.role?(:member)).to be true
       expect(user.role?(:reporter)).to be true
       expect(user.role?(:officer)).to be true
@@ -54,7 +54,7 @@ describe User do
     end
 
     it "administrators" do
-      user = FactoryGirl.create(:user, role: "admin")
+      user = FactoryBot.create(:user, role: "admin")
       expect(user.role?(:member)).to be true
       expect(user.role?(:reporter)).to be true
       expect(user.role?(:officer)).to be true
@@ -65,7 +65,7 @@ describe User do
 
     it "invalid roles" do
       ["invalid", "", nil].each do |role|
-        user = FactoryGirl.build(:user, role: role)
+        user = FactoryBot.build(:user, role: role)
         expect(user.role?(:member)).to be false
         expect(user.role?(:reporter)).to be false
         expect(user.role?(:officer)).to be false
@@ -78,7 +78,7 @@ describe User do
 
   context "best email" do
     before(:each) do
-      @user = FactoryGirl.create(:user)
+      @user = FactoryBot.create(:user)
     end
 
     it "should be the IcuPlayer's email" do
@@ -99,8 +99,8 @@ describe User do
   context "#password_ok?" do
     before(:each) do
       @p = "icuicj"
-      @u1 = FactoryGirl.create(:user, password: "be3ab3d3be49b8304b8604a3268dfcf2", salt: "b3f0f553a916b0e8ab6b2469cabd200f")
-      @u2 = FactoryGirl.create(:user, password: @p)
+      @u1 = FactoryBot.create(:user, password: "be3ab3d3be49b8304b8604a3268dfcf2", salt: "b3f0f553a916b0e8ab6b2469cabd200f")
+      @u2 = FactoryBot.create(:user, password: @p)
     end
 
     it "with salt (if this fails, see the comment)" do
@@ -127,7 +127,7 @@ describe User do
       @e = "joe@example.com"
       @h = "be3ab3d3be49b8304b8604a3268dfcf2"
       @s = "b3f0f553a916b0e8ab6b2469cabd200f"
-      @u = FactoryGirl.create(:user, email: @e, password: @h, salt: @s)
+      @u = FactoryBot.create(:user, email: @e, password: @h, salt: @s)
     end
 
     it "valid login" do
@@ -158,8 +158,8 @@ describe User do
       salt = "b3f0f553a916b0e8ab6b2469cabd200f"
       password = eval(Rails.application.secrets.hasher)
       @p = pass
-      @u1 = FactoryGirl.create(:user, password: password, salt: salt)
-      @u2 = FactoryGirl.create(:user, password: @p)
+      @u1 = FactoryBot.create(:user, password: password, salt: salt)
+      @u2 = FactoryBot.create(:user, password: @p)
       @params = { status: "ok" }
       allow(ICU::Database::Push).to receive_message_chain(:new, :update_user).and_return(nil)
     end
@@ -258,7 +258,7 @@ describe User do
         status:   "ok",
         expiry:   Date.new(2012, 12, 31),
       }
-      @user = FactoryGirl.create(:user, @h)
+      @user = FactoryBot.create(:user, @h)
     end
 
     before(:all) do

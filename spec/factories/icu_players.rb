@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :icu_player do
     sequence(:id) { |i| i }
     first_name    { Faker::Name.first_name }

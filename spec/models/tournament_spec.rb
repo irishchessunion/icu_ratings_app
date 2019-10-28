@@ -4,7 +4,7 @@ describe Tournament do
   before(:all) do
     # Try to avoid the tendancy of before(:each) (in each group that needs it) to get an
     # ActiveRecord::RecordNotUnique error when all tests are run (but not just this file).
-    @u = FactoryGirl.create(:user, role: "officer")
+    @u = FactoryBot.create(:user, role: "officer")
   end
 
   context "#name_with_year" do
@@ -724,7 +724,7 @@ describe Tournament do
   context "automatic requeuing" do
     before(:each) do
       load_icu_players
-      #u = FactoryGirl.create(:user, role: "officer")
+      #u = FactoryBot.create(:user, role: "officer")
       @t1, @t2, @t3 = %w{bunratty_masters_2011.tab kilbunny_masters_2011.tab kilkenny_masters_2011.tab}.map do |f|
         t = test_tournament(f, @u.id)
         t.move_stage("ready", @u)

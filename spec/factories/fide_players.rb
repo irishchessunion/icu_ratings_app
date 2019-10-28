@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :fide_player do
     association           :icu_player
     sequence(:id, 100000) { |i| i }

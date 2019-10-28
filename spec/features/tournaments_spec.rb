@@ -137,7 +137,7 @@ describe "Tournament" do
 
   describe "listing" do
     before(:each) do
-      u = FactoryGirl.create(:user, role: "reporter")
+      u = FactoryBot.create(:user, role: "reporter")
       @t1 = test_tournament("bunratty_masters_2011.tab", u.id)
       @t2 = test_tournament("junior_championships_u19_2010.txt", u.id)
     end
@@ -578,8 +578,8 @@ describe "Tournament" do
   describe "locking" do
     before(:each) do
       @r = login("reporter")
-      @o = FactoryGirl.create(:user, role: "officer")
-      @a = FactoryGirl.create(:user, role: "admin")
+      @o = FactoryBot.create(:user, role: "officer")
+      @a = FactoryBot.create(:user, role: "admin")
       @t = test_tournament("bunratty_masters_2011.tab", @r.id)
     end
 
@@ -627,7 +627,7 @@ describe "Tournament" do
       load_icu_players_for(tests)
       load_old_ratings
       @subs = [159, 456, 1350, 6897].map do |icu_id| # add some subs to enable live ratings (choose players in tournaments.yml)
-        FactoryGirl.create(:subscription, icu_id: icu_id, season: nil, category: "lifetime", pay_date: nil)
+        FactoryBot.create(:subscription, icu_id: icu_id, season: nil, category: "lifetime", pay_date: nil)
       end
       @u = login("officer")
       @t1, @t2, @t3 = tests.map do |f|

@@ -3,7 +3,7 @@ require "rails_helper"
 describe Emailer do
   context "#notify_tournament_uploaded" do
     before(:each) do
-      @u = FactoryGirl.create(:user, role: "reporter")
+      @u = FactoryBot.create(:user, role: "reporter")
       @t = test_tournament("bunratty_masters_2011.tab", @u.id)
       @n = ActionMailer::Base.deliveries.size
     end

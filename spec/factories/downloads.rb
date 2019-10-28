@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :download do
     comment      { Faker::Lorem.sentence.truncate(80) }
     data         { Faker::Lorem.paragraphs }

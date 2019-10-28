@@ -6,7 +6,7 @@ describe "Player" do
       test = "junior_championships_u19_2010.txt"
       load_icu_players_for(test)
       u = login("officer")
-      FactoryGirl.create(:fide_player, id: 2502054, icu_player: IcuPlayer.find(6897), first_name: "Ryan-Rhys", last_name: "Griffiths", gender: "M", rating: 2200)
+      FactoryBot.create(:fide_player, id: 2502054, icu_player: IcuPlayer.find(6897), first_name: "Ryan-Rhys", last_name: "Griffiths", gender: "M", rating: 2200)
       @t = test_tournament(test, u.id)
       @t.reset_status
     end

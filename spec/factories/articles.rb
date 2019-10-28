@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :article do
     headline    { Faker::Lorem.sentence }
     story       { Faker::Lorem.paragraphs }

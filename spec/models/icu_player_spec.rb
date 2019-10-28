@@ -28,9 +28,9 @@ describe IcuPlayer do
 
   context "name" do
     before(:each) do
-      @p = FactoryGirl.create(:icu_player, title: "IM", club: "Bangor")
-      @q = FactoryGirl.create(:icu_player, title: "GM")
-      @r = FactoryGirl.create(:icu_player)
+      @p = FactoryBot.create(:icu_player, title: "IM", club: "Bangor")
+      @q = FactoryBot.create(:icu_player, title: "GM")
+      @r = FactoryBot.create(:icu_player)
     end
 
     it "no options or single boolean option" do
@@ -56,7 +56,7 @@ describe IcuPlayer do
 
   context "age" do
     before(:each) do
-      @p = FactoryGirl.create(:icu_player, dob: nil)
+      @p = FactoryBot.create(:icu_player, dob: nil)
     end
 
     it "should be nil if no dob" do

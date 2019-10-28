@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :subscription do
     icu_id    1350
     season    "2011-12"

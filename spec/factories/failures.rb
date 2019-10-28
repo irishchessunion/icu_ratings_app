@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :failure do
     name     "RuntimeError"
     details  { Faker::Lorem.paragraphs }

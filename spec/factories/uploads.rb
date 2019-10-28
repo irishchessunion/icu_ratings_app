@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :upload do
     name          "tournament.txt"
     size          { Random.new.rand(1000..10000) }

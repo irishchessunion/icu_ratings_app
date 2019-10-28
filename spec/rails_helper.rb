@@ -2,7 +2,7 @@
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -29,7 +29,7 @@ User.pulls_disabled = true
 
 RSpec.configure do |config|
   # Shorthand FG syntax.
-  # config.include FactoryGirl::Syntax::Methods
+  # config.include FactoryBot::Syntax::Methods
 
   # To be able to use selenium tests we use database_cleaner with truncation
   # strategy for all tests (slower but more reliable). See Railscasts 257.
@@ -68,7 +68,7 @@ def test_tournament(file, user_id, arg={})
   tournament = Tournament.build_from_icut(icut)
   tournament.user_id = user_id
   tournament.save!
-  tournament.upload = FactoryGirl.create(:upload, name: file, user_id: user_id, tournament_id: tournament.id)
+  tournament.upload = FactoryBot.create(:upload, name: file, user_id: user_id, tournament_id: tournament.id)
   tournament.save!
   tournament.renumber_opponents
   tournament
@@ -87,7 +87,7 @@ def login(user)
     visit "/log_out"
     return
   end
-  user = FactoryGirl.create(:user, role: user.to_s) unless user.instance_of?(User)
+  user = FactoryBot.create(:user, role: user.to_s) unless user.instance_of?(User)
   visit "/log_in"
   page.fill_in "Email", with: user.email
   page.fill_in "Password", with: user.password
@@ -112,7 +112,7 @@ end
 def load_icu_players
   @icu_players_cache ||= YAML.load(File.read(File.expand_path('../factories/icu_players.yml', __FILE__)))
   @icu_players_cache.inject({}) do |h, (id, data)|
-    h[id] = FactoryGirl.create(:icu_player, data.merge(id: id))
+    h[id] = FactoryBot.create(:icu_player, data.merge(id: id))
     h
   end
 end
@@ -120,14 +120,14 @@ end
 # Load a single ICU player given by ID.
 def load_icu_player(id)
   @icu_players_cache ||= YAML.load(File.read(File.expand_path('../factories/icu_players.yml', __FILE__)))
-  @icu_players_cache[id] ? FactoryGirl.create(:icu_player, @icu_players_cache[id].merge(id: id)) : nil
+  @icu_players_cache[id] ? FactoryBot.create(:icu_player, @icu_players_cache[id].merge(id: id)) : nil
 end
 
 # Load all FIDE players and return hash from FIDE ID to record.
 def load_fide_players
   @fide_players_cache ||= YAML.load(File.read(File.expand_path('../factories/fide_players.yml', __FILE__)))
   @fide_players_cache.inject({}) do |h, (id, data)|
-    h[id] = FactoryGirl.create(:fide_player_with_icu_id, data.merge(id: id))
+    h[id] = FactoryBot.create(:fide_player_with_icu_id, data.merge(id: id))
     h
   end
 end
@@ -138,7 +138,7 @@ def load_old_ratings
   hash = YAML.load(File.read(File.expand_path('../factories/old_ratings.yml', __FILE__)))
   @old_ratings_cache = hash.keys.inject({}) do |memo, icu_id|
     data = hash[icu_id]
-    memo[icu_id] = FactoryGirl.create(:old_rating, icu_id: icu_id, rating: data[0], games: data[1], full: data[2])
+    memo[icu_id] = FactoryBot.create(:old_rating, icu_id: icu_id, rating: data[0], games: data[1], full: data[2])
     memo
   end
 end
@@ -149,7 +149,7 @@ def load_subscriptions
   hash = YAML.load(File.read(File.expand_path('../factories/subscriptions.yml', __FILE__)))
   @subscriptions_cache = hash.keys.inject({}) do |memo, icu_id|
     data = hash[icu_id]
-    memo[icu_id] = FactoryGirl.create(:subscription, icu_id: icu_id, category: data[0], season: data[1], pay_date: data[2])
+    memo[icu_id] = FactoryBot.create(:subscription, icu_id: icu_id, category: data[0], season: data[1], pay_date: data[2])
     memo
   end
 end

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :fide_rating do
     association  :fide_player
     rating       { 1 + rand(2500) }

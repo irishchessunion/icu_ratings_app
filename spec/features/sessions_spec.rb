@@ -3,8 +3,8 @@ require 'rails_helper'
 describe "Sessions" do
   describe "logging in" do
     before(:each) do
-      @user = FactoryGirl.create(:user)
-      @loser = FactoryGirl.create(:user, expiry: 1.year.ago.at_end_of_year)
+      @user = FactoryBot.create(:user)
+      @loser = FactoryBot.create(:user, expiry: 1.year.ago.at_end_of_year)
       visit "/log_in"
     end
 
@@ -74,7 +74,7 @@ describe "Sessions" do
         pass = "password#{i}"
         { password: pass, encrypted: eval(Rails.application.secrets.hasher) }
       end
-      @user = FactoryGirl.create(:user, salt: salt, password: @password[0].fetch(:encrypted))
+      @user = FactoryBot.create(:user, salt: salt, password: @password[0].fetch(:encrypted))
       visit "/log_in"
     end
 

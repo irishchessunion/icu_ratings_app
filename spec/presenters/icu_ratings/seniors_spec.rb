@@ -14,17 +14,17 @@ module IcuRatings
       before(:each) do
         allow(Date).to receive(:today).and_return(Date.new(2011, 12, 17))
         @list = "2011-09-01"
-        @p1 = FactoryGirl.create(:icu_player, dob: "1950-08-02", gender: "F")
-        @p2 = FactoryGirl.create(:icu_player, dob: "1940-08-01")
-        @p3 = FactoryGirl.create(:icu_player, dob: "1960-01-01")
-        @p4 = FactoryGirl.create(:icu_player, dob: "1970-05-31")
-        @p5 = FactoryGirl.create(:icu_player, dob: "1940-06-01", fed: "RUS")
-        @r1 = FactoryGirl.create(:icu_rating, list: @list, icu_player: @p1)
-        @r5 = FactoryGirl.create(:icu_rating, list: "2011-05-01", icu_player: @p1)
-        @r2 = FactoryGirl.create(:icu_rating, list: @list, icu_player: @p2)
-        @r3 = FactoryGirl.create(:icu_rating, list: @list, icu_player: @p3)
-        @r4 = FactoryGirl.create(:icu_rating, list: @list, icu_player: @p4)
-        @r6 = FactoryGirl.create(:icu_rating, list: @list, icu_player: @p5)
+        @p1 = FactoryBot.create(:icu_player, dob: "1950-08-02", gender: "F")
+        @p2 = FactoryBot.create(:icu_player, dob: "1940-08-01")
+        @p3 = FactoryBot.create(:icu_player, dob: "1960-01-01")
+        @p4 = FactoryBot.create(:icu_player, dob: "1970-05-31")
+        @p5 = FactoryBot.create(:icu_player, dob: "1940-06-01", fed: "RUS")
+        @r1 = FactoryBot.create(:icu_rating, list: @list, icu_player: @p1)
+        @r5 = FactoryBot.create(:icu_rating, list: "2011-05-01", icu_player: @p1)
+        @r2 = FactoryBot.create(:icu_rating, list: @list, icu_player: @p2)
+        @r3 = FactoryBot.create(:icu_rating, list: @list, icu_player: @p3)
+        @r4 = FactoryBot.create(:icu_rating, list: @list, icu_player: @p4)
+        @r6 = FactoryBot.create(:icu_rating, list: @list, icu_player: @p5)
       end
 
       it "default settings" do
