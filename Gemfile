@@ -39,5 +39,6 @@ group :test, :development do
   gem "factory_bot_rails"
   gem "faker"
   gem "database_cleaner"
+  gem "rubocop-rspec"
   #gem "byebug"
 end
