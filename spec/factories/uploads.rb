@@ -1,10 +1,10 @@
 FactoryBot.define do
   factory :upload do
-    name          "tournament.txt"
+    name          { "tournament.txt" }
     size          { Random.new.rand(1000..10000) }
-    tournament_id 1
-    user_id       1
-    error         nil
+    tournament_id { 1 }
+    user_id       { 1 }
+    error         { nil }
     created_at    { Time.now }
     format do
       case name

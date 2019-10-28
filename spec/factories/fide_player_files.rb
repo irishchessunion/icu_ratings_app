@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :fide_player_file do
-    icu_id 1
-    description "MyText"
+    icu_id { 1 }
+    description { "MyText" }
   end
 end
