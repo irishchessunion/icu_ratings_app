@@ -11,7 +11,7 @@ module Admin
     end
 
     def create
-      @result = Article.new(result_params)
+      @result = Result.new(result_params)
       if @result.save
         @player = @result.player
         @tournament = @player.tournament
