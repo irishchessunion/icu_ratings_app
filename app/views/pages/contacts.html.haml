@@ -2,7 +2,14 @@
   %span= @page_title = "Contacts"
 
 #contacts
-  - %w[reporter officer admin].each do |role|
+  - contacts = @contacts["reporter"]
+  - unless contacts.empty?
+    %h3{class: "left"}= t("reporter", count: contacts.size)
+    %ul
+      - contacts.each do |contact|
+        %li= contact.name
+
+  - %w[officer admin].each do |role|
     - contacts = @contacts[role]
     - unless contacts.empty?
       %h3{class: "left"}= t(role, count: contacts.size)
