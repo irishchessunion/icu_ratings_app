@@ -2,13 +2,73 @@ require "net/http"
 
 module FIDE
   class Download
+
+    attr_accessor :list
+
     SyncError = Class.new(StandardError)
     SyncInfo  = Class.new(StandardError)
+
+    def start_timers
+      @start = Time.now
+      @time = Hash.new
+    end
+
+    def update_our_players_and_ratings(players)
+      @our_players = FidePlayer.all.inject({}) { |h,p| h[p.id] = p; h }
+      @our_ratings = FideRating.where(list: @list).inject({}) { |h,r| h[r.fide_id] = r; h }
+      @updates = []
+      @creates = []
+      @invalid = []
+      @changes = Hash.new(0)
+      players.keys.each do |id|
+        tplr = players[id].to_h
+        oplr = @our_players[id]
+        rating = tplr[:rating]
+        games  = tplr.delete(:games)
+        active = tplr.delete(:active)
+        if oplr
+          tplr.keys.each { |key| oplr.send("#{key}=", tplr[key]) }
+          if oplr.changed?
+            @updates.push(id)
+            oplr.changed.each { |atr| @changes[atr.to_sym] += 1 }
+          end
+        else
+          oplr = FidePlayer.new(tplr) { |p| p.id = id }
+          @creates.push(id)
+        end
+        if oplr.valid?
+          oplr.save(validation: false) if oplr.changed?
+          if rating && games
+            ofr = @our_ratings[id]
+            if ofr
+              ofr.rating = rating
+              ofr.games = games
+              if ofr.valid?
+                if ofr.changed?
+                  ofr.save(validation: false)
+                  @changes[:rating] += 1
+                end
+              else
+                @invalid.push("#{id} #{ofr.errors.inspect}")
+              end
+            else
+              oplr.fide_ratings.create(list: @list, rating: rating, games: games)
+              @changes[:rating] += 1 if @our_players[id]
+            end
+          end
+        else
+          @invalid.push("#{id} #{oplr.errors.inspect}")
+        end
+        raise SyncError.new("too many invalid records") if @invalid.size > 10
+      end
+      @time["update"] = Time.now - @start
+    end
 
     class Irish < Download
       def initialize
         @name = "Irish FIDE Players Synchronisation"
       end
+
 
       # Run periodically (roughly every week) to sync Irish FIDE players and ratings.
       # Since the number of Irish players is relatively small, we can afford not to
@@ -16,14 +76,13 @@ module FIDE
       # through ActiveRecord. Use bin/rake sync:irish_fide_players[F] to force a reread
       # of a file already processed.
       def sync_fide_players(force=false)
-        @start = Time.now
-        @time = Hash.new
+        start_timers
         begin
           get_download_details
           check_not_downloaded unless force
           download_and_save
           read_and_parse
-          update_our_players_and_ratings
+          update_our_players_and_ratings @their_players
           event(true)
         rescue SyncInfo => e
           @info = e.message
@@ -37,6 +96,7 @@ module FIDE
           event(false)
         end
       end
+
 
       private
 
@@ -72,56 +132,6 @@ module FIDE
         raise SyncError.new("too many invalid players (#{invalid.size}): #{invalid.examples(3)}") if invalid.size > 0
       end
 
-      def update_our_players_and_ratings
-        @our_players = FidePlayer.all.inject({}) { |h,p| h[p.id] = p; h }
-        @our_ratings = FideRating.where(list: @list).inject({}) { |h,r| h[r.fide_id] = r; h }
-        @updates = []
-        @creates = []
-        @invalid = []
-        @changes = Hash.new(0)
-        @their_players.keys.each do |id|
-          tplr = @their_players[id].to_h
-          oplr = @our_players[id]
-          rating = tplr[:rating]
-          games  = tplr.delete(:games)
-          active = tplr.delete(:active)
-          if oplr
-            tplr.keys.each { |key| oplr.send("#{key}=", tplr[key]) }
-            if oplr.changed?
-              @updates.push(id)
-              oplr.changed.each { |atr| @changes[atr.to_sym] += 1 }
-            end
-          else
-            oplr = FidePlayer.new(tplr) { |p| p.id = id }
-            @creates.push(id)
-          end
-          if oplr.valid?
-            oplr.save(validation: false) if oplr.changed?
-            if rating && games
-              ofr = @our_ratings[id]
-              if ofr
-                ofr.rating = rating
-                ofr.games = games
-                if ofr.valid?
-                  if ofr.changed?
-                    ofr.save(validation: false)
-                    @changes[:rating] += 1
-                  end
-                else
-                  @invalid.push("#{id} #{ofr.errors.inspect}")
-                end
-              else
-                oplr.fide_ratings.create(list: @list, rating: rating, games: games)
-                @changes[:rating] += 1 if @our_players[id]
-              end
-            end
-          else
-            @invalid.push("#{id} #{oplr.errors.inspect}")
-          end
-          raise SyncError.new("too many invalid records") if @invalid.size > 10
-        end
-        @time["update"] = Time.now - @start
-      end
 
       def report
         str = Array.new
@@ -177,13 +187,13 @@ module FIDE
       # loading it into MySQL. Use bin/rake sync:other_fide_players[F] to force a reread of
       # a file already processed.
       def sync_fide_players(force=false)
-        @start = Time.now
-        @time = Hash.new
+        start_timers
         begin
           get_download_details
           check_not_downloaded unless force
           download_and_save
           read_parse_and_save
+          update_our_players_and_ratings @foreign_icu_players
           load_into_mysql
           event(true)
         rescue SyncInfo => e
@@ -223,6 +233,12 @@ module FIDE
         updated_at = created_at
         icu_id = '\N'
 
+        @foreign_icu_players = Hash.new
+        foreign_icu_ids = Hash.new
+        FidePlayer.where.not(icu_id: nil).where.not(fed: "IRL").each do |fp|
+          foreign_icu_ids[fp.id] = true
+        end
+
         # Parse the data using SAX parser based on FIDE::Download::Parser and FIDE::Download::Player.
         sax = Parser.new do |p|
           @count+= 1
@@ -235,6 +251,9 @@ module FIDE
                 @invalid["duplicate"]+= 1
               elsif reason = player.invalid?
                 @invalid[reason]+= 1
+              elsif foreign_icu_ids[player.id]
+                @foreign_icu_players[player.id] = player
+                got_id[player.id] = true
               else
                 file.write(player.to_csv(created_at, updated_at) + "\n")
                 @records+= 1
@@ -266,8 +285,8 @@ module FIDE
         # How many original records were there?
         @records_before_load = FidePlayer.count
 
-        # Load the file into the database using REPLACE (quicker than deleteing records first).
-        ActiveRecord::Base.connection.execute("LOAD DATA INFILE '#{@csv}' REPLACE INTO TABLE fide_players FIELDS TERMINATED BY ','")
+        # Load the file into the database using REPLACE (quicker than deleting records first).
+        ActiveRecord::Base.connection.execute("LOAD DATA LOCAL INFILE '#{@csv}' REPLACE INTO TABLE fide_players FIELDS TERMINATED BY ','")
         @records_after_load = FidePlayer.count
         @time['load'] = Time.now - @start
       end
@@ -282,6 +301,7 @@ module FIDE
         str.push "records used: #{@records}" if @records
         str.push "inactive players skipped: #{@inactive}" if @inactive
         str.push "Irish players skipped: #{@irish}" if @irish
+        str.push "Foreign ICU players updated: #{@foreign_icu_players.size}" if @foreign_icu_players
         str.push "invalid records: #{summarize_invalid}" if @invalid
         str.push "records before load: #{@records_before_load}" if @records_before_load
         str.push "records after load: #{@records_after_load}" if @records_after_load
