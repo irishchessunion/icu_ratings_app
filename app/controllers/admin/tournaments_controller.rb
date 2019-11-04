@@ -61,6 +61,10 @@ module Admin
       when params[:rerate]
         @tournament.update_column(:rerate, params[:rerate] == "false" ? false : true)
         render view(:update, :rerate)
+      when params[:icu_ids]
+        @tournament.add_icu_ids
+        @players = @tournament.ordered_players(by_name: true)
+        render view(:update, :icu_ids)
       when params[:tournament][:fide]
         @data = Tournaments::FideData.new(@tournament, true)
         render view(:update, :fide)

@@ -165,6 +165,8 @@
       - if can?(:modify, @tournament)
         •
         = link_to "FIDE", edit_admin_tournament_path(@tournament, fide: "", format: "js"), remote: true
+        •
+        = link_to "ICU IDs", admin_tournament_path(@tournament, icu_ids: ""), remote: true, method: :patch
       •
       = link_to "Export", admin_tournament_path(@tournament, format: "js"), remote: true
       - if can?(:modify, @tournament)
