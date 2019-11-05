@@ -29,10 +29,7 @@
         %td{class: "centered"}= p.fed
         %td{class: "centered"}= p.rating
         %td{class: "centered"}= p.title
-        - if p.fed == "IRL"
-          %td{class: "centered", id: "icu_id_link_#{p.id}"}= render "icu_id_link", p: p
-        - else
-          %td
+        %td{class: "centered", id: "icu_id_link_#{p.id}"}= render "icu_id_link", p: p
     - if @fide_players.multi_page
       %tr
         %td{class: "floater"}
