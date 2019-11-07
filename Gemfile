@@ -3,7 +3,7 @@ source "http://rubygems.org"
 gem "rails", "4.2.5"
 gem "sprockets", "2.12.3" # Latest version of sprockets 2.*. 3.* causes a failure at startup
 gem "mysql2", "~> 0.3.18"
-gem "icu_tournament", "1.9.7"
+gem "icu_tournament", "~> 1.9.7"
 gem "icu_utils", "1.3.2"
 gem "icu_ratings"
 gem "icu_name", "1.2.5"

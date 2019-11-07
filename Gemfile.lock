@@ -113,14 +113,14 @@ GEM
       concurrent-ruby (~> 1.0)
     icu_name (1.2.5)
     icu_ratings (1.8.3)
-    icu_tournament (1.9.7)
+    icu_tournament (1.9.8)
       dbf (~> 2.0)
       icu_name (~> 1.2)
       icu_utils (>= 1.3.2)
       rubyzip (~> 1.1)
     icu_utils (1.3.2)
     io-like (0.3.0)
-    jaro_winkler (1.5.3)
+    jaro_winkler (1.5.4)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
     jquery-rails (4.3.5)
@@ -141,7 +141,7 @@ GEM
     mime-types (2.99.3)
     mini_mime (1.0.2)
     mini_portile2 (2.1.0)
-    minitest (5.12.2)
+    minitest (5.13.0)
     multi_json (1.14.1)
     mysql2 (0.3.21)
     net-scp (2.0.0)
@@ -218,7 +218,7 @@ GEM
     rubocop-rspec (1.32.0)
       rubocop (>= 0.60.0)
     ruby-progressbar (1.10.1)
-    ruby_parser (3.14.0)
+    ruby_parser (3.14.1)
       sexp_processor (~> 4.9)
     rubyzip (1.3.0)
     sass (3.7.4)
@@ -281,7 +281,7 @@ DEPENDENCIES
   haml-rails
   icu_name (= 1.2.5)
   icu_ratings
-  icu_tournament (= 1.9.7)
+  icu_tournament (~> 1.9.7)
   icu_utils (= 1.3.2)
   jbuilder
   jquery-rails
