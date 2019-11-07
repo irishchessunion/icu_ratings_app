@@ -114,9 +114,10 @@ class LiveRating < ActiveRecord::Base
     date = Date.today
     season = Subscription.season(date)
     last_season = Subscription.last_season(date) if date.month >= 9 && date.month <= 12
-    Subscription.get_subs(season, date, last_season).map(&:icu_id)
+    subbed = Subscription.get_active_subs
+    subbed.map(&:icu_id).uniq
   end
-  
+
   # Adapted from RatingList#get_tournament_ratings.
   def self.get_tournament_ratings(icu_ids)
     Player.get_last_ratings(icu_ids)

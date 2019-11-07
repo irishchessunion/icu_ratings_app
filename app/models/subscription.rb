@@ -13,7 +13,7 @@
 class Subscription < ActiveRecord::Base
   extend ICU::Util::Pagination
   CATEGORY = %w(online offline lifetime)
-  LAST_MONTH_IN_SEASON = 12
+  LAST_MONTH_IN_SEASON = 8 # August
 
   belongs_to :icu_player, foreign_key: "icu_id"
 
@@ -36,13 +36,18 @@ class Subscription < ActiveRecord::Base
   def self.season(time=nil)
     time ||= Time.now
     year = time.year
-    year-= 1 if time.month < LAST_MONTH_IN_SEASON
+    year-= 1 if time.month <= LAST_MONTH_IN_SEASON
     "#{year}-#{year - 1999}"
   end
 
   def self.last_season(time=nil)
     time ||= Time.now
     season(time.prev_year)
+  end
+
+  def self.next_season(time=nil)
+    time ||= Time.now
+    season(time.next_year)
   end
 
   def self.get_subs(season, cut_off, last_season=nil)
@@ -58,4 +63,12 @@ class Subscription < ActiveRecord::Base
     end
     current + previous
   end
+
+  def self.get_active_subs(time=nil, payment_cutoff=nil)
+    time ||= Time.now
+    payment_cutoff ||= Time.now
+    last_season = time.month > LAST_MONTH_IN_SEASON ? self.last_season(time) : nil
+    get_subs(self.season(time), payment_cutoff, last_season)
+  end
+
 end
