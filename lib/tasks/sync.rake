@@ -24,7 +24,14 @@ namespace :sync do
 
   desc "Synchronize ratings_production/subscriptions with www_production/items (schedule at least weekly, but run manually before producing a rating list)"
   task :subs, [:season] => :environment do |t, args|
-    ICU::Database::Pull::Subs.new.sync(args[:season])
+    args.with_defaults(season: nil)
+    season = args[:season]
+    if season.nil?
+      ICU::Database::Pull::Subs.new.sync(Subscription.season)
+      ICU::Database::Pull::Subs.new.sync(Subscription.next_season)
+    else
+      ICU::Database::Pull::Subs.new.sync(season)
+    end
   end
 
   desc "Synchronize Irish FIDE players with the full download file from fide.com (use [F] to force, schedule weekly)"
