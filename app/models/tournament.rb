@@ -572,7 +572,7 @@ class Tournament < ActiveRecord::Base
     players.each do |player|
       next if player.icu_player
       next unless player.fide_id
-      fp = FidePlayer.find(player.fide_id)
+      fp = FidePlayer.find_by_id(player.fide_id)
       if fp and fp.icu_id
         player.icu_player = IcuPlayer.find(fp.icu_id)
         player.save
