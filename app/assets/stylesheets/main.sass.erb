@@ -12,7 +12,8 @@ $small-font: 11px
 
 // Normal colours.
 $col: #384A5B
-$bg-col: #063263
+$bg-col: <%= Rails.env == "development" ? "#003300" : (Rails.env == "test" ? "#d45555" : "#063263") %>
+ 
 $lnk-col: #178059
 $hd-col: #4B70B3
 $bd-col: #178AFF
@@ -22,7 +23,7 @@ $bdr: 1px solid $bd-col
 $hd-lnk-col: #B0B5C4
 
 // Colours in the content area.
-$cn-bg-col: #558AC7
+$cn-bg-col: <%= Rails.env == "development" ? "#009900" : (Rails.env == "test" ? "#ff9933" : "#558AC7") %>
 
 // Colours in the bottom footer.
 $ft-col: #B0B5C4
