@@ -48,7 +48,9 @@ class Ability
 
   def can_if_unlocked(user_id)
     can :modify, Tournament, user_id: user_id, locked: false
+    can :nextstep, Tournament, user_id: user_id, locked: false
     can :modify, Player, tournament: { user_id: user_id, tournament: { locked: false } }
+    can :autofix, Player, tournament: { user_id: user_id, tournament: { locked: false } }
     can :modify, Result, player: { tournament: { user_id: user_id, locked: false } }
   end
 
