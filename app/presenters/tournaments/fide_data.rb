@@ -5,7 +5,7 @@ module Tournaments
     class Matches
       attr_reader :fid, :fed, :dob
 
-      def initialize(fid, fed, dob, matches, max_samples=3)
+      def initialize(fid, fed, dob, matches, max_samples=5)
         @fid, @fed, @dob = fid, fed, dob
         @matches = matches
         @max_samples = max_samples
