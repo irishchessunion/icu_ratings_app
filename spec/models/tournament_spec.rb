@@ -862,7 +862,7 @@ describe Tournament do
       [
         ["FTT", 2, "Fehr|Short"],
         ["FTF", 1, "Hebden"],
-        ["FFF", 37, "Baburin|Baczkowski|Cafolla|-|Wynarczyk"],
+        ["FFF", 37, "Baburin|Baczkowski|Cafolla|Collins|Cooper|-|Wynarczyk"],
       ].each_with_index do |e, i|
         expect(data.status[i].sig).to eq(e[0])
         expect(data.status[i].count).to eq(e[1])
@@ -872,8 +872,8 @@ describe Tournament do
       data = Tournaments::FideData.new(@t, true)
       expect(data.status.size).to be 4
       [
-        ["TTF", 21, "Baburin|Cafolla|Collins|-|Short"],
-        ["FTT", 15, "Cooper|Daianu|Eliens|-|Wynarczyk"],
+        ["TTF", 21, "Baburin|Cafolla|Collins|Courtney|Doyle|-|Short"],
+        ["FTT", 15, "Cooper|Daianu|Eliens|Fehr|Graham|-|Wynarczyk"],
         ["FTF",  2, "Hebden|Maroroa"],
         ["FFF",  2, "Baczkowski|Grennel"],
       ].each_with_index do |e, i|
@@ -921,9 +921,9 @@ describe Tournament do
       data = Tournaments::FideData.new(@t, true)
       expect(data.status.size).to be 5
       [
-        ["TTF", 20, "Baburin|Cafolla|Collins|-|Short"],
+        ["TTF", 20, "Baburin|Cafolla|Collins|Courtney|Doyle|-|Short"],
         ["TFF",  1, "Osborne"],
-        ["FTT", 15, "Cooper|Daianu|Eliens|-|Wynarczyk"],
+        ["FTT", 15, "Cooper|Daianu|Eliens|Fehr|Graham|-|Wynarczyk"],
         ["FTF",  2, "Hebden|Maroroa"],
         ["FFF",  2, "Baczkowski|Grennel"],
       ].each_with_index do |e, i|
