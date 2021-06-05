@@ -35,8 +35,8 @@ RUN apt-add-repository ppa:brightbox/ruby-ng
 RUN apt-get update && apt-get install -y \
     less \
     curl \
-    ruby2.2 \
-    ruby2.2-dev \
+    ruby2.3 \
+    ruby2.3-dev \
     build-essential \
     zlib1g-dev \
     libmysqlclient-dev \
@@ -44,7 +44,8 @@ RUN apt-get update && apt-get install -y \
     mariadb-client-10.0 \
     wget \
     firefox \
-    xauth
+    xauth \
+    nodejs
 
 # install geckodriver
 RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz
