@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include SessionsHelper
-  before_filter :mini_profiler
+  before_action :mini_profiler
 
   protect_from_forgery
 
