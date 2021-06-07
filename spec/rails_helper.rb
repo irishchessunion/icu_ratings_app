@@ -16,6 +16,8 @@ Capybara.configure do |config|
   config.default_max_wait_time = 15
 end
 
+Capybara.server = :webrick
+
 # As of 2019 Chrome is throwing an error about an extension,
 # so we switched back to Firefox (the default for Capybara/Selenium)
 
