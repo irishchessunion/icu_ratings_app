@@ -61,5 +61,5 @@ RUN chmod +x /usr/bin/geckodriver
 ADD . /var/apps/ratings/
 
 # we need an older bundler than the default, for ruby 2.2.x
-RUN gem install bundler -v '1.16.1'
-RUN bundle install
+RUN gem install bundler -v '1.17.3' --no-rdoc --no-ri
+RUN bundle update
