@@ -48,8 +48,8 @@ RUN apt-get update && apt-get install -y \
     nodejs
 
 # install geckodriver
-RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz
-RUN tar -x geckodriver -zf geckodriver-v0.23.0-linux64.tar.gz -O > /usr/bin/geckodriver
+RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v0.28.0/geckodriver-v0.28.0-linux64.tar.gz
+RUN tar -x geckodriver -zf geckodriver-v0.28.0-linux64.tar.gz -O > /usr/bin/geckodriver
 RUN chmod +x /usr/bin/geckodriver
 
 # copy files from directory icu_ratings_app in host
