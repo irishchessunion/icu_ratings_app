@@ -33,7 +33,5 @@ module Ratings
     # no-reply@icu.ie used to cause an error when we were with register365.
     config.action_mailer.default_options = { from: "NO-REPLY@icu.ie" }
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
   end
 end
