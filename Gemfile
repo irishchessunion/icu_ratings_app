@@ -11,7 +11,7 @@ gem "icu_name", "1.2.5"
 gem "whenever", :require => false
 gem "redcarpet"
 gem "nokogiri", "~> 1.8.1"
-gem "cancan", "~> 1.6"
+gem "cancancan", "~> 1.7"
 gem "jquery-rails"
 gem "jquery-ui-rails"
 gem "rack-mini-profiler", "=1.1.6" # latest version of 1.*. early 2.* may work too
