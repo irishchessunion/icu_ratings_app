@@ -2,7 +2,7 @@ source "http://rubygems.org"
 
 gem "rails", "=5.0.2"
 #gem "sprockets", "2.12.3" # Latest version of sprockets 2.*. 3.* causes a failure at startup
-gem "sprockets" # rails 5 needs sprockets 3, so I guess we can find the error
+gem "sprockets", "~> 3.4.0" # Sprockets 2 needs rack 1.x, which conflicts with rails 5
 gem "mysql2", "~> 0.3.18"
 gem "icu_tournament", "~> 1.9.7"
 gem "icu_utils", "1.3.2"
