@@ -65,7 +65,7 @@ module ICU
       private
 
       def adjacent_page(up)
-        path + "?" + params.merge(page: page + (up ? 1 : -1), results: nil).to_query
+        path + "?" + params.to_h.merge(page: page + (up ? 1 : -1), results: nil).to_query
       end
     end
   end
