@@ -38,7 +38,7 @@ group :test, :development do
   gem "rspec-rails"
   gem "capybara", "=3.15.1" # latest version that works with Ruby 2.3
   gem "selenium-webdriver"
-  gem "chromedriver-helper"
+  gem "webdrivers"
   gem "launchy", "=2.4.3" # latest version that works with Ruby 2.3
   gem "factory_bot_rails"
   gem "faker", "=2.2.1" # latest version that works with i18n 0.x
