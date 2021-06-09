@@ -68,4 +68,35 @@ describe Player do
       expect(p.signature).to eq("")
     end
   end
+
+  context "#update" do
+    before(:each) do
+      @p = Player.new(
+        first_name:  "Mark",
+        last_name:   "Orr",
+        icu_id:      1350,
+        fide_id:     2500035,
+        fed:         'IRL',
+        title:       "IM",
+        gender:      "M",
+        dob:         "1955-11-09",
+        icu_rating:  2192,
+        fide_rating: 2264,
+      )
+      @p.num = 1
+      @p.original_name = @p.name
+      %w[icu_id fide_id fed title gender dob icu_rating fide_rating].each { |key| @p.send("original_#{key}=", @p.send(key)) }
+      @p.save!
+    end
+
+    it "dob should be a date" do
+      expect(@p.dob).to eq Date.new(1955, 11, 9)
+    end
+
+    it "dob should be a date after updating" do
+      @p.update_column(:dob, "1955-05-09")
+      expect(@p.dob).to eq Date.new(1955, 5, 9)
+    end
+
+  end
 end
