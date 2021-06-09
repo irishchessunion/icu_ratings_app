@@ -45,7 +45,8 @@ RUN apt-get update && apt-get install -y \
     wget \
     firefox \
     xauth \
-    nodejs
+    nodejs \
+    vim
 
 # install geckodriver
 RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz
