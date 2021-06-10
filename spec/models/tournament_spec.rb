@@ -569,7 +569,11 @@ describe Tournament do
       expect(@t3.reratings).to eq(2)
       expect(@t1.last_rated).to eq(@t1.first_rated)
       expect(@t2.last_rated).to eq(@t2.first_rated)
-      expect(@t3.last_rated).to be > @t3.first_rated
+      # this test fails intermittently, and more often on fast/new computers,
+      # because the whole task can be completed in 1 second, which is the resolution of our time
+      # can possibly fix this on later MySQL versions
+      # https://bigbinary.com/blog/rails-5-handles-datetime-with-better-precision
+      #expect(@t3.last_rated).to be > @t3.first_rated
 
       # Test the effect of altering a result in one of the tournaments.
       ["Orr", "Cafolla"].each do |n|
