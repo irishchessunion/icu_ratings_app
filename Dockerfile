@@ -35,8 +35,8 @@ RUN apt-add-repository ppa:brightbox/ruby-ng
 RUN apt-get update && apt-get install -y \
     less \
     curl \
-    ruby2.3 \
-    ruby2.3-dev \
+    ruby2.4 \
+    ruby2.4-dev \
     build-essential \
     zlib1g-dev \
     libmysqlclient-dev \
