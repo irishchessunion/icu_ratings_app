@@ -15,7 +15,7 @@ gem "jquery-rails"
 gem "jquery-ui-rails"
 gem "rack-mini-profiler", "=1.1.6" # latest version of 1.*. early 2.* may work too
 gem "haml-rails"
-gem "sass-rails", "= 5.0.5" # works with Rails 5, i.e. railties 5.0
+gem "sassc-rails", "~> 2.1.2"
 gem "coffee-rails", "~> 4.1.0"
 gem "therubyracer", platforms: :ruby
 gem "uglifier"
