@@ -146,6 +146,14 @@ class Tournament < ActiveRecord::Base
     paginate(matches, path, params)
   end
 
+  def last_rated_precise
+    last_rated && (last_rated.to_f + last_rated_msec / 1000.0)
+  end
+
+  def first_rated_precise
+    first_rated && (first_rated.to_f + first_rated_msec / 1000.0)
+  end
+
   def find_first_player_with_errors
     players.in_error.alphabetical.first
   end
@@ -277,7 +285,7 @@ class Tournament < ActiveRecord::Base
     when :none
       symbol = :none
       string = "Unranked"
-    when Fixnum
+    when Integer
       symbol = :inconsistent
       string = "Inconsistent (e.g. #{invalid - 1}:#{r2s[invalid - 1]}, #{invalid}:#{r2s[invalid]})"
     else
@@ -808,6 +816,7 @@ class Tournament < ActiveRecord::Base
   def update_tournament_after_rating
     now = Time.now
     msec = ((now.to_f - now.to_i) * 1000).to_i
+    update_column(:first_rated_msec, msec) unless first_rated
     update_column(:first_rated, now) unless first_rated
     update_column(:last_rated, now)
     update_column(:last_rated_msec, msec)

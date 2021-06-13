@@ -238,6 +238,7 @@ describe "Tournament" do
       t.reload.players.sort { |a,b| a.num <=> b.num }.map { |p| "#{p.num}|#{p.last_name}|#{p.rank}" }.join("||")
     end
 
+    # potentially flaky test, but seems to be capybara issue. Hopefully better in later versions.
     it "players without any results or with only byes can be removed", js: true do
       visit "/admin/uploads/new"
       page.select "FIDE-Krause", from: "File format"
