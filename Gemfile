@@ -13,7 +13,7 @@ gem "nokogiri", "~> 1.8.1"
 gem "cancancan", "~> 1.7"
 gem "jquery-rails"
 gem "jquery-ui-rails"
-gem "rack-mini-profiler", "=1.1.6" # latest version of 1.*. early 2.* may work too
+gem "rack-mini-profiler"
 gem "haml-rails"
 gem "sassc-rails", "~> 2.1.2"
 gem "coffee-rails", "~> 4.1.0"

@@ -40,7 +40,9 @@ Ratings::Application.routes.draw do
         get :nextstep
       end
     end
-    resources :rating_lists,        only: [:index, :show, :edit, :update] { resources :publications, only: [:show, :create, :edit, :update] }
+    resources :rating_lists,        only: [:index, :show, :edit, :update] do
+      resources :publications, only: [:show, :create, :edit, :update]
+    end
     resources :rating_runs,         only: [:index, :show, :create, :edit, :update, :destroy]
     resources :results,             only: [:new, :create, :edit, :update]
     resources :subscriptions,       only: [:index]

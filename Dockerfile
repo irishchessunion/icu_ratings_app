@@ -35,8 +35,8 @@ RUN apt-add-repository ppa:brightbox/ruby-ng
 RUN apt-get update && apt-get install -y \
     less \
     curl \
-    ruby2.4 \
-    ruby2.4-dev \
+    ruby2.6 \
+    ruby2.6-dev \
     build-essential \
     zlib1g-dev \
     libmysqlclient-dev \
@@ -61,6 +61,5 @@ RUN chmod +x /usr/bin/geckodriver
 # more often than the build dependencies
 ADD . /var/apps/ratings/
 
-# we need an older bundler than the default, for ruby 2.2.x
-RUN gem install bundler -v '1.17.3' --no-rdoc --no-ri
+RUN gem install bundler --no-document
 RUN bundle update
