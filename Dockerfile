@@ -61,5 +61,5 @@ RUN chmod +x /usr/bin/geckodriver
 # more often than the build dependencies
 ADD . /var/apps/ratings/
 
-RUN gem install bundler --no-document
+RUN gem install bundler:1.17.3 --no-document
 RUN bundle update

@@ -1,8 +1,8 @@
 source "http://rubygems.org"
 
-gem "rails", "=5.0.2"
+gem "rails", "=5.1.7"
 gem "sprockets", "~> 3.4"
-gem "mysql2", "~> 0.3.18"
+gem "mysql2"
 gem "icu_tournament", "~> 1.10.0"
 gem "icu_utils", "1.3.2"
 gem "icu_ratings"
@@ -16,7 +16,7 @@ gem "jquery-ui-rails"
 gem "rack-mini-profiler"
 gem "haml-rails"
 gem "sassc-rails", "~> 2.1.2"
-gem "coffee-rails", "~> 4.1.0"
+gem "coffee-rails", "~> 4.2.0"
 gem "therubyracer", platforms: :ruby
 gem "uglifier"
 gem "jbuilder"
@@ -24,7 +24,7 @@ gem "mime-types", "~> 2.99.3"
 gem "public_suffix", "~> 1.5.3"
 gem "parallel", "=1.10.0" # parallels 1.20.0 depends on Ruby 2.5
 
-gem "nio4r", "~> 1.2" # latest version needs ruby 2.4, try this instead
+gem "nio4r"
 
 group :development do
   gem "capistrano-rails", "~> 1.1"
