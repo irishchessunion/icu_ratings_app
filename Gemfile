@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-gem "rails", "=5.1.7"
+gem "rails", "=5.2.6"
 gem "sprockets", "~> 3.4" # sprockets 4.x needs more changes: https://stackoverflow.com/questions/58339607
 gem "mysql2"
 gem "icu_tournament", ">= 1.10.0"
