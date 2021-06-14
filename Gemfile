@@ -35,14 +35,13 @@ end
 
 group :test, :development do
   gem "rspec-rails"
-  gem "capybara", "=3.15.1" # latest version that works with Ruby 2.3
+  gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
-  gem "launchy", "=2.4.3" # latest version that works with Ruby 2.3
+  gem "launchy"
   gem "factory_bot_rails"
-  gem "faker", "=2.2.1" # latest version that works with i18n 0.x
+  gem "faker"
   gem "database_cleaner"
-  gem "rubocop-rspec", "1.38.1" # latest version that works with Ruby 2.3
-  gem "rubocop", "=0.81.0" # latest version that works with Ruby 2.3
-  #gem "byebug"
+  gem "rubocop-rspec"
+  gem "rubocop"
 end
