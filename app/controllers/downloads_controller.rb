@@ -32,7 +32,7 @@ class DownloadsController < ApplicationController
   def update
     if params[:commit] == "Cancel"
       redirect_to downloads_path
-    elsif @download.update_attributes(download_params)
+    elsif @download.update(download_params)
       redirect_to downloads_path, notice: "Download was successfully updated."
     else
       render action: "edit"

@@ -71,7 +71,7 @@ class Result < ApplicationRecord
     attrs[:rateable]    = attrs[:opponent_id] ? attrs[:rateable] == "true" : false
 
     old_opponent = opponent
-    return false unless update_attributes(attrs)
+    return false unless update(attrs)
     new_opponent = opponent(true)
 
     begin
@@ -83,7 +83,7 @@ class Result < ApplicationRecord
         new_attrs[:opponent_id] = player.id
         new_result = new_opponent.result_in_round(round)
         if new_result
-          new_result.update_attributes!(new_attrs)
+          new_result.update!(new_attrs)
         else
           new_attrs[:round] = round
           new_opponent.results.create!(new_attrs)
@@ -95,7 +95,7 @@ class Result < ApplicationRecord
         old_attrs[:rateable]    = false
         old_attrs[:opponent_id] = nil
         old_result = old_opponent.result_in_round(round)
-        old_result.update_attributes!(old_attrs)
+        old_result.update!(old_attrs)
       end
     rescue => ex
       logger.error "#{ex.class}: #{ex.message}"

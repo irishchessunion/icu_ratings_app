@@ -69,16 +69,16 @@ module Admin
         @data = Tournaments::FideData.new(@tournament, true)
         render view(:update, :fide)
       when params[:tournament][:tie_breaks]
-        @tournament.update_attributes(params[:tournament])
+        @tournament.update(params[:tournament])
         render view(:update, :tie_breaks)
       when params[:tournament][:notes]
-        @tournament.update_attributes(params[:tournament])
+        @tournament.update(params[:tournament])
         render view(:update, :notes)
       when params[:tournament][:stage]
         @tournament.move_stage(params[:tournament][:stage], current_user)
         render view(:update)
       else
-        @tournament.update_attributes(params[:tournament])
+        @tournament.update(params[:tournament])
         render view(:update)
       end
     end

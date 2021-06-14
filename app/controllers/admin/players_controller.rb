@@ -22,7 +22,7 @@ module Admin
       @player = Player.find(params[:id])
       @tournament = @player.tournament
       update_from_id(params) unless params[:player]
-      @player.update_attributes(player_params)
+      @player.update(player_params)
     end
 
     def destroy

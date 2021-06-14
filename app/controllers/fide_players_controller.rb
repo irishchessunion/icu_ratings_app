@@ -17,9 +17,9 @@ class FidePlayersController < ApplicationController
   def update
     icu_id = params[:icu_id].to_i
     if icu_id > 0
-      @fide_player.update_attributes(icu_id: icu_id) if @fide_player.icu_mismatches(icu_id) == 0
+      @fide_player.update(icu_id: icu_id) if @fide_player.icu_mismatches(icu_id) == 0
     elsif params[:icu_id] == "nil"
-      @fide_player.update_attributes(icu_id: nil)
+      @fide_player.update(icu_id: nil)
     end
   end
 end

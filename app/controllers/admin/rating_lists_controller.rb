@@ -19,7 +19,7 @@ module Admin
 
     def update
       @rating_list = RatingList.find(params[:id])
-      @rating_list.update_attributes(rating_list_params)
+      @rating_list.update(rating_list_params)
     end
     
     private

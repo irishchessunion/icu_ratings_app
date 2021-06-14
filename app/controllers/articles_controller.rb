@@ -36,7 +36,7 @@ class ArticlesController < ApplicationController
   def update
     if params[:commit] == "Cancel"
       redirect_to @article
-    elsif @article.update_attributes(article_params)
+    elsif @article.update(article_params)
       redirect_to @article, notice: "Article was successfully updated."
     else
       render action: "edit"

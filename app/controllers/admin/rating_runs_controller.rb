@@ -29,7 +29,7 @@ module Admin
 
     def update
       @rating_run = RatingRun.find(params[:id])
-      @rating_run.update_attributes(rating_run_params(:reason))
+      @rating_run.update(rating_run_params(:reason))
     end
 
     def destroy
