@@ -55,10 +55,10 @@ class Result < ApplicationRecord
     case type
     when :gain
       match = match.where("results.rating_change > 0")
-      match = match.order("round(results.rating_change) DESC, tournaments.rorder DESC, results.round ASC")
+      match = match.order(Arel.sql("round(results.rating_change) DESC, tournaments.rorder DESC, results.round ASC"))
     when :loss
       match = match.where("results.rating_change < 0")
-      match = match.order("round(results.rating_change) ASC, tournaments.rorder DESC, results.round ASC")
+      match = match.order(Arel.sql("round(results.rating_change) ASC, tournaments.rorder DESC, results.round ASC"))
     end
     match.limit(limit)
   end
