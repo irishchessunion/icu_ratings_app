@@ -11,7 +11,7 @@
 #  updated_at :datetime
 #
 
-class FideRating < ActiveRecord::Base
+class FideRating < ApplicationRecord
   extend ICU::Util::Pagination
 
   belongs_to :fide_player, foreign_key: "fide_id"

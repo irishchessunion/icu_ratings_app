@@ -8,7 +8,7 @@
 #  player_count :integer(2)
 #
 
-class OldTournament < ActiveRecord::Base
+class OldTournament < ApplicationRecord
   extend ICU::Util::Pagination
 
   has_many :old_rating_histories

@@ -14,7 +14,7 @@
 #  created_at      :datetime
 #
 
-class Publication < ActiveRecord::Base
+class Publication < ApplicationRecord
   belongs_to :rating_list
   belongs_to :last_tournament, class_name: "Tournament"
 

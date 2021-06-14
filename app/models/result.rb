@@ -15,7 +15,7 @@
 #  updated_at     :datetime
 #
 
-class Result < ActiveRecord::Base
+class Result < ApplicationRecord
   belongs_to :player
   belongs_to :opponent, class_name: "Player"
 

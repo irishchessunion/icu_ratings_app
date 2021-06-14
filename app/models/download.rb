@@ -12,7 +12,7 @@
 #  rating_list_id :integer
 #
 
-class Download < ActiveRecord::Base
+class Download < ApplicationRecord
   extend ICU::Util::Pagination
   include ICU::Util::Model
 

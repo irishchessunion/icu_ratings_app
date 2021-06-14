@@ -11,7 +11,7 @@
 #  original_full   :boolean(2)
 #
 
-class IcuRating < ActiveRecord::Base
+class IcuRating < ApplicationRecord
   extend ICU::Util::Pagination
   include Hightide
 

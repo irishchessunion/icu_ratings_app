@@ -16,7 +16,7 @@
 #  expected_score     :decimal(8, 6)
 #
 
-class OldRatingHistory < ActiveRecord::Base
+class OldRatingHistory < ApplicationRecord
   extend ICU::Util::Pagination
 
   belongs_to :old_tournament

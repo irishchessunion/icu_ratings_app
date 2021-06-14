@@ -9,7 +9,7 @@
 #  full   :boolean(1)      default(FALSE)
 #
 
-class OldRating < ActiveRecord::Base
+class OldRating < ApplicationRecord
   extend ICU::Util::Pagination
 
   belongs_to :icu_player, foreign_key: "icu_id"

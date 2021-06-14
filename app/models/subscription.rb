@@ -10,7 +10,7 @@
 # datetime "updated_at",  :null => false
 #
 
-class Subscription < ActiveRecord::Base
+class Subscription < ApplicationRecord
   extend ICU::Util::Pagination
   CATEGORY = %w(online offline lifetime)
   LAST_MONTH_IN_SEASON = 8 # August

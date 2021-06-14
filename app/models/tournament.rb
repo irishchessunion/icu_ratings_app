@@ -41,7 +41,7 @@
 
 require "icu/error"
 
-class Tournament < ActiveRecord::Base
+class Tournament < ApplicationRecord
   extend ICU::Util::Pagination
 
   FEDS = ICU::Federation.codes

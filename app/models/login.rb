@@ -10,7 +10,7 @@
 #  created_at :datetime
 #
 
-class Login < ActiveRecord::Base
+class Login < ApplicationRecord
   extend ICU::Util::Pagination
   PROBLEMS = %w[none password expiry status]
 

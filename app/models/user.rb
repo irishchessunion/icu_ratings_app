@@ -17,7 +17,7 @@
 #  updated_at      :datetime
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   extend ICU::Util::Pagination
 
   belongs_to :icu_player, foreign_key: "icu_id"

@@ -14,7 +14,7 @@
 #  created_at    :datetime
 #
 
-class Upload < ActiveRecord::Base
+class Upload < ApplicationRecord
   extend ICU::Util::Pagination
   include ICU::Util::Model
 

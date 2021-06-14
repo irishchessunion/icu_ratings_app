@@ -15,7 +15,7 @@
 #  updated_at :datetime
 #
 
-class FidePlayer < ActiveRecord::Base
+class FidePlayer < ApplicationRecord
   extend ICU::Util::Pagination
   extend ICU::Util::AlternativeNames
 

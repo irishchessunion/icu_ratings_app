@@ -21,7 +21,7 @@
 #  updated_at    :datetime
 #
 
-class IcuPlayer < ActiveRecord::Base
+class IcuPlayer < ApplicationRecord
   extend ICU::Util::Pagination
   extend ICU::Util::AlternativeNames
 

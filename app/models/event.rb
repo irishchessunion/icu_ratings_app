@@ -10,7 +10,7 @@
 #  created_at :datetime
 #
 
-class Event < ActiveRecord::Base
+class Event < ApplicationRecord
   extend ICU::Util::Pagination
 
   default_scope -> { order(created_at: :desc) }

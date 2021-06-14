@@ -49,7 +49,7 @@
 
 require "icu/error"
 
-class Player < ActiveRecord::Base
+class Player < ApplicationRecord
   extend ICU::Util::Pagination
 
   FEDS = ICU::Federation.codes

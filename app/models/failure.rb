@@ -8,7 +8,7 @@
 #  created_at :datetime
 #
 
-class Failure < ActiveRecord::Base
+class Failure < ApplicationRecord
   extend ICU::Util::Pagination
 
   IGNORE = %w[ActiveRecord::RecordNotFound ActionController::UnknownFormat ActionController::InvalidCrossOriginRequest]

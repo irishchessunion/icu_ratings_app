@@ -12,7 +12,7 @@
 # datetime "updated_at",  :null => false
 #
 
-class Fee < ActiveRecord::Base
+class Fee < ApplicationRecord
   extend ICU::Util::Pagination
 
   belongs_to :icu_player, foreign_key: "icu_id"

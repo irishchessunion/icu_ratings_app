@@ -10,7 +10,7 @@
 # datetime "created_at"
 #
 
-class FidePlayerFile < ActiveRecord::Base
+class FidePlayerFile < ApplicationRecord
   extend ICU::Util::Pagination
   FPFError = Class.new(StandardError)
 

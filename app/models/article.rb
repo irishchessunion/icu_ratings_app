@@ -11,7 +11,7 @@
 #  updated_at :datetime
 #
 
-class Article < ActiveRecord::Base
+class Article < ApplicationRecord
   extend ICU::Util::Pagination
 
   belongs_to :user

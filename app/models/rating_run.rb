@@ -17,7 +17,7 @@
 #  updated_at              :datetime        not null
 #
 
-class RatingRun < ActiveRecord::Base
+class RatingRun < ApplicationRecord
   extend ICU::Util::Pagination
 
   STATUS = %w[waiting processing error finished]

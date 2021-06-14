@@ -11,7 +11,7 @@
 #  games           :integer(2)
 #
 
-class LiveRating < ActiveRecord::Base
+class LiveRating < ApplicationRecord
   extend ICU::Util::Pagination
   include Hightide
 

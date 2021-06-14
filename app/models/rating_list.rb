@@ -10,7 +10,7 @@
 #  updated_at            :datetime
 #
 
-class RatingList < ActiveRecord::Base
+class RatingList < ApplicationRecord
   extend ICU::Util::Pagination
 
   has_many :publications, dependent: :destroy
