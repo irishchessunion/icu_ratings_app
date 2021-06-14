@@ -65,7 +65,10 @@ module ICU
       private
 
       def adjacent_page(up)
-        path + "?" + params.to_h.merge(page: page + (up ? 1 : -1), results: nil).to_query
+        par = params.dup
+        par.permit!
+        par_hash = par.to_h.merge(page: page + (up ? 1 : -1), result: nil)
+        path + "?" + par_hash.to_query
       end
     end
   end
