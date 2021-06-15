@@ -153,9 +153,9 @@ class FidePlayerFile < ApplicationRecord
     # Collect the snippets gathered into the full description.
     self.description = desc.join("\n")
   rescue FPFError => e
-    errors[:base] << e.message
+    errors[:base].add e.message
   rescue => e
-    errors[:base] << e.message
-    errors[:base] << e.backtrace[0]
+    errors[:base].add e.message
+    errors[:base].add e.backtrace[0]
   end
 end
