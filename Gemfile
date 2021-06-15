@@ -1,3 +1,5 @@
+source "http://rubygems.org"
+
 gem "rails", "=6.0.3.7"
 gem "sprockets", "~> 3.4" # sprockets 4.x needs more changes: https://stackoverflow.com/questions/58339607
 gem "mysql2"
