@@ -1,5 +1,5 @@
 set :stage, :production
-server "ratings.icu.ie", user: "mjo", roles: %w{web app db}
+server "139.162.157.165", user: "dmurray", roles: %w{web app db}
 
 # Simple Role Syntax
 # ==================
