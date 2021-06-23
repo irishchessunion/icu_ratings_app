@@ -149,13 +149,12 @@ class FidePlayerFile < ApplicationRecord
       desc.push "### #{orla[category][1]}"
       items.each { |item| desc.push item }
     end
-    
+
     # Collect the snippets gathered into the full description.
     self.description = desc.join("\n")
   rescue FPFError => e
-    errors[:base].add e.message
+    errors.add(:base, message: e.message)
   rescue => e
-    errors[:base].add e.message
-    errors[:base].add e.backtrace[0]
+    errors.add(:base, message: e.message + " " + e.backtrace[0])
   end
 end
