@@ -65,6 +65,7 @@ GEM
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
     ast (2.4.2)
+    bcrypt_pbkdf (1.1.0)
     builder (3.2.4)
     cancancan (3.2.2)
     capistrano (3.16.0)
@@ -105,6 +106,7 @@ GEM
     dbf (2.0.13)
       fastercsv (~> 1.5)
     diff-lcs (1.4.4)
+    ed25519 (1.2.4)
     erubi (1.10.0)
     erubis (2.7.0)
     execjs (2.8.1)
@@ -303,11 +305,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt_pbkdf
   cancancan
   capistrano-rails (~> 1.1)
   capybara
   coffee-rails
   database_cleaner
+  ed25519
   factory_bot_rails
   faker
   haml-rails

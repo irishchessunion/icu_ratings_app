@@ -28,6 +28,8 @@ gem "nio4r"
 
 group :development do
   gem "capistrano-rails", "~> 1.1"
+  gem "ed25519"
+  gem "bcrypt_pbkdf"
   # Include capistrano-ssh-doctor to check for ssh errors running capistrano
   # gem 'capistrano-ssh-doctor', '~> 1.0'
   gem "wirble"
