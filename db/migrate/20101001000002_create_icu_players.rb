@@ -1,4 +1,4 @@
-class CreateIcuPlayers < ActiveRecord::Migration
+class CreateIcuPlayers < ActiveRecord::Migration[4.2]
   def change
     create_table :icu_players do |t|
       t.string   :first_name, :last_name, :email, :club, :address, :phone_numbers

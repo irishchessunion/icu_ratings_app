@@ -1,4 +1,4 @@
-class CreateOldTournaments < ActiveRecord::Migration
+class CreateOldTournaments < ActiveRecord::Migration[4.2]
   def up
     create_table :old_tournaments do |t|
       # Warning: column order should match CSV import file (see below).

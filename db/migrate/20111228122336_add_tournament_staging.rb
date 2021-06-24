@@ -1,4 +1,4 @@
-class AddTournamentStaging < ActiveRecord::Migration
+class AddTournamentStaging < ActiveRecord::Migration[4.2]
   def up
     change_table :tournaments do |t|
       t.change_default :stage, "initial"

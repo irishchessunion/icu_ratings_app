@@ -1,4 +1,4 @@
-class CreateRatingRun < ActiveRecord::Migration
+class CreateRatingRun < ActiveRecord::Migration[4.2]
   def change
     create_table :rating_runs do |t|
       t.integer  :user_id

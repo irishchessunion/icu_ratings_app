@@ -1,4 +1,4 @@
-class CreateFidePlayerFiles < ActiveRecord::Migration
+class CreateFidePlayerFiles < ActiveRecord::Migration[4.2]
   def change
     create_table :fide_player_files do |t|
       t.text     :description

@@ -1,4 +1,4 @@
-class RenameNewsItemToArticle < ActiveRecord::Migration
+class RenameNewsItemToArticle < ActiveRecord::Migration[4.2]
   def up
     remove_index :news_items, :user_id
     remove_index :news_items, :published

@@ -1,4 +1,4 @@
-class AddMoreOldRatings < ActiveRecord::Migration
+class AddMoreOldRatings < ActiveRecord::Migration[4.2]
   # The remaining old legacy rating records from the old archived players
   # ready for when any of these players are resurrected in the www database.
   RECORDS =

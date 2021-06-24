@@ -1,4 +1,4 @@
-class CreateFidePlayers < ActiveRecord::Migration
+class CreateFidePlayers < ActiveRecord::Migration[4.2]
   def change
     create_table :fide_players do |t|
       # Warning: column order is important because of the way syncing is implemented (lib/fide/download.rb).

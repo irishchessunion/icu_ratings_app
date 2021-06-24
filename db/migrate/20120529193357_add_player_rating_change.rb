@@ -1,4 +1,4 @@
-class AddPlayerRatingChange < ActiveRecord::Migration
+class AddPlayerRatingChange < ActiveRecord::Migration[4.2]
   def up
     add_column :players, :rating_change, :integer, limit: 2, default: 0
     add_index  :players, :rating_change

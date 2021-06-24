@@ -1,4 +1,4 @@
-class CreateIcuRatings < ActiveRecord::Migration
+class CreateIcuRatings < ActiveRecord::Migration[4.2]
   def up
     create_table :icu_ratings do |t|
       # Warning: column order should match CSV import file.

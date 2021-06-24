@@ -1,4 +1,4 @@
-class CreateOldRatings < ActiveRecord::Migration
+class CreateOldRatings < ActiveRecord::Migration[4.2]
   def up
     create_table :old_ratings do |t|
       # Warning: column order should match CSV import file (see below).

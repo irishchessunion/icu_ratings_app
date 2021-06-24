@@ -1,4 +1,4 @@
-class AddOldRatingsFromArchive < ActiveRecord::Migration
+class AddOldRatingsFromArchive < ActiveRecord::Migration[4.2]
   RECORDS =
   [
     {icu_id:   357, rating: 1631, games:  3, full: true},  # resurrected from former players

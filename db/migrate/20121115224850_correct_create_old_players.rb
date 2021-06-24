@@ -1,4 +1,4 @@
-class CorrectCreateOldPlayers < ActiveRecord::Migration
+class CorrectCreateOldPlayers < ActiveRecord::Migration[4.2]
   def up
     OldPlayer.where("note LIKE '%former%'").each do |p|
       new_note = p.note.dup

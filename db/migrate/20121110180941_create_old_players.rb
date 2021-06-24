@@ -1,4 +1,4 @@
-class CreateOldPlayers < ActiveRecord::Migration
+class CreateOldPlayers < ActiveRecord::Migration[4.2]
   def up
     create_table :old_players do |t|
       t.integer  :icu_id

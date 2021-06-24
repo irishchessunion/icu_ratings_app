@@ -1,4 +1,4 @@
-class UpdateRatingList < ActiveRecord::Migration
+class UpdateRatingList < ActiveRecord::Migration[4.2]
   def up
     rename_column :rating_lists, :cut_off, :tournament_cut_off
     add_column :rating_lists, :payment_cut_off, :date

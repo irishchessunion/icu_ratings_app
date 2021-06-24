@@ -1,4 +1,4 @@
-class CreateFideRatings < ActiveRecord::Migration
+class CreateFideRatings < ActiveRecord::Migration[4.2]
   def change
     create_table :fide_ratings do |t|
       t.integer  :fide_player_id

@@ -1,4 +1,4 @@
-class RenameFidePlayerId < ActiveRecord::Migration
+class RenameFidePlayerId < ActiveRecord::Migration[4.2]
   def up
     remove_index :fide_ratings, column: :fide_player_id
     rename_column :fide_ratings, :fide_player_id, :fide_id

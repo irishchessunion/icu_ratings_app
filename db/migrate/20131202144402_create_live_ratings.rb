@@ -1,4 +1,4 @@
-class CreateLiveRatings < ActiveRecord::Migration
+class CreateLiveRatings < ActiveRecord::Migration[4.2]
   def up
     create_table :live_ratings do |t|
       t.integer  :icu_id

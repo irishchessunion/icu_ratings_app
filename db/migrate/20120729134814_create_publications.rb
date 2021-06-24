@@ -1,4 +1,4 @@
-class CreatePublications < ActiveRecord::Migration
+class CreatePublications < ActiveRecord::Migration[4.2]
   def up
     create_table :publications do |t|
       t.integer  :rating_list_id, :last_tournament_id

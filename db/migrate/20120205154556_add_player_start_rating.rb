@@ -1,4 +1,4 @@
-class AddPlayerStartRating < ActiveRecord::Migration
+class AddPlayerStartRating < ActiveRecord::Migration[4.2]
   def up
     change_table :tournaments do |t|
       t.integer  :reratings, limit: 2, default: 0
