@@ -3,7 +3,7 @@ source "http://rubygems.org"
 gem "rails", "=6.1.3.2"
 gem "sprockets", "~> 3.4" # sprockets 4.x needs more changes: https://stackoverflow.com/questions/58339607
 gem "mysql2"
-gem "icu_tournament", ">= 1.10.0"
+gem "icu_tournament", ">= 1.11.0"
 gem "icu_utils", ">= 1.3.2"
 gem "icu_ratings"
 gem "icu_name", ">= 1.2.5"
