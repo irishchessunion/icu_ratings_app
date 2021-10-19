@@ -1,7 +1,7 @@
 set :application, "icu_ratings_app"
 
 set :repo_url, "https://github.com/dbtmurray/icu_ratings_app.git"
-set :branch, "rails-upgrade"
+set :branch, "master"
 
 set :deploy_to, "/var/apps/ratings"
 
