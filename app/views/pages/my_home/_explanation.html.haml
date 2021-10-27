@@ -21,8 +21,8 @@
         - when !@my_home.published_icu_ratings? && @my_home.recent_ratings?
           %p
             We do not appear to have any records of previous published ratings for you but your
-            rating will be published in the next rating list. Ratings are published in September,
-            January and May.
+            rating will be published in the next rating list. Ratings are published at the start
+            of each month.
         - when @my_home.published_icu_ratings? && !@my_home.recent_ratings?
           %p
             Normally we would display details of your latest, best and worst tournaments here and also
