@@ -17,7 +17,7 @@ module Admin
           @tournament.check_for_changes
           extras
         end
-        format.text { render text: @tournament.export(params) }
+        format.text { render plain: @tournament.export(params) }
         format.js do
           case
           when params[:notes] then render view(:show, :notes)

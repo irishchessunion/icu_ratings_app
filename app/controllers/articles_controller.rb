@@ -11,7 +11,7 @@ class ArticlesController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.text { render text: @article.story }
+      format.text { render plain: @article.story }
     end
   end
 
