@@ -13,11 +13,25 @@
 #       - in secrets.yml, change Hasher to "Digest::MD5.hexdigest(Digest::MD5.hexdigest(salt[0,15] + pass + salt[17,15]))"
 # - docker build -t ratingstest . # build the docker image, based on this file.
 # This takes a long time the first time you do it, but shorter thereafter as it does some caching.
+#
+# To get a shell and run tests
+# ============================
+#
 # - docker run -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /run/mysqld/mysqld.sock:/tmp/mysqld.sock -it ratingstest bash
 
 # this gives you a bash shell in your docker image, with mysql and X11 forwarded to sockets on your host machine
 # - rspec spec/features/failures_spec.rb # run a tiny section of the test suite (4 tests) that exercises the important moving parts (firefox and mysql)
 # - if that works, rspec spec/ # run all the tests, takes me 10-15 min
+#
+#
+# To run the server so you can connect to it in a web browser
+# ===========================================================
+#
+# docker run -d -p 3333:3000 --expose 3000 -v /tmp/.X11-unix:/tmp/.X11-unix -v /run/mysqld/mysqld.sock:/tmp/mysqld.sock -it ratingstest rails s -b 0.0.0.0
+# Now the app is reachable on localhost:3333 in a web browser
+# The container is daemonized. To stop it, take a note of its ID either from the output of that command
+# or by running "docker container ls", then run "docker stop (ID)"
+
 
 
 # 16.04 is the latest version where Brightbox supports Ruby 2.2
