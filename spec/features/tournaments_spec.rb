@@ -223,6 +223,17 @@ describe "Tournament" do
       login("officer")
       visit tpath
       expect(page).to have_selector(:xpath, "//a[@href='#{tpath}/edit?reporter=' and @data-remote='true']")
+      expect(page).to have_selector(:xpath, "//a[contains(@href,'edit.js?fide=') and @data-remote='true']")
+      # Would like to add a test that we can get the FIDE update dialog,
+      # but having trouble with XHR requests in Capybara
+      # This raises a CORS error:
+      # find(:link, href: /edit.js\?fide=/).click # CORS error
+      # And this is meant to be the way to do it but
+      # "no method named get" - possibly something messed up
+      # during the Rails upgrades, not including the right files
+      # now in spec_helper or rails_helper
+      # get("/admin/tournaments/#{t.id}/edit.js?fide=", xhr: true)
+      # expect(page).to have_selector("h3", text: /Current Status/)
     end
   end
 
