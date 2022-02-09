@@ -149,8 +149,9 @@ sub get_dbh
     die "no $env environment in $cnf" unless 'HASH' eq ref $db;
     my $dbn  = $db->{database} || die "no database for $env environment in $cnf";
     my $user = $db->{username} || die "no username for $env environment in $cnf";
+    my $dbhost = $db->{host} || die "no host for $env environment in $cnf";
     my $pass = $db->{password};
-    my $dsn = "DBI:mysql:$dbn";
+    my $dsn = "DBI:mysql:database=$dbn;host=$dbhost";
     my $dbh = eval { DBI->connect($dsn, $user, $pass, { RaiseError => 1 }) };
     die sprintf("could not connect to %s: %s\n", $dbn, $@ || 'no reason') if $@ || !$dbh;
     $dbh;
