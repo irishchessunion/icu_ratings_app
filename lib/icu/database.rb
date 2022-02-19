@@ -775,7 +775,7 @@ module ICU
         IcuRating.where(list: list).each do |rating|
           error = push.update_player_rating(rating.icu_id, rating.rating)
           if error
-            puts "sync_players_rating error for rating player #{rating.icu_id} #{icu_rating.rating}: #{error}"
+            puts "sync_players_rating error for rating player #{rating.icu_id} #{rating.rating}: #{error}"
             success = false
           else
             ratings_updated += 1
