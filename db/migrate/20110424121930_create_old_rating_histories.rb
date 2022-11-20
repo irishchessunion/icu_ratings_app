@@ -11,7 +11,7 @@ class CreateOldRatingHistories < ActiveRecord::Migration[4.2]
     end
 
     # This is fast, despite the large amount of data, but it needs the column order to match and the DB user to have FILE privilege.
-    execute "load data infile '#{Rails.root}/db/data/old_rating_histories.csv' into table old_rating_histories fields terminated by ','"
+    execute "load data local infile '#{Rails.root}/db/data/old_rating_histories.csv' into table old_rating_histories fields terminated by ','"
 
     add_index :old_rating_histories, :old_tournament_id
     add_index :old_rating_histories, :icu_player_id

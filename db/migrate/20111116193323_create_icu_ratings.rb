@@ -9,7 +9,7 @@ class CreateIcuRatings < ActiveRecord::Migration[4.2]
     end
 
     # This is fast but it needs the column order to match and the DB user to have FILE privilege.
-    execute "load data infile '#{Rails.root}/db/data/icu_ratings.csv' into table icu_ratings fields terminated by ','"
+    execute "load data local infile '#{Rails.root}/db/data/icu_ratings.csv' into table icu_ratings fields terminated by ','"
 
     add_index :icu_ratings, :icu_id
     add_index :icu_ratings, :list

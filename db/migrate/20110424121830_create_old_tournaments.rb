@@ -8,7 +8,7 @@ class CreateOldTournaments < ActiveRecord::Migration[4.2]
     end
 
     # This is fast, despite the moderate amount of data, but it needs the column order to match and the DB user to have FILE privilege.
-    execute "load data infile '#{Rails.root}/db/data/old_tournaments.csv' into table old_tournaments fields terminated by ','"
+    execute "load data local infile '#{Rails.root}/db/data/old_tournaments.csv' into table old_tournaments fields terminated by ','"
   end
 
   def down
