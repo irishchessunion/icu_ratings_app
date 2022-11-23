@@ -20,7 +20,7 @@ Ratings::Application.routes.draw do
   resources :live_ratings, only: [:index]
   resources :players,      only: [:show]
   resources :sessions,     only: [:create]
-  resources :tournaments,  only: [:index, :show]
+  resources :tournaments,  only: [:new, :create, :index, :show]
 
   namespace "admin" do
     resources :events,              only: [:index, :show, :destroy]

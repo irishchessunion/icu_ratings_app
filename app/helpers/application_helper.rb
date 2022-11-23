@@ -133,8 +133,10 @@ module ApplicationHelper
     menu
   end
 
-  def result_menu
-    %w[Draw Win Loss].map{ |r| [r, r[0]] }
+  def result_menu(unknown=nil)
+    menu = %w[Draw Win Loss].map{ |r| [r, r[0]] }
+    menu.unshift([unknown, ""]) if unknown
+    menu
   end
 
   def reporter_menu

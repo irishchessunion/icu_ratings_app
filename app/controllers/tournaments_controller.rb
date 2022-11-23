@@ -1,4 +1,7 @@
 class TournamentsController < ApplicationController
+  def new
+  end
+
   def index
     params[:admin] = false
     @tournaments = Tournament.search(params, tournaments_path)
