@@ -8,10 +8,10 @@
       %th= text_field_tag :name, nil, size: 20
     %tr
       %th= label :start_date, "Start date YYYY-MM-DD"
-      %th= text_field_tag :name, nil, size: 20
+      %th= text_field_tag :start_date, nil, size: 10
     %tr
       %th= label :end_date, "End date YYYY-MM-DD"
-      %th= text_field_tag :end_date, nil, size: 20
+      %th= text_field_tag :end_date, nil, size: 10
     %tr
       %th= label :url, "Website"
       %th= text_field_tag :url, nil, size: 20
@@ -38,18 +38,18 @@
       %th= label_tag :r1_colour, "Round 1"
       %th= select_tag :r1_colour, options_for_select(colour_menu("Unknown"))
       %th= select_tag :r1_result, options_for_select(result_menu("Unknown"))
-      %th= text_field_tag :r1_last_name, "", size: 12
-      %th= text_field_tag :r1_first_name
-      %th= text_field_tag :r1_fide_elo
+      %th= text_field_tag :r1_last_name, "", size: 14
+      %th= text_field_tag :r1_first_name, "", size: 14
+      %th= text_field_tag :r1_fide_elo, "", size: 6
       %th= select_tag :r1_fide_title, options_for_select(title_menu("None"))
       %th= select_tag :r1_country, options_for_select(federation_menu())
     %tr
       %th= label_tag :r2_colour, "Round 2"
       %th= select_tag :r2_colour, options_for_select(colour_menu("Unknown"))
       %th= select_tag :r2_result, options_for_select(result_menu("Unknown"))
-      %th= text_field_tag :r2_last_name, "", size: 12
-      %th= text_field_tag :r2_first_name
-      %th= text_field_tag :r2_fide_elo
+      %th= text_field_tag :r2_last_name, "", size: 14
+      %th= text_field_tag :r2_first_name, "", size: 14
+      %th= text_field_tag :r2_fide_elo, "", size: 6
       %th= select_tag :r2_fide_title, options_for_select(title_menu("None"))
       %th= select_tag :r2_country, options_for_select(federation_menu())
     %tr
