@@ -79,6 +79,16 @@ class IcuPlayer < ApplicationRecord
     at.year - dob.year - ((at.month > dob.month || (at.month == dob.month && at.day >= dob.day)) ? 0 : 1)
   end
 
+  def fide_rating
+    return nil unless fide_player
+    fide_player.rating
+  end
+
+  def fide_id
+    return nil unless fide_player
+    fide_player.id
+  end
+
   def self.search(params, path)
     matches = unscoped
     matches = matches.where(master_id: nil) unless params[:include_duplicates]
