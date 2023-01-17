@@ -179,7 +179,7 @@ module ICU
               hash
             end
             icu_id = users[id][:icu_id]
-            email = users[id][:email].strip
+            email = users[id][:email]
             unless icu_id && @our_players[icu_id]
               users.delete(id)
               @bad_icu_ids.push(icu_id || 0)
@@ -198,7 +198,7 @@ module ICU
         # In future we should aim to sync verified users only and introduce a 'bad' status for ratings users
         # (so www users who are temporarily banned - by having a non-OK status - are prevented from logging into ratings).
         def sql
-          "SELECT #{MAP.keys.join(', ')} FROM users WHERE status = 'OK' AND player_id IS NOT NULL AND expires_on IS NOT NULL"
+          "SELECT id, trim(email) as email, encrypted_password, salt, player_id, expires_on, verified_at FROM users WHERE status = 'OK' AND player_id IS NOT NULL AND expires_on IS NOT NULL"
         end
 
         def update_ours_from_theirs
