@@ -237,6 +237,29 @@ describe "Tournament" do
     end
   end
 
+  describe "self-reported foreign tournaments" do
+    before(:each) do
+      @user = login("reporter")
+    end
+
+    it "reporters can use the Report Foreign Tournament page" do
+      visit "tournaments/new"
+      expect(page).to have_selector(:link_or_button, "Submit")
+    end
+  end
+
+  describe "self-reported foreign tournaments" do
+    before(:each) do
+      @user = login("member")
+    end
+
+    it "members cannot use the Report Foreign Tournament page" do
+      visit "tournaments/new"
+      expect(page).to have_no_selector(:link_or_button, "Submit")
+    end
+  end
+
+
   describe "removing players" do
     before(:each) do
       file = "junior_championships_plus.tab"
@@ -344,7 +367,7 @@ describe "Tournament" do
       end
     end
 
-    describe "queing and unqueueing" do
+    describe "queuing and unqueueing" do
       before(:each) do
         tests = %w[bunratty_masters_2011.tab isle_of_man_2007.csv junior_championships_u19_2010.txt]
         load_icu_players_for(tests)

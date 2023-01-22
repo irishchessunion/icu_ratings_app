@@ -30,6 +30,7 @@ class Ability
     can :read, [FidePlayer, IcuPlayer, OldRatingHistory, OldTournament, OldRating]
     can :overview, Pages::Overview
     can :their_home, Pages::MyHome
+    can :create, [Tournament]
     can_if_unlocked(user.id)
 
     return unless user.role? :officer

@@ -1,4 +1,7 @@
 class TournamentsController < ApplicationController
+  load_resource only: ["new", "create", "index", "show"]
+  authorize_resource
+
   def new
   end
 
