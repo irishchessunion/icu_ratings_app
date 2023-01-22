@@ -1,0 +1,121 @@
+- content_for :head do
+  = javascript_include_tag "new_tournament"
+
+= form_tag tournaments_path, method: "post" do
+  %table
+    %tr
+      %th= label :name, "Tournament name"
+      %th= text_field_tag :name, nil, size: 20
+    %tr
+      %th= label :start_date, "Start date YYYY-MM-DD"
+      %th= text_field_tag :start_date, nil, size: 10
+    %tr
+      %th= label :end_date, "End date YYYY-MM-DD"
+      %th= text_field_tag :end_date, nil, size: 10
+    %tr
+      %th= label :url, "Website"
+      %th= text_field_tag :url, nil, size: 20
+    %tr
+      %th= label :icu_id, "ICU ID"
+      %th= text_field_tag :icu_id, nil, size: 6
+    %tr
+      %th= label :num_rounds, "Number of rounds"
+      %th= text_field_tag :num_rounds, nil, size: 4
+    %tr
+      %th= label :total_score, "Your score"
+      %th= text_field_tag :total_score, nil, size: 4
+  %table{class: "invisible"}
+    %tr
+      %th= label_tag :empty, ""
+      %th= label_tag :colour, "Colour"
+      %th= label_tag :result, "Result"
+      %th= label_tag :last_name, "Last name"
+      %th= label_tag :first_name, "First name"
+      %th= label_tag :fide_elo, "FIDE rating"
+      %th= label_tag :fide_title, "FIDE title"
+      %th= label_tag :fed, "FIDE country"
+    %tr
+      %th= label_tag :r1_colour, "Round 1"
+      %th= select_tag :r1_colour, options_for_select(colour_menu("Unknown"))
+      %th= select_tag :r1_result, options_for_select(result_menu("Unknown"))
+      %th= text_field_tag :r1_last_name, "", size: 14
+      %th= text_field_tag :r1_first_name, "", size: 14
+      %th= text_field_tag :r1_fide_elo, "", size: 6
+      %th= select_tag :r1_fide_title, options_for_select(title_menu("None"))
+      %th= select_tag :r1_fed, options_for_select(federation_menu())
+    %tr
+      %th= label_tag :r2_colour, "Round 2"
+      %th= select_tag :r2_colour, options_for_select(colour_menu("Unknown"))
+      %th= select_tag :r2_result, options_for_select(result_menu("Unknown"))
+      %th= text_field_tag :r2_last_name, "", size: 14
+      %th= text_field_tag :r2_first_name, "", size: 14
+      %th= text_field_tag :r2_fide_elo, "", size: 6
+      %th= select_tag :r2_fide_title, options_for_select(title_menu("None"))
+      %th= select_tag :r2_fed, options_for_select(federation_menu())
+    %tr
+      %th= label_tag :r3_colour, "Round 3"
+      %th= select_tag :r3_colour, options_for_select(colour_menu("Unknown"))
+      %th= select_tag :r3_result, options_for_select(result_menu("Unknown"))
+      %th= text_field_tag :r3_last_name, "", size: 14
+      %th= text_field_tag :r3_first_name, "", size: 14
+      %th= text_field_tag :r3_fide_elo, "", size: 6
+      %th= select_tag :r3_fide_title, options_for_select(title_menu("None"))
+      %th= select_tag :r3_fed, options_for_select(federation_menu())
+    %tr
+      %th= label_tag :r4_colour, "Round 4"
+      %th= select_tag :r4_colour, options_for_select(colour_menu("Unknown"))
+      %th= select_tag :r4_result, options_for_select(result_menu("Unknown"))
+      %th= text_field_tag :r4_last_name, "", size: 14
+      %th= text_field_tag :r4_first_name, "", size: 14
+      %th= text_field_tag :r4_fide_elo, "", size: 6
+      %th= select_tag :r4_fide_title, options_for_select(title_menu("None"))
+      %th= select_tag :r4_fed, options_for_select(federation_menu())
+    %tr
+      %th= label_tag :r5_colour, "Round 5"
+      %th= select_tag :r5_colour, options_for_select(colour_menu("Unknown"))
+      %th= select_tag :r5_result, options_for_select(result_menu("Unknown"))
+      %th= text_field_tag :r5_last_name, "", size: 14
+      %th= text_field_tag :r5_first_name, "", size: 14
+      %th= text_field_tag :r5_fide_elo, "", size: 6
+      %th= select_tag :r5_fide_title, options_for_select(title_menu("None"))
+      %th= select_tag :r5_fed, options_for_select(federation_menu())
+    %tr
+      %th= label_tag :r6_colour, "Round 6"
+      %th= select_tag :r6_colour, options_for_select(colour_menu("Unknown"))
+      %th= select_tag :r6_result, options_for_select(result_menu("Unknown"))
+      %th= text_field_tag :r6_last_name, "", size: 14
+      %th= text_field_tag :r6_first_name, "", size: 14
+      %th= text_field_tag :r6_fide_elo, "", size: 6
+      %th= select_tag :r6_fide_title, options_for_select(title_menu("None"))
+      %th= select_tag :r6_fed, options_for_select(federation_menu())
+    %tr
+      %th= label_tag :r7_colour, "Round 7"
+      %th= select_tag :r7_colour, options_for_select(colour_menu("Unknown"))
+      %th= select_tag :r7_result, options_for_select(result_menu("Unknown"))
+      %th= text_field_tag :r7_last_name, "", size: 14
+      %th= text_field_tag :r7_first_name, "", size: 14
+      %th= text_field_tag :r7_fide_elo, "", size: 6
+      %th= select_tag :r7_fide_title, options_for_select(title_menu("None"))
+      %th= select_tag :r7_fed, options_for_select(federation_menu())
+    %tr
+      %th= label_tag :r8_colour, "Round 8"
+      %th= select_tag :r8_colour, options_for_select(colour_menu("Unknown"))
+      %th= select_tag :r8_result, options_for_select(result_menu("Unknown"))
+      %th= text_field_tag :r8_last_name, "", size: 14
+      %th= text_field_tag :r8_first_name, "", size: 14
+      %th= text_field_tag :r8_fide_elo, "", size: 6
+      %th= select_tag :r8_fide_title, options_for_select(title_menu("None"))
+      %th= select_tag :r8_fed, options_for_select(federation_menu())
+    %tr
+      %th= label_tag :r9_colour, "Round 9"
+      %th= select_tag :r9_colour, options_for_select(colour_menu("Unknown"))
+      %th= select_tag :r9_result, options_for_select(result_menu("Unknown"))
+      %th= text_field_tag :r9_last_name, "", size: 14
+      %th= text_field_tag :r9_first_name, "", size: 14
+      %th= text_field_tag :r9_fide_elo, "", size: 6
+      %th= select_tag :r9_fide_title, options_for_select(title_menu("None"))
+      %th= select_tag :r9_fed, options_for_select(federation_menu())
+    %tr
+      %td= submit_tag "Submit"
+
+= render "shared/dialog", id: "search_icu_player", width: 1000, button: false
