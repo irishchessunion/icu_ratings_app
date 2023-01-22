@@ -1,11 +1,11 @@
 class TournamentsController < ApplicationController
-  load_resource only: ["new", "create", "index", "show"]
-  authorize_resource
 
   def new
+    authorize!(:create, Tournament)
   end
 
   def create
+    authorize!(:create, Tournament)
     tournament = Tournament.new(
       name: params["name"],
       original_name: params["name"],
