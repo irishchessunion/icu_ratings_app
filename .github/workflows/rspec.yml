@@ -31,5 +31,5 @@ jobs:
 
       - name: Run tests
         run: |
-          rspec spec/
+          bundler exec rspec spec/
 
