@@ -27,7 +27,7 @@ jobs:
 
       - name: prepare config
         run: |
-          cp config/database/secrets.yml.docker config/database/secrets.yml
+          cp config/database.yml.docker config/database.yml
 
       - name: Run tests
         run: |
