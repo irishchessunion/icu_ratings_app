@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  test:
+    stdin_open: true
+    tty: true
+    build: .
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      - WAIT_HOSTS=db:3306
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=5
+      - WAIT_HOST_CONNECT_TIMEOUT=10
+    command: sh -c "/wait && rspec spec/"
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'ratings_test'
+      MYSQL_USER: 'ratings'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DEBUG: false
+    command: --log_error_verbosity=2   # errors and warnings
