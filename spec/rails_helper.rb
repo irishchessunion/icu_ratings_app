@@ -18,13 +18,10 @@ end
 
 Capybara.server = :webrick
 
-# As of 2019 Chrome is throwing an error about an extension,
-# so we switched back to Firefox (the default for Capybara/Selenium)
-
-# Switch to using chrome as default browser in tests
-#Capybara.register_driver :selenium do |app|
-  #Capybara::Selenium::Driver.new(app, :browser => :chrome)
-#end
+Capybara.register_driver :selenium do |app|
+  options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
+  Capybara::Selenium::Driver.new app, browser: :firefox, options: options
+end
 
 # Don't in general allow pulling member data from www during testing (unless explicitly reset).
 User.pulls_disabled = true
