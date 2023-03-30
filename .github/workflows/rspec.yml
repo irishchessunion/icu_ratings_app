@@ -30,5 +30,6 @@ jobs:
           cp config/database/secrets.yml.docker config/database/secrets.yml
 
       - name: Run tests
-        run: | rspec spec/
+        run: |
+          rspec spec/
 
