@@ -10,11 +10,13 @@ jobs:
       db:
         image: mysql:5.7
         env:
+          MYSQL_HOST: 127.0.0.1
           MYSQL_DATABASE: 'ratings_test'
           MYSQL_USER: 'ratings'
           MYSQL_PASSWORD: 'password'
           MYSQL_ROOT_PASSWORD: 'password'
           MYSQL_DEBUG: false
+        ports: ['3306:3306']
     env:
       RAILS_ENV: test
     steps:
