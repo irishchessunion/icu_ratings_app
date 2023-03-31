@@ -156,7 +156,7 @@ module ApplicationHelper
   end
 
   def sub_season_menu(any=nil)
-    menu = Subscription.group(:season).map{ |s| s.season }.reject{ |s| s.blank? }.sort.reverse
+    menu = Subscription.distinct.pluck(:season).reject{ |s| s.blank? }.sort.reverse
     menu.push(Subscription.season) if menu.size == 0
     menu.map! { |s| [s, s] }
     menu.unshift([any, ""]) if any
