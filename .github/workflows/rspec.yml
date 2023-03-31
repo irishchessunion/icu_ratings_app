@@ -28,16 +28,18 @@ jobs:
           ruby-version: 2.7
           bundler-cache: true
 
+      - name: Prepare Firefox
+        uses: browser-actions/setup-firefox@latest
+
+      - name: Firefox version
+        run: firefox --version
+
+      - uses: browser-actions/setup-geckodriver@latest
+      - run: geckodriver --version
+
       - name: prepare config
         run: |
           cp config/database.github-actions.yml config/database.yml
-
-      - name: install dependencies
-        run: |
-          sudo apt-get install -y nodejs firefox
-          wget https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz
-          sudo tar -xzvf geckodriver-v0.32.0-linux64.tar.gz -C /usr/local/bin
-          sudo chmod +x /usr/local/bin/geckodriver
 
       - name: Run tests
         run: |
