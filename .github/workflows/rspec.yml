@@ -5,16 +5,19 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-22.04
+    timeout-minutes: 20
 
     services:
       db:
         image: mysql:5.7
         env:
+          MYSQL_HOST: 127.0.0.1
           MYSQL_DATABASE: 'ratings_test'
           MYSQL_USER: 'ratings'
           MYSQL_PASSWORD: 'password'
           MYSQL_ROOT_PASSWORD: 'password'
           MYSQL_DEBUG: false
+        ports: ['3306:3306']
     env:
       RAILS_ENV: test
     steps:
@@ -25,11 +28,21 @@ jobs:
           ruby-version: 2.7
           bundler-cache: true
 
+      - name: Prepare Firefox
+        uses: browser-actions/setup-firefox@latest
+
+      - name: Firefox version
+        run: firefox --version
+
+      - uses: browser-actions/setup-geckodriver@latest
+      - run: geckodriver --version
+
       - name: prepare config
         run: |
-          cp config/database/secrets.yml.docker config/database/secrets.yml
+          cp config/database.github-actions.yml config/database.yml
+          cp config/secrets.github-actions.yml config/secrets.yml
 
       - name: Run tests
         run: |
-          rspec spec/
+          bundler exec rspec spec/
 
