@@ -1,0 +1,11 @@
+test:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  host: db
+  database: ratings_test
+  pool: 5
+  username: ratings
+  password: password
+  strict: false
+

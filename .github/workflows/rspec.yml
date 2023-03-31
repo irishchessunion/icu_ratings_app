@@ -27,7 +27,7 @@ jobs:
 
       - name: prepare config
         run: |
-          cp config/database.yml.docker config/database.yml
+          cp config/database.github-actions.yml config/database.yml
 
       - name: Run tests
         run: |
