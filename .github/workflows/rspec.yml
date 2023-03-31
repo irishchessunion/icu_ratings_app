@@ -43,5 +43,5 @@ jobs:
 
       - name: Run tests
         run: |
-          bundler exec rspec spec/features/failures_spec.rb
+          bundler exec rspec spec/
 
