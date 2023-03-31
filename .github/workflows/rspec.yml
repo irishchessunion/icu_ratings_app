@@ -40,7 +40,7 @@ jobs:
       - name: prepare config
         run: |
           cp config/database.github-actions.yml config/database.yml
-          cp config/secrets.github-actions.yml secrets/database.yml
+          cp config/secrets.github-actions.yml config/secrets.yml
 
       - name: Run tests
         run: |
