@@ -28,7 +28,7 @@ class FidePlayer < ApplicationRecord
   validates :fed, format: { with: /\A[A-Z]{3}\z/ }
   validates :gender, format: { with: /\A(M|F)\z/ }
   validates :title, format: { with: /\AW?[GIFC]M\z/ }, allow_nil: true
-  validates :born, numericality: { only_integer: true, greater_than: 1899, less_than: 2010 }, allow_nil: true
+  validates :born, numericality: { only_integer: true, greater_than: 1915, less_than: 2020 }, allow_nil: true
   validates :icu_id, numericality: { only_integer: true, greater_than: 0 }, uniqueness: true, allow_nil: true
 
   def name(*args)
