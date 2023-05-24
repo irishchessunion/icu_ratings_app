@@ -55,19 +55,22 @@
         %li= link_to "Lists", admin_rating_lists_path
       - if can?(:read, RatingRun)
         %li= link_to "Runs", admin_rating_runs_path
-  - if can? :read, IcuPlayer
+  - if can? :read, FidePlayer
     %li
-      = link_to "Players", icu_players_path
-      %ul
-        - if can? :manage, Player
-          %li= link_to "New Players", admin_new_players_path
-        %li= link_to "FIDE Players", fide_players_path
-        - if can? :read, FidePlayerFile
-          %li
-            = link_to "FIDE Player Files", admin_fide_player_files_path
-            - if can? :create, FidePlayerFile
-              %ul
-                %li= link_to "New", new_admin_fide_player_file_path
+      - if can? :read, IcuPlayer
+        = link_to "Players", icu_players_path
+      - else
+        = link_to "FIDE Players", fide_players_path
+    %ul
+      - if can? :manage, Player
+        %li= link_to "New Players", admin_new_players_path
+      %li= link_to "FIDE Players", fide_players_path
+      - if can? :read, FidePlayerFile
+        %li
+          = link_to "FIDE Player Files", admin_fide_player_files_path
+          - if can? :create, FidePlayerFile
+            %ul
+              %li= link_to "New", new_admin_fide_player_file_path
   - if can? :read, Download
     %li
       = link_to "Admin", overview_path

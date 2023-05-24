@@ -36,7 +36,7 @@ describe "authorized links for" do
         "/fide_players"            => %w[admin officer reporter],
         "/fide_ratings"            => %w[admin officer reporter member guest],
         "/home"                    => %w[admin officer reporter member guest],
-        "/icu_players"             => %w[admin officer reporter],
+        "/icu_players"             => %w[admin officer],
         "/icu_ratings"             => %w[admin officer reporter member guest],
         "/icu_ratings/war"         => %w[admin officer reporter member],
         "/icu_ratings/juniors"     => %w[admin officer reporter member],
