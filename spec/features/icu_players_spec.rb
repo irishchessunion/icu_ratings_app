@@ -49,11 +49,9 @@ describe IcuPlayer do
         expect(page).to have_selector("div.blurb span", text: /if.*wrong.*please contact/i)
       end
 
-      it "can also access another user's details" do
+      it "cannot access another user's details" do
         visit icu_player_path(@member)
-        expect(page).to have_no_selector("div.blurb span", text: /logged in as/i)
-        expect(page).to have_selector(:xpath, "//tr[th[.='ID']]/td[.='#{@member.id}']")
-        expect(page).to have_no_selector("div.blurb span", text: /please contact/i)
+        expect(page).to have_selector("span.alert", text: /not authorized/i)
       end
     end
   end
