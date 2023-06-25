@@ -179,7 +179,7 @@ module ICU
               hash
             end
             icu_id = users[id][:icu_id]
-            email = users[id][:email].strip
+            email = users[id][:email]&.strip
             unless icu_id && @our_players[icu_id]
               users.delete(id)
               @bad_icu_ids.push(icu_id || 0)
