@@ -121,7 +121,7 @@ class RatingList < ApplicationRecord
         legacy += 1
       end
 
-      rating = 700 if rating && rating < 700
+      rating = 400 if rating && rating < 400
 
       current = @current[icu_id]
       case
