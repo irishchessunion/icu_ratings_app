@@ -99,4 +99,59 @@ describe Player do
     end
 
   end
+
+  context "get_last_ratings" do
+    before(:each) do
+      @bunratty = Tournament.new(
+        original_name: "Bunratty",
+        name: "Bunratty",
+        start: "2024-03-08",
+        finish: "2024-03-10",
+        rorder: 1,
+        rounds: 6,
+        user_id: 100,
+        stage: "rated")
+      @bunratty.save!
+
+      @malahide = Tournament.new(
+        original_name: "Malahide",
+        name: "Malahide",
+        start: "2024-05-04",
+        finish: "2024-05-06",
+        rorder: 2,
+        rounds: 6,
+        user_id: 100,
+        stage: "rated")
+      @malahide.save!
+
+      @david = Player.new(
+        first_name:  "David",
+        last_name:   "Murray",
+        original_name: "Murray, David",
+        icu_id:      4941,
+        new_rating:  2100,
+        num: 5,
+        tournament_id: @bunratty.id
+      )
+      @david.save!
+      @david2 = @david.dup
+      @david2.tournament_id = @malahide.id
+      @david2.new_rating = 2080
+      @david2.save!
+
+    end
+
+    it "before the adjustment, should get a player's rating" do
+      players = Player.get_last_ratings([4941], max_rorder = 1)
+      expect(players[4941].new_rating).to eq(2100)
+    end
+
+    it "after the adjustment, should get a player's rating" do
+      players = Player.get_last_ratings([4941])
+      expect(players[4941].new_rating).to eq(2080)
+    end
+  end
+
+
+
 end

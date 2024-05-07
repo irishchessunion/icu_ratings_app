@@ -198,10 +198,37 @@ class Player < ApplicationRecord
     match.last
   end
 
-  # Get multiple players from their last rated tournaments prior to a given rating order number.
+  # returns hash of icu_id : Player
+  def self.get_last_ratings(icu_ids, max_rorder=nil)
+    last_unadjusted = Tournament.where("finish < ? AND rorder IS NOT NULL", ICU::RatingAdjustment::ADJUSTMENT_DATE).ordered.first
+    cutoff_rorder = last_unadjusted.rorder
+    max_rorder = max_rorder || Tournament.maximum(:rorder)
+    if max_rorder <= cutoff_rorder
+      self.get_last_tournament_ratings(icu_ids, max_rorder=max_rorder)
+    else
+      # We need to combine rating list and tournament ratings.
+      # First, we get Player objects from before the cutoff date
+      ratings = self.get_last_tournament_ratings(icu_ids, max_rorder = cutoff_rorder)
+      published_ratings = IcuRating.where(list: ICU::RatingAdjustment::ADJUSTMENT_DATE, icu_id: icu_ids)
+      # Next, we update new_rating from the published list on the adjustment date
+      # Other fields like `full` and `games` need to stay the same
+      published_ratings.each do |pr|
+        ratings[pr.icu_id].new_rating = pr.rating if ratings.key?(pr.icu_id)
+      end
+      # Finally, we update with Player objects from after the cutoff date
+      after_ratings = self.get_last_tournament_ratings(icu_ids, max_order=nil, min_rorder = cutoff_rorder + 1)
+      after_ratings.each do |icu_id, player|
+        ratings[icu_id] = player
+      end
+      ratings
+    end
+  end
+
+
+  # Get multiple players from their last rated tournaments <= a given rating order number.
   # Return as a hash from icu_id number to Player instance. For more ideas on how to do this, see
   # http://stackoverflow.com/questions/121387/fetch-the-row-which-has-the-max-value-for-a-column.
-  def self.get_last_ratings(icu_ids, rorder=nil)
+  def self.get_last_tournament_ratings(icu_ids, max_rorder=nil, min_rorder=nil)
     hash = {}
     return hash if icu_ids.empty?
     sql = <<SQL
@@ -220,7 +247,7 @@ FROM
     WHERE
       p.icu_id IN (#{icu_ids.join(',')}) AND
       p.tournament_id = t.id AND
-      t.stage = "rated"_RORDER_
+      t.stage = "rated"_MIN_RORDER_ _MAX_RORDER_
     GROUP BY
       p.icu_id
   ) x
@@ -229,7 +256,8 @@ WHERE
   t.rorder = x.rorder AND
   p.icu_id = x.icu_id
 SQL
-    sql.sub!(/_RORDER_/, rorder ? " AND t.rorder < #{rorder}" : "")
+    sql.sub!(/_MIN_RORDER_/, min_rorder ? " AND t.rorder >= #{min_rorder}" : "")
+    sql.sub!(/_MAX_RORDER_/, max_rorder ? " AND t.rorder <= #{max_rorder}" : "")
     find_by_sql(sql).inject(hash){ |h, p| h[p.icu_id] = p; h }
   end
 

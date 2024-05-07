@@ -98,8 +98,8 @@ class RatingList < ApplicationRecord
   private
 
   def publish_list
-    subs = get_subscriptions
-    icu_ids = subs.keys
+
+    icu_ids = get_icu_ids_for_list
     rorder = get_last_tournament + 1
     tournament_ratings = get_tournament_ratings(rorder, icu_ids)
     legacy_ratings = get_legacy_ratings(icu_ids)
@@ -122,6 +122,7 @@ class RatingList < ApplicationRecord
       end
 
       rating = 400 if rating && rating < 400
+      rating = ICU::RatingAdjustment::maybe_adjust(rating, date)
 
       current = @current[icu_id]
       case
@@ -233,11 +234,14 @@ class RatingList < ApplicationRecord
     ratings.inject({}){ |h, r| h[r.icu_id] = r; h }
   end
 
+
+  # Returns hash of icu_id : Player
   def get_tournament_ratings(rorder, icu_ids)
+
     report_header "Getting latest player ratings from tournaments"
     t1 = Time.now
     report_item "started at:  #{t1.to_s(:tbm)}"
-    ratings = Player.get_last_ratings(icu_ids, rorder)
+    ratings = Player.get_last_ratings(icu_ids, max_rorder=rorder - 1)
     t2 = Time.now
     report_item "finished at: #{t2.to_s(:tbm)} (#{((t2 - t1) * 1000.0).round} ms)"
     report_item "matching subscriptions: #{ratings.size}"
@@ -251,6 +255,11 @@ class RatingList < ApplicationRecord
     report_item "total available: #{total}"
     report_item "matching subscriptions: #{ratings.size}"
     ratings
+  end
+
+  def get_icu_ids_for_list
+    return IcuPlayer.all.pluck(:id) if date == ICU::RatingAdjustment::ADJUSTMENT_DATE
+    get_subscriptions.keys
   end
 
   def get_subscriptions
