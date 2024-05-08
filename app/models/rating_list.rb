@@ -185,9 +185,9 @@ class RatingList < ApplicationRecord
       report_header "Change statistics"
       changes.keys.sort.each { |bucket| report_examples(changes[bucket], bucket) }
     end
-    
+
     if last_list?
-      t3 = Time.now      
+      t3 = Time.now
       report_header "Starting live rating recalculation at #{t1.to_s(:tbm)}"
       count = LiveRating.recalculate
       t4 = Time.now
@@ -241,7 +241,7 @@ class RatingList < ApplicationRecord
     report_header "Getting latest player ratings from tournaments"
     t1 = Time.now
     report_item "started at:  #{t1.to_s(:tbm)}"
-    ratings = Player.get_last_ratings(icu_ids, max_rorder=rorder - 1)
+    ratings = Player.get_last_ratings(icu_ids, max_rorder: rorder - 1, max_date: date)
     t2 = Time.now
     report_item "finished at: #{t2.to_s(:tbm)} (#{((t2 - t1) * 1000.0).round} ms)"
     report_item "matching subscriptions: #{ratings.size}"
@@ -258,7 +258,7 @@ class RatingList < ApplicationRecord
   end
 
   def get_icu_ids_for_list
-    return IcuPlayer.all.pluck(:id) if date == ICU::RatingAdjustment::ADJUSTMENT_DATE
+    return IcuPlayer.all.pluck(:id) if date == ICU::RatingAdjustment::date
     get_subscriptions.keys
   end
 

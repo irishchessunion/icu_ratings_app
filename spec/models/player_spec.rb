@@ -100,8 +100,23 @@ describe Player do
 
   end
 
-  context "get_last_ratings" do
+  context "#get_last_ratings" do
     before(:each) do
+      @david = IcuPlayer.new(
+        id: 4941,
+        first_name: "David",
+        last_name: "Murray",
+        deceased: false
+      )
+      @david.save!
+      @john = IcuPlayer.new(
+        id: 795,
+        first_name: "John",
+        last_name: "Loughran",
+        deceased: false
+      )
+      @john.save!
+
       @bunratty = Tournament.new(
         original_name: "Bunratty",
         name: "Bunratty",
@@ -124,7 +139,7 @@ describe Player do
         stage: "rated")
       @malahide.save!
 
-      @david = Player.new(
+      @david_bunratty = Player.new(
         first_name:  "David",
         last_name:   "Murray",
         original_name: "Murray, David",
@@ -133,22 +148,53 @@ describe Player do
         num: 5,
         tournament_id: @bunratty.id
       )
-      @david.save!
-      @david2 = @david.dup
-      @david2.tournament_id = @malahide.id
-      @david2.new_rating = 2080
-      @david2.save!
+      @david_bunratty.save!
+      @david_malahide = @david_bunratty.dup
+      @david_malahide.tournament_id = @malahide.id
+      @david_malahide.new_rating = 2080
+      @david_malahide.save!
 
+      @john_bunratty = Player.new(
+        first_name: "John",
+        last_name: "Loughran",
+        original_name: "Loughran, John",
+        icu_id: @john.id,
+        new_rating: 1400,
+        num: 6,
+        tournament_id: @bunratty.id
+      )
+      @john_bunratty.save!
+
+      @david_rating = IcuRating.new(
+        list: Date.new(2024, 4, 1),
+        icu_id: @david.id,
+        rating: 2100 # post-adjustment, though 2100 means no adjustment
+      )
+
+      @john_rating = IcuRating.new(
+        list: Date.new(2024, 4, 1),
+        icu_id: @john.id,
+        rating: 1760 # post-adjustment rating
+      )
+      @john_rating.save!
     end
 
     it "before the adjustment, should get a player's rating" do
-      players = Player.get_last_ratings([4941], max_rorder = 1)
+      players = Player.get_last_ratings([795, 4941], max_rorder: 1, max_date: Date.new(2024, 3, 30))
       expect(players[4941].new_rating).to eq(2100)
+      expect(players[795].new_rating).to eq(1400)
     end
 
-    it "after the adjustment, should get a player's rating" do
-      players = Player.get_last_ratings([4941])
+    it "after the adjustment, by rorder, should get a player's rating" do
+      players = Player.get_last_ratings([795, 4941], max_rorder: 2)
       expect(players[4941].new_rating).to eq(2080)
+      expect(players[795].new_rating).to eq(1760)
+    end
+
+    it "after the adjustment, by date, should get a player's rating" do
+      players = Player.get_last_ratings([795, 4941], max_rorder: 1, max_date: Date.new(2024, 4, 5))
+      expect(players[4941].new_rating).to eq(2100)
+      expect(players[795].new_rating).to eq(1760)
     end
   end
 
