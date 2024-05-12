@@ -3,10 +3,10 @@
 
 module ICU
   class RatingAdjustment
-    ADJUSTMENT_DATE = "2024-04-01"
+    ADJUSTMENT_DATE = ::Date.new(2024, 4, 1)
 
     def self.date
-      ::Date.parse(ADJUSTMENT_DATE)
+      ADJUSTMENT_DATE
     end
 
     def self.maybe_adjust(old, date)
