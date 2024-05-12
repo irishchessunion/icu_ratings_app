@@ -16,6 +16,7 @@ module ICU
 
     private
     def self.adjust(old)
+      return nil if old.nil?
       return old if old >= 2000
       (old + 0.6 * (2000 - old)).to_i
     end

@@ -64,6 +64,7 @@ describe RatingList do
       end
       @l1 = RatingList.find_by_date(Date.new(2012, 1, 1))
       @l2 = RatingList.find_by_date(Date.new(2012, 5, 1))
+      @l3 = RatingList.find_by_date(Date.new(2024, 4, 1)) # Adjusted ratings
     end
 
     it "should be setup OK" do
@@ -77,6 +78,8 @@ describe RatingList do
       expect(@l1.publications).to be_empty
       expect(@l2).to_not be_nil
       expect(@l2.publications).to be_empty
+      expect(@l3).to_not be_nil
+      expect(@l3.publications).to be_empty
     end
 
     it "should publish lists" do
@@ -274,6 +277,30 @@ describe RatingList do
       expect(rating.rating).to eq(player.new_rating)
       expect(rating.full).to eq(player.new_full)
       expect(rating.original_rating).to_not eq(player.new_rating)
+    end
+
+    it "should publish adjusted list for April 2024" do
+      pub_date = Date.new(2024, 4, 1)
+      pay_date = Date.new(2024, 4, 30)
+      msg = @l3.publish(pub_date)
+      expect(@l3.publications.size).to eq(1)
+      p = @l3.publications[0]
+
+      # Player who played in tournament 1 but didn't subscribe at all.
+      # Should still be published on April list
+      player = @t1.players.find_by_icu_id(5722)
+      expect(player).to_not be_nil
+      rating = IcuRating.find_by_list_and_icu_id(@l3.date, 5722)
+      expect(rating).to_not be_nil
+
+      # Player who played in tournament 1 with a rating < 2000 is adjusted
+      # Should have adjusted rating
+      player = @t1.players.find_by_icu_id(12664)
+      expect(player).to_not be_nil
+      rating = IcuRating.find_by_list_and_icu_id(@l3.date, 12664)
+      expect(rating).to_not be_nil
+      expect(rating.rating).to be > player.new_rating
+
     end
   end
 end
