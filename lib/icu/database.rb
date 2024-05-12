@@ -283,7 +283,7 @@ module ICU
         # This will happen once and they'll be replaced with the same fees from the new database.
         def remove_legacy_fees
           @legacy_deletes = Fee.where(category: "FTR").where("id < 400").delete_all
-
+        end
 
         def get_our_fees
           @our_fees = Fee.all.inject({}) { |h,f| h[f.id] = f; h }
