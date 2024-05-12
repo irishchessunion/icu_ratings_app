@@ -785,7 +785,7 @@ class Tournament < ApplicationRecord
   # Get the start ratings of all players.
   def get_old_ratings
     icu_ids = players.select{ |p| p.category == "icu_player" }.map(&:icu_id)
-    latest = Player.get_last_ratings(icu_ids, rorder)
+    latest = Player.get_last_ratings(icu_ids, max_rorder: rorder - 1, max_date: finish)
     legacy = OldRating.get_ratings(icu_ids)
     players.each { |p| p.get_old_rating(latest, legacy) }
   end
