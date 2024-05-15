@@ -215,16 +215,16 @@ class Player < ApplicationRecord
   # tournament was slightly before or slightly after the 2024-04-01 adjustment.
   def self.get_last_ratings(icu_ids, max_rorder: nil, max_date: nil)
     max_date ||= Date.new(2099, 12, 31)
-    last_unadjusted = Tournament.where("finish < ? AND rorder IS NOT NULL", ICU::RatingAdjustment::date).ordered.first
+    last_unadjusted = Tournament.where("finish < ? AND rorder IS NOT NULL", RatingAdjustment::date).ordered.first
     cutoff_rorder = last_unadjusted.rorder
     max_rorder = max_rorder || Tournament.maximum(:rorder)
-    if max_rorder < cutoff_rorder || (max_rorder == cutoff_rorder && max_date <= ICU::RatingAdjustment::date)
+    if max_rorder < cutoff_rorder || (max_rorder == cutoff_rorder && max_date <= RatingAdjustment::date)
       self.get_last_tournament_ratings(icu_ids, max_rorder: max_rorder)
     else
       # We need to combine rating list and tournament ratings.
       # First, we get Player objects from before the cutoff date
       ratings = self.get_last_tournament_ratings(icu_ids, max_rorder: cutoff_rorder)
-      published_ratings = IcuRating.where(list: ICU::RatingAdjustment::date, icu_id: icu_ids)
+      published_ratings = IcuRating.where(list: RatingAdjustment::date, icu_id: icu_ids)
       # Next, we update new_rating from the published list on the adjustment date
       # Other fields like `full` and `games` need to stay the same
       published_ratings.each do |pr|

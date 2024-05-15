@@ -122,7 +122,7 @@ class RatingList < ApplicationRecord
       end
 
       rating = 400 if rating && rating < 400
-      rating = ICU::RatingAdjustment::maybe_adjust(rating, date)
+      rating = RatingAdjustment::maybe_adjust(rating, date)
 
       current = @current[icu_id]
       case
@@ -258,7 +258,7 @@ class RatingList < ApplicationRecord
   end
 
   def get_icu_ids_for_list
-    return IcuPlayer.all.pluck(:id) if date == ICU::RatingAdjustment::date
+    return IcuPlayer.all.pluck(:id) if date == RatingAdjustment::date
     get_subscriptions.keys
   end
 
