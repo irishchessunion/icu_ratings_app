@@ -281,8 +281,8 @@ class RatingList < ApplicationRecord
   end
 
   def get_last_tournament
-    report_header "Last tournament to finish on or before #{tournament_cut_off}"
-    tournament = Tournament.get_last_rated(tournament_cut_off)
+    report_header "Last tournament to finish before #{tournament_cut_off}"
+    tournament = Tournament.get_last_rated(tournament_cut_off - 1.days)
     raise "no last tournament found" unless tournament
     report_item "name: #{tournament.name}"
     report_item "finish date: #{tournament.finish}"
