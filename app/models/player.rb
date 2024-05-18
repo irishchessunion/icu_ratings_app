@@ -218,7 +218,7 @@ class Player < ApplicationRecord
     last_unadjusted = Tournament.where("finish < ? AND rorder IS NOT NULL", RatingAdjustment::date).ordered.first
     cutoff_rorder = last_unadjusted.rorder
     max_rorder = max_rorder || Tournament.maximum(:rorder)
-    if max_rorder < cutoff_rorder || (max_rorder == cutoff_rorder && max_date <= RatingAdjustment::date)
+    if max_rorder < cutoff_rorder || (max_rorder == cutoff_rorder && max_date < RatingAdjustment::date)
       self.get_last_tournament_ratings(icu_ids, max_rorder: max_rorder)
     else
       # We need to combine rating list and tournament ratings.
