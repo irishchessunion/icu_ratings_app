@@ -2,7 +2,7 @@
 # Motivation and details at https://www.icu.ie/system/downloads/000/000/505/8b01f5bb45f5ef325c201a7017564b232f585fc9.pdf
 
 module RatingAdjustment
-  ADJUSTMENT_DATE = ::Date.new(2024, 4, 1)
+  ADJUSTMENT_DATE = ::Date.new(2024, 3, 1)
 
   def self.date
     ADJUSTMENT_DATE
