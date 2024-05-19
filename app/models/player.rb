@@ -205,14 +205,14 @@ class Player < ApplicationRecord
   # - a player has never played a tournament, but has a "legacy rating" from
   #   the previous rating system. In this case his last rating is the legacy
   #   rating.
-  # - a player has played no tournament since the 2024-04-01 rating adjustment.
-  #   In this case his last rating is his rating on the 2024-04 rating list.
+  # - a player has played no tournament since the 2024-03-01 rating adjustment.
+  #   In this case his last rating is his rating on the 2024-03 rating list.
   #
   # `max_rorder` is the rating order of the latest tournament to consider for
   #  a player's rating, i.e. the last rated tournament he could have played in
   #  before the date we are calculating ratings for.
   # `max_date` is only used if `max_rorder` makes it ambiguous whether the last
-  # tournament was slightly before or slightly after the 2024-04-01 adjustment.
+  # tournament was slightly before or slightly after the 2024-03-01 adjustment.
   def self.get_last_ratings(icu_ids, max_rorder: nil, max_date: nil)
     max_date ||= Date.new(2099, 12, 31)
     last_unadjusted = Tournament.where("finish < ? AND rorder IS NOT NULL", RatingAdjustment::date).ordered.first

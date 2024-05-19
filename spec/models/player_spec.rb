@@ -120,8 +120,8 @@ describe Player do
       @bunratty = Tournament.new(
         original_name: "Bunratty",
         name: "Bunratty",
-        start: "2024-03-08",
-        finish: "2024-03-10",
+        start: "2024-02-08",
+        finish: "2024-02-10",
         rorder: 1,
         rounds: 6,
         user_id: 100,
@@ -166,13 +166,13 @@ describe Player do
       @john_bunratty.save!
 
       @david_rating = IcuRating.new(
-        list: Date.new(2024, 4, 1),
+        list: Date.new(2024, 3, 1),
         icu_id: @david.id,
         rating: 2100 # post-adjustment, though 2100 means no adjustment
       )
 
       @john_rating = IcuRating.new(
-        list: Date.new(2024, 4, 1),
+        list: Date.new(2024, 3, 1),
         icu_id: @john.id,
         rating: 1760 # post-adjustment rating
       )
@@ -180,7 +180,7 @@ describe Player do
     end
 
     it "before the adjustment, should get a player's rating" do
-      players = Player.get_last_ratings([795, 4941], max_rorder: 1, max_date: Date.new(2024, 3, 30))
+      players = Player.get_last_ratings([795, 4941], max_rorder: 1, max_date: Date.new(2024, 2, 29))
       expect(players[4941].new_rating).to eq(2100)
       expect(players[795].new_rating).to eq(1400)
     end
