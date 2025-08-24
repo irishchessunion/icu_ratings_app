@@ -1,5 +1,17 @@
-version: "3.9"
 services:
+  dev:
+    stdin_open: true
+    tty: true
+    build: .
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    command: sh -c "bin/rails s -b 0.0.0.0"
   test:
     stdin_open: true
     tty: true
@@ -13,12 +25,13 @@ services:
       - WAIT_HOSTS_TIMEOUT=300
       - WAIT_SLEEP_INTERVAL=5
       - WAIT_HOST_CONNECT_TIMEOUT=10
-    command: sh -c "/wait && rspec spec/"
+    command: sh -c "/wait && bin/rspec spec/"
   db:
     image: mysql:5.7
     restart: always
+    volumes: 
+      - ./init:/docker-entrypoint-initdb.d
     environment:
-      MYSQL_DATABASE: 'ratings_test'
       MYSQL_USER: 'ratings'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
