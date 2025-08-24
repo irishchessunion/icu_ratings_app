@@ -1,4 +1,5 @@
 .bundle
+.devcontainer
 .sass-cache
 .DS_Store
 .tm_properties
