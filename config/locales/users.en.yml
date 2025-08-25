@@ -8,6 +8,9 @@ en:
   reporter:
     one: Tournament Reporter
     other: Tournament Reporters
+  organiser:
+    one: Tournament Organiser
+    other: Tournament Organisers
   member:
     one: Member
     other: Members
