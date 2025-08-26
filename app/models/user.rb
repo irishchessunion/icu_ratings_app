@@ -26,7 +26,7 @@ class User < ApplicationRecord
   has_many :tournaments
   has_many :articles
 
-  ROLES  = %w[member reporter officer admin]  # MUST be in order lowest to highest (see role?)
+  ROLES  = %w[member reporter organiser officer admin]  # MUST be in order lowest to highest (see role?)
   EMAIL  = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   STATUS = %w[ok pending]
 

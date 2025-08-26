@@ -33,9 +33,13 @@ class Ability
     can :create, Tournament
     can_if_unlocked(user.id)
 
+    return unless user.role? :organiser
+
+    can :read, IcuPlayer
+
     return unless user.role? :officer
 
-    can :read, [Event, Subscription, IcuPlayer, JuniorReport]
+    can :read, [Event, Subscription, JuniorReport]
     can [:read, :create], Publication
     can [:read, :create, :destroy], RatingRun
     can :manage, [Article, Download, Fee, IcuPlayer, FidePlayer, FidePlayerFile, Player, RatingList, Result, Tournament, Upload]
