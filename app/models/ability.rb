@@ -17,6 +17,7 @@ class Ability
     can :juniors, IcuRating
     can :seniors, IcuRating
     can :improvers, IcuRating
+    can :show, IcuRating
     can :graph, IcuPlayer
     can :show, IcuPlayer, id: user.icu_id
     can :show, Player
