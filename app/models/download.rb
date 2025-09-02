@@ -42,6 +42,8 @@ class Download < ApplicationRecord
   def self.rating_list_csv(list)
     year = Time.now.year
     month = Time.now.month
+
+    # New season starts in August
     if month < 8
       year -= 1
     end
@@ -49,10 +51,17 @@ class Download < ApplicationRecord
     this_season = "#{year}-#{(year+1).to_s[-2..]}"
     last_season = "#{year-1}-#{(year).to_s[-2..]}"
 
+    # Get latest rating list
     last_list = IcuRating.maximum("list")
+    
+    # Calculate cut-off date for tournaments to count towards that list
     tournament_cut_off = RatingList.where("date = ?", last_list).first().tournament_cut_off
+
+    # Calculate latest tournament before cut-off date
     last_tournament_rorder = Tournament.where("finish <= ? AND stage = 'rated' AND rorder IS NOT NULL",
       tournament_cut_off).maximum("rorder")
+
+    # Get players, subs and ratings
     icu_players = IcuPlayer.where("deceased = 0 AND master_id IS NULL")
     subscriptions = Subscription.where("season IN (?, ?) OR category = 'lifetime'", this_season, last_season)
     ratings = Player.select(:icu_id, :new_rating)
@@ -77,20 +86,32 @@ class Download < ApplicationRecord
         when 'FM' then 'f'
         when 'CM' then 'c'
         else '?'
-        end
+      end
+
+      # It is possible to use player.latest_rating for the published list but not for the live rating
       latest_rating = ratings.where(icu_id: player.id).first()&.new_rating
       
+      # L = lifetime
+      # U = unpaid
+      # S = paid for current season
+      # P = paid for previous season
       sub = 'L'
       sub = case subscriptions.where(icu_id: player.id).order(season: :desc).first()&.season
         when this_season then 'S'
         when last_season then 'P'
         else 'U'
-        end unless not subscriptions.where(icu_id: player.id, category: 'lifetime').first().nil?
+      end unless not subscriptions.where(icu_id: player.id, category: 'lifetime').first().nil?
+
+      # Swiss Manager expects F for female and nothing for male
       sex = player.gender == "F" ? "F": ""
+
+      # Outputs YOB/01/01 to hide DOB
       dob = player.dob ? Date.new(player.dob.year, 1, 1) : '1900/01/01'
+
       rows << [player.id, player.name, title, player.fed, latest_rating, 0, dob, sub, sex, player.club]
     end
 
+    # Sort by name ascending
     rows.sort_by! {|e| e[1]}
 
     CSV.generate do |csv| 
