@@ -30,10 +30,22 @@ module ICU
             success = false
           end
 
-          file = "tmp/#{short}.csv"
+          file = short == "pub" ? "tmp/#{short}-#{Time.now.strftime('%b%y')}.csv" : "tmp/#{short}.csv"
           csv_text = Download.rating_list_csv(type)
           File.write(file, csv_text)
           action = self.write_to(short, type, file, 'csv')
+          if action == 'created' and short == "pub"
+            # Delete previous file
+            old_file = "tmp/#{short}-#{1.month.ago.strftime('%b%y')}.csv"
+            begin
+              File.open(old_file) do |f|
+                File.delete(f)
+                report.push "deleted old file #{old_file}"
+              end
+            rescue Errno::ENOENT
+              report.push "could not delete old file #{old_file}"
+            end
+          end
           report.push "#{action} #{type} ratings download (csv)"
         end
       rescue => e
