@@ -39,7 +39,11 @@ class Download < ApplicationRecord
     paginate(matches, path, params)
   end
 
-  def self.rating_list_csv(list)
+  def self.rating_list_xlsx(list)
+    # Takes one parameter - list which is either "published" or "live"
+    # Returns an instance of Axlsx::Package
+
+
     year = Time.now.year
     month = Time.now.month
 
@@ -116,13 +120,16 @@ class Download < ApplicationRecord
     end
 
     # Sort by name ascending
-    rows.sort_by! {|e| e[1]}
+    rows.sort_by! {|e| e[2]}
 
-    CSV.generate do |csv| 
-      csv << %w(ID_no Fide_no Name Title Fed Rtg_Nat Rtg_Int Games Birthday Sub Sex ClubName)
+    axlsx_package = Axlsx::Package.new
+    axlsx_package.workbook.add_worksheet(:name => "#{list.capitalize} Rating List") do |sheet|
+      sheet.add_row %w(ID_no Fide_no Name Title Fed Rtg_Nat Rtg_Int Games Birthday Sub Sex ClubName)
       for row in rows
-        csv << row
+        sheet.add_row row
       end
     end
+
+    axlsx_package
   end
 end

@@ -30,13 +30,13 @@ module ICU
             success = false
           end
 
-          file = short == "pub" ? "tmp/#{short}-#{Time.now.strftime('%b%y')}.csv" : "tmp/#{short}.csv"
-          csv_text = Download.rating_list_csv(type)
-          File.write(file, csv_text)
-          action = self.write_to(short, type, file, 'csv')
+          file = short == "pub" ? "tmp/#{short}-#{Time.now.strftime('%b%y')}.xlsx" : "tmp/#{short}.xlsx"
+          axlsx_package = Download.rating_list_xlsx(type)
+          axlsx_package.serialize(file)
+          action = self.write_to(short, type, file, 'xlsx')
           if action == 'created' and short == "pub"
             # Delete previous file
-            old_file = "tmp/#{short}-#{1.month.ago.strftime('%b%y')}.csv"
+            old_file = "tmp/#{short}-#{1.month.ago.strftime('%b%y')}.xlsx"
             begin
               File.open(old_file) do |f|
                 File.delete(f)
@@ -46,7 +46,7 @@ module ICU
               report.push "could not delete old file #{old_file}"
             end
           end
-          report.push "#{action} #{type} ratings download (csv)"
+          report.push "#{action} #{type} ratings download (xlsx)"
         end
       rescue => e
         report.push "EXCEPTION: #{e.message}"
@@ -63,7 +63,7 @@ module ICU
         file_name    = "#{short}_ratings.#{extension}"
         content_type = case extension
           when 'zip' then "application/zip"
-          when 'csv' then "text/csv"
+          when 'xlsx' then "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           else "text/plain"
         end
         if type == "published"

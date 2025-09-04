@@ -25,6 +25,10 @@ gem "public_suffix"
 gem "parallel"
 
 gem "nio4r"
+gem "axlsx"
+
+# Legacy gem for axlsx which requires rubyzip <= 0.9.9
+gem "zip-zip"
 
 group :development do
   gem "capistrano-rails", "~> 1.1"
