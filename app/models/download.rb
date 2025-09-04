@@ -90,6 +90,10 @@ class Download < ApplicationRecord
 
       # It is possible to use player.latest_rating for the published list but not for the live rating
       latest_rating = ratings.where(icu_id: player.id).first()&.new_rating
+
+      # Get fide ID and rating
+      fide_id = player.fide_player&.id
+      fide_rating = player.fide_player&.rating
       
       # L = lifetime
       # U = unpaid
@@ -106,16 +110,16 @@ class Download < ApplicationRecord
       sex = player.gender == "F" ? "F": ""
 
       # Outputs YOB/01/01 to hide DOB
-      dob = player.dob ? Date.new(player.dob.year, 1, 1) : '1900/01/01'
+      dob = player.dob ? Date.new(player.dob.year, 1, 1).strftime("%Y/%m/%d") : '1900/01/01'
 
-      rows << [player.id, player.name, title, player.fed, latest_rating, 0, dob, sub, sex, player.club]
+      rows << [player.id, fide_id, player.name, title, player.fed, latest_rating, fide_rating, 0, dob, sub, sex, player.club]
     end
 
     # Sort by name ascending
     rows.sort_by! {|e| e[1]}
 
     CSV.generate do |csv| 
-      csv << %w(ID_no Name Title Fed Rtg_Nat Games Birthday Sub Sex ClubName)
+      csv << %w(ID_no Fide_no Name Title Fed Rtg_Nat Rtg_Int Games Birthday Sub Sex ClubName)
       for row in rows
         csv << row
       end
