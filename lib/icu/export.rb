@@ -38,10 +38,8 @@ module ICU
             # Delete previous file
             old_file = "tmp/#{short}-#{1.month.ago.strftime('%b%y')}.xlsx"
             begin
-              File.open(old_file) do |f|
-                File.delete(f)
-                report.push "deleted old file #{old_file}"
-              end
+              File.delete(old_file)
+              report.push "deleted old file #{old_file}"
             rescue Errno::ENOENT
               report.push "could not delete old file #{old_file}"
             end
@@ -58,6 +56,12 @@ module ICU
       Event.create(name: "Ratings Export", report: report.join("\n"), time: Time.now - @start, success: success)
     end
     
+    # Reads the file from the tmp folder on the file system and either
+    # creates or updates the relevant Download record in the database
+    # @param short "pub" or "live" which is short for "published" and "live"
+    # @param type "published" or "live"
+    # @param file location of the download file on the system
+    # @param extension "zip" or "xlsx", file extension of the download file
     def self.write_to(short, type, file, extension)
         comment      = "Latest #{type} ratings"
         file_name    = "#{short}_ratings.#{extension}"
