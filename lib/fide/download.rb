@@ -333,22 +333,25 @@ module FIDE
     end
 
     def get_download_details
-      res = request("http://ratings.fide.com/download.phtml")
-      # <li><a href=http://ratings.fide.com/download/standard_oct12frl_xml.zip class=tur>Download October 2012 FRL</a>(XML)
-      # <small>(Updated: 15 Oct 2012, Size: 3 762 108 bytes)</small><br>
-      # </li>
-      raise SyncError.new("no links detected") unless res.body.match(/href=["']?(http:\/\/ratings.fide.com\/download\/standard_(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(\d\d)frl_xml\.zip)[^>]*>[^<]+<\/a>[^<]*<small>([^<]+)<\/small>/)
+      res = request("http://ratings.fide.com/download_lists.phtml")
+      # Example HTML that must be parsed
+      # <a href="http://ratings.fide.com/download/standard_rating_list_xml.zip" class="tur">XML format</a>
+      # <small>(06 Sep 2025, Sz: 12.42 MB)</small>
+      raise SyncError.new("no links detected") unless res.body.match(/href=["']?(http:\/\/ratings.fide.com\/download\/standard_rating_list_xml.zip)[^>]*>[^<]+<\/a>[^<]*<small>([^<,]+, [^<]+)<\/small>/)
       @link = $1
-      month = $2
-      year  = $3
-      note  = $4
-      @file = "standard_#{month}#{year}frl_xml.xml"
-      @list = check_list("1st #{month} #{year}")
+      note = $2
+      @file = "standard_rating_list.xml"
       raise SyncError.new("no updated date found in note") unless note.match(/\((\d[\d\w\s]+\d)\s*,/i)
-      updated = Date.parse($1).to_s
+      updated = Date.parse($1)
       raise SyncError.new("no file size found in note") unless note.match(/Sz:\s+(\d[\d\.]+\d)\s+MB/i)
       size = $1
-      @signature = [@link, updated, size].join(", ")
+
+      # FIDE removed the month and year from the download URL, so instead the updated_at date
+      # is used to verify that the correct rating list is being updated
+      month = updated.month
+      year = updated.year
+      @list = check_list("1st #{month} #{year}")
+      @signature = [@link, updated.to_s, size].join(", ")
       @time["index download"] = Time.now - @start
     end
 
