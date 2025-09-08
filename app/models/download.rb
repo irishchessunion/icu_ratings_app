@@ -39,11 +39,10 @@ class Download < ApplicationRecord
     paginate(matches, path, params)
   end
 
+  # Produces an export of all the current players and their data
+  # @param list String/symbol that determines if the published/live ratings are used
+  # @return An instance of Axlsx::Package
   def self.rating_list_xlsx(list)
-    # Takes one parameter - list which is either "published" or "live"
-    # Returns an instance of Axlsx::Package
-
-
     year = Time.now.year
     month = Time.now.month
 
@@ -72,9 +71,9 @@ class Download < ApplicationRecord
       .where("icu_id IS NOT NULL AND new_rating IS NOT NULL")
       .joins(:tournament)
     
-    if list == 'published'
+    if list == 'published' or list == :published
       ratings = ratings.where("rorder <= ?", last_tournament_rorder)
-    elsif list == 'live'
+    elsif list == 'live' or list == :live
       ratings = ratings.where("rorder IS NOT NULL")
     else 
       raise "unknown list"
