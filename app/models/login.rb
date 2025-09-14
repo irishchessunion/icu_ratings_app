@@ -28,8 +28,8 @@ class Login < ApplicationRecord
       matches = matches.joins(user: :icu_player)
       matches = matches.where("users.email LIKE ?", "%#{params[:email]}%") if params[:email].present?
       matches = matches.where("users.icu_id = ?", params[:icu_id].to_i) if params[:icu_id].to_i > 0
-      matches = matches.where("icu_players.first_name LIKE ?", "%#{params[:first_name]}%") if params[:first_name].present?
-      matches = matches.where("icu_players.last_name LIKE ?", "%#{params[:last_name]}%") if params[:last_name].present?
+      matches = matches.where("icu_players_users.first_name LIKE ?", "%#{params[:first_name]}%") if params[:first_name].present?
+      matches = matches.where("icu_players_users.last_name LIKE ?", "%#{params[:last_name]}%") if params[:last_name].present?
     end
     matches = matches.where("logins.problem = ?", params[:problem]) if params[:problem].present?
     matches = matches.where("logins.role = ?", params[:role]) if params[:role].present?
