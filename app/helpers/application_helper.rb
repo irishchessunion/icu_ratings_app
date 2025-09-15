@@ -245,7 +245,7 @@ module ApplicationHelper
       target ||= "_icu_ie"
     when FidePlayer
       host = "ratings.fide.com"
-      path = "card.phtml?event=#{obj.id}"
+      path = "profile/#{obj.id}"
       text ||= obj.id
       target ||= "_fide_com"
     end
