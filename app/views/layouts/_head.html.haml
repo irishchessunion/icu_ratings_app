@@ -1,6 +1,9 @@
 %title= @page_title || "ICU Ratings"
-= stylesheet_link_tag "application"
 = javascript_include_tag "application"
+%link{rel: "preconnect", href: "https://fonts.googleapis.com"}
+%link{rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "true"}
+%link{rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap"}
+= stylesheet_link_tag "application"
 = csrf_meta_tag
 = yield :head
 - if content_for? :javascript
