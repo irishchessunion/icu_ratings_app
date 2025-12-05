@@ -599,7 +599,7 @@ class Tournament < ApplicationRecord
 
   def fide_url
     return nil unless fide_id
-    "http://ratings.fide.com/tournament_details.phtml?event=#{fide_id}"
+    "https://ratings.fide.com/tournament_information.phtml?event=#{fide_id}"
   end
 
   private
