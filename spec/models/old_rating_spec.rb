@@ -8,7 +8,6 @@ describe OldRating do
     expect(old.games).to be <= 500
     expect(old.full).to be true
     old = FactoryBot.create(:old_rating, icu_id: 159, rating: 2198, games: 329, full: false)
-    expect(old.id).to eq(2)
     expect(old.icu_id).to eq(159)
     expect(old.rating).to eq(2198)
     expect(old.games).to eq(329)

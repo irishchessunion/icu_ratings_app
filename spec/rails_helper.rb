@@ -41,6 +41,7 @@ RSpec.configure do |config|
     if example.metadata[:js]
       DatabaseCleaner.strategy = :truncation
     elsif example.metadata[:truncation]
+      DatabaseCleaner.clean_with(:truncation)
       DatabaseCleaner.strategy = :truncation
     else
       DatabaseCleaner.strategy = :transaction
