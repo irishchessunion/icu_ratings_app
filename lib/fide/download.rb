@@ -321,6 +321,7 @@ module FIDE
     def request(url)
       uri = URI.parse(url)
       http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true if uri.scheme == "https"
       http.read_timeout = 180
       req = Net::HTTP::Get.new(uri.request_uri)
       begin
@@ -333,11 +334,11 @@ module FIDE
     end
 
     def get_download_details
-      res = request("http://ratings.fide.com/download_lists.phtml")
+      res = request("https://ratings.fide.com/download_lists.phtml")
       # Example HTML that must be parsed
-      # <a href="http://ratings.fide.com/download/standard_rating_list_xml.zip" class="tur">XML format</a>
-      # <small>(06 Sep 2025, Sz: 12.42 MB)</small>
-      raise SyncError.new("no links detected") unless res.body.match(/href=["']?(http:\/\/ratings.fide.com\/download\/standard_rating_list_xml.zip)[^>]*>[^<]+<\/a>[^<]*<small>([^<,]+, [^<]+)<\/small>/)
+      # <a href=https://ratings.fide.com/download/standard_rating_list_xml.zip class=tur>XML format</a>
+      # <small>(23 Apr 2026, Sz: 13.17 MB)</small>
+      raise SyncError.new("no links detected") unless res.body.match(/href=["']?(https?:\/\/ratings\.fide\.com\/download\/standard_rating_list_xml\.zip)[^>]*>[^<]+<\/a>[^<]*<small>([^<,]+, [^<]+)<\/small>/)
       @link = $1
       note = $2
       @file = "standard_rating_list.xml"
