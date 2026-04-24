@@ -82,7 +82,7 @@ describe Tournament do
     end
   end
 
-  context "#rate!" do
+  context "#rate!", truncation: true do
     it "should rate tournaments" do
       # Setup two tournaments to begin with.
       @p = load_icu_players

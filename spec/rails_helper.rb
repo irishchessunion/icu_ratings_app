@@ -40,6 +40,8 @@ RSpec.configure do |config|
     # Use truncation only for capybara/selenium tests
     if example.metadata[:js]
       DatabaseCleaner.strategy = :truncation
+    elsif example.metadata[:truncation]
+      DatabaseCleaner.strategy = :truncation
     else
       DatabaseCleaner.strategy = :transaction
     end
