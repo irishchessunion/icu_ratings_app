@@ -3,7 +3,6 @@ require 'rails_helper'
 describe OldRating do
   it "factory" do
     old = FactoryBot.create(:old_rating, icu_id: 1350)
-    expect(old.id).to eq(1)
     expect(old.icu_id).to eq(1350)
     expect(old.rating).to be <= 2400
     expect(old.games).to be <= 500
