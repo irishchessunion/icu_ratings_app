@@ -13,7 +13,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 # Be patient with Ajax wait times.
 Capybara.configure do |config|
-  config.default_max_wait_time = 15
+  config.default_max_wait_time = 5
 end
 
 Capybara.server = :webrick
@@ -27,22 +27,30 @@ end
 User.pulls_disabled = true
 
 RSpec.configure do |config|
-  # Shorthand FG syntax.
-  # config.include FactoryBot::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 
-  # To be able to use selenium tests we use database_cleaner with truncation
-  # strategy for all tests (slower but more reliable). See Railscasts 257.
+  # Disable Rspecs transactional fixtures by default
   config.use_transactional_fixtures = false
-  unless config.use_transactional_fixtures
-    config.before(:suite) do
-      DatabaseCleaner.strategy = :truncation
-    end
-    config.after(:each) do
-      DatabaseCleaner.clean
-    end
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
   end
 
-  # Deduce from location what spec types are (for example, which ones need capybara).
+  config.before(:each) do |example|
+    # Use truncation only for capybara/selenium tests
+    if example.metadata[:js]
+      DatabaseCleaner.strategy = :truncation
+    else
+      DatabaseCleaner.strategy = :transaction
+    end
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+    ActiveRecord::Base.clear_active_connections!
+  end
+
   config.infer_spec_type_from_file_location!
 end
 
