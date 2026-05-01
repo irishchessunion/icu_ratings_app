@@ -196,7 +196,7 @@ describe "Tournament" do
       t = Tournament.first
       tpath = "/admin/tournaments/#{t.id}"
       visit tpath
-      expect(page).to have_selector("div span", text: "Bunratty 2011")
+      expect(page).to have_selector("span#tournament_name", text: "Bunratty 2011")
       expect(page).to have_selector(:xpath, "//a[@href='#{tpath}/edit' and @data-remote='true']")
       expect(page).to have_selector(:xpath, "//a[@href='#{tpath}/edit?tie_breaks=' and @data-remote='true']")
       expect(page).to have_selector(:xpath, "//a[@href='#{tpath}/edit?ranks=' and @data-remote='true']")
@@ -205,17 +205,17 @@ describe "Tournament" do
       p = Player.find_by_last_name_and_first_name("Baburin", "Alexander")
       ppath = "/admin/players/#{p.id}"
       visit ppath
-      expect(page).to have_selector("div span", text: /Alexander Baburin/)
+      expect(page).to have_selector("span#player_name", text: /Alexander Baburin/)
       expect(page).to have_selector(:xpath, "//a[@href='#{ppath}/edit' and @data-remote='true']")
       expect(page).to have_selector(:xpath, "//a[starts-with(@href,'/icu_players') and @data-remote='true']")
       expect(page).to have_selector(:xpath, "//a[starts-with(@href,'/fide_players') and @data-remote='true']")
       expect(page).to have_selector(:xpath, "//a[starts-with(@href,'/admin/results') and @data-remote='true']", count: 6)
       login("reporter")
       visit tpath
-      expect(page).to have_selector("div span", text: "Bunratty 2011")
+      expect(page).to have_selector("span#tournament_name", text: "Bunratty 2011")
       expect(page).to have_no_selector(:xpath, "//a[starts-with(@href,'#{tpath}/edit')]")
       visit ppath
-      expect(page).to have_selector("div span", text: /Alexander Baburin/)
+      expect(page).to have_selector("span#player_name", text: /Alexander Baburin/)
       expect(page).to have_no_selector(:xpath, "//a[starts-with(@href,'#{ppath}/edit')]")
       expect(page).to have_no_selector(:xpath, "//a[starts-with(@href,'/icu_players') and @data-remote='true']")
       expect(page).to have_no_selector(:xpath, "//a[starts-with(@href,'/fide_players') and @data-remote='true']")
@@ -283,7 +283,7 @@ describe "Tournament" do
       t = Tournament.first
       tpath = "/admin/tournaments/#{t.id}"
       visit tpath
-      expect(page).to have_selector("div span", text: "U-19 All Ireland 2010")
+      expect(page).to have_selector("span#tournament_name", text: "U-19 All Ireland 2010")
       expect(page).to have_selector(:xpath, "//th[.='Status']/following-sibling::td[.='OK']")
       expect(t.players.count).to eq(8)
       expect(signature(t)).to eq("1|Cafolla|7||2|Dunne|4||3|Flynn|2||4|Fox|8||5|Griffiths|1||6|Hulleman|3||7|Orr|5||8|Sulskis|6")
@@ -292,10 +292,10 @@ describe "Tournament" do
 
       p = t.players.where(last_name: "Cafolla").first
       visit "/admin/players/#{p.id}"
-      expect(page).to have_selector("div span", text: "Cafolla")
+      expect(page).to have_selector("span#player_name", text: "Cafolla")
       page.click_link "Delete Player"
       page.driver.browser.switch_to.alert.accept
-      expect(page).to have_selector("div span", text: "U-19 All Ireland 2010")
+      expect(page).to have_selector("span#tournament_name", text: "U-19 All Ireland 2010")
       expect(page).to have_selector("div.flash span.notice", text: "Deleted player Cafolla, Peter")
       expect(page).to have_no_link("Cafolla, Peter")
       expect(signature(t)).to eq("1|Dunne|4||2|Flynn|2||3|Fox|7||4|Griffiths|1||5|Hulleman|3||6|Orr|5||7|Sulskis|6")
@@ -304,15 +304,15 @@ describe "Tournament" do
 
       p = t.players.where(last_name: "Flynn").first
       visit "/admin/players/#{p.id}"
-      expect(page).to have_selector("div span", text: "Flynn")
+      expect(page).to have_selector("span#player_name", text: "Flynn")
       expect(page).to have_no_link "Delete Player"
 
       p = t.players.where(last_name: "Fox").first
       visit "/admin/players/#{p.id}"
-      expect(page).to have_selector("div span", text: "Fox")
+      expect(page).to have_selector("span#player_name", text: "Fox")
       page.click_link "Delete Player"
       page.driver.browser.switch_to.alert.accept
-      expect(page).to have_selector("div span", text: "U-19 All Ireland 2010")
+      expect(page).to have_selector("span#tournament_name", text: "U-19 All Ireland 2010")
       expect(page).to have_selector("div.flash span.notice", text: "Deleted player Fox, Anthony")
       expect(page).to have_no_link("Fox, Anthony")
       expect(signature(t)).to eq("1|Dunne|4||2|Flynn|2||3|Griffiths|1||4|Hulleman|3||5|Orr|5||6|Sulskis|6")
@@ -321,25 +321,25 @@ describe "Tournament" do
 
       p = t.players.where(last_name: "Griffiths").first
       visit "/admin/players/#{p.id}"
-      expect(page).to have_selector("div span", text: "Griffiths")
+      expect(page).to have_selector("span#player_name", text: "Griffiths")
       expect(page).to have_no_link "Delete Player"
 
       p = t.players.where(last_name: "Hulleman").first
       visit "/admin/players/#{p.id}"
-      expect(page).to have_selector("div span", text: "Hulleman")
+      expect(page).to have_selector("span#player_name", text: "Hulleman")
       expect(page).to have_no_link "Delete Player"
 
       p = t.players.where(last_name: "Orr").first
       visit "/admin/players/#{p.id}"
-      expect(page).to have_selector("div span", text: "Orr")
+      expect(page).to have_selector("span#player_name", text: "Orr")
       expect(page).to have_no_link "Delete Player"
 
       p = t.players.where(last_name: "Sulskis").first
       visit "/admin/players/#{p.id}"
-      expect(page).to have_selector("div span", text: "Sulskis")
+      expect(page).to have_selector("span#player_name", text: "Sulskis")
       page.click_link "Delete Player"
       page.driver.browser.switch_to.alert.accept
-      expect(page).to have_selector("div span", text: "U-19 All Ireland 2010")
+      expect(page).to have_selector("span#tournament_name", text: "U-19 All Ireland 2010")
       expect(page).to have_selector("div.flash span.notice", text: "Deleted player Sulskis, Sarunas")
       expect(page).to have_no_link("Sulskis, Sarunas")
       expect(signature(t)).to eq("1|Dunne|4||2|Flynn|2||3|Griffiths|1||4|Hulleman|3||5|Orr|5")

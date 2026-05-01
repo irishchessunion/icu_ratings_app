@@ -46,7 +46,7 @@ describe Player do
     end
   end
 
-  context "#signature" do
+  context "#signature", truncation: true do
     before(:each) do
       f = "bunratty_masters_2011.tab"
       load_icu_players_for(f)

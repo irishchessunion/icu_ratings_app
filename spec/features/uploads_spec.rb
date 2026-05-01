@@ -101,7 +101,7 @@ describe "Upload" do
         page.attach_file "file", test_file_path("junior_championships_u19_2010.zip")
         page.click_button "Upload"
 
-        expect(page).to have_selector("div span", text: "U-19 All Ireland")
+        expect(page).to have_selector("span#tournament_name", text: "U-19 All Ireland")
 
         expect(Upload.count).to eq(1)
         expect(Tournament.count).to eq(1)
@@ -137,7 +137,7 @@ describe "Upload" do
         page.attach_file "File to upload", test_file_path("junior_championships_u19_2010.txt")
         page.click_button "Upload"
 
-        expect(page).to have_selector("div span", text: "U-19 All Ireland")
+        expect(page).to have_selector("span#tournament_name", text: "U-19 All Ireland")
 
         expect(Upload.count).to eq(1)
         expect(Tournament.count).to eq(1)
@@ -174,7 +174,7 @@ describe "Upload" do
         page.attach_file "file", test_file_path("junior_championships_u19_2010.tab")
         page.click_button "Upload"
 
-        expect(page).to have_selector("div span", text: "U-19 All Ireland")
+        expect(page).to have_selector("span#tournament_name", text: "U-19 All Ireland")
 
         expect(Upload.count).to eq(1)
         expect(Tournament.count).to eq(1)
@@ -219,7 +219,7 @@ describe "Upload" do
         page.attach_file "file", test_file_path("isle_of_man_2007.csv")
         page.click_button "Upload"
 
-        expect(page).to have_selector("div span", text: "Isle of Man Masters, 2007")
+        expect(page).to have_selector("span#tournament_name", text: "Isle of Man Masters, 2007")
 
         tournament = Tournament.last
         expect(tournament.name).to eq("Isle of Man Masters, 2007")
@@ -271,7 +271,7 @@ describe "Upload" do
         page.attach_file "file", test_file_path("galway_major_2011.tab")
         page.click_button "Upload"
 
-        expect(page).to have_selector("div span", text: "Galway Major 2011")
+        expect(page).to have_selector("span#tournament_name", text: "Galway Major 2011")
         expect(page).to have_no_selector("span.alert")
 
         expect(Upload.count).to eq(2)
@@ -291,7 +291,7 @@ describe "Upload" do
         page.attach_file "file", test_file_path("rathmines_senior_2011.zip")
         page.click_button "Upload"
 
-        expect(page).to have_selector("div span", text: "Rathmines Senior 2011")
+        expect(page).to have_selector("span#tournament_name", text: "Rathmines Senior 2011")
 
         expect(Upload.count).to eq(1)
         expect(Tournament.count).to eq(1)
