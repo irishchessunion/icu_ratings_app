@@ -7,7 +7,9 @@
     %th YOB
     %th G
     %th Fed
-    %th Rating
+    %th Standard Rating
+    %th Rapid Rating
+    %th Blitz Rating
     %th Title
     %th ICU ID
   - if @fide_players.count == 0
@@ -28,6 +30,8 @@
         %td{class: "centered"}= p.gender
         %td{class: "centered"}= p.fed
         %td{class: "centered"}= p.rating
+        %td{class: "centered"}= p.rapid_rating
+        %td{class: "centered"}= p.blitz_rating
         %td{class: "centered"}= p.title
         %td{class: "centered", id: "icu_id_link_#{p.id}"}= render "icu_id_link", p: p
     - if @fide_players.multi_page
