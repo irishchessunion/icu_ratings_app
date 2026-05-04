@@ -335,13 +335,14 @@ module FIDE
 
     def get_download_details
       res = request("https://ratings.fide.com/download_lists.phtml")
-      # Example HTML that must be parsed
-      # <a href=https://ratings.fide.com/download/standard_rating_list_xml.zip class=tur>XML format</a>
-      # <small>(23 Apr 2026, Sz: 13.17 MB)</small>
-      raise SyncError.new("no links detected") unless res.body.match(/href=["']?(https?:\/\/ratings\.fide\.com\/download\/standard_rating_list_xml\.zip)[^>]*>[^<]+<\/a>[^<]*<small>([^<,]+, [^<]+)<\/small>/)
+      # Example HTML that must be parsed for the combined ratings list link
+      # <a href=https://ratings.fide.com/download/players_list_xml.zip class=tur>XML format</a>
+      # <small>(02 May 2026, Sz: 45.85 MB)</small>
+      raise SyncError.new("no links detected") unless res.body.match(/href=["']?(https?:\/\/ratings\.fide\.com\/download\/players_list_xml\.zip)[^>]*>[^<]+<\/a>[^<]*<small>([^<,]+, [^<]+)<\/small>/)
       @link = $1
       note = $2
-      @file = "standard_rating_list.xml"
+      # The file name that is inside the zip file
+      @file = "players_list_xml_foa.xml"
       raise SyncError.new("no updated date found in note") unless note.match(/\((\d[\d\w\s]+\d)\s*,/i)
       updated = Date.parse($1)
       raise SyncError.new("no file size found in note") unless note.match(/Sz:\s+(\d[\d\.]+\d)\s+MB/i)
@@ -393,7 +394,7 @@ module FIDE
     end
 
     class Player
-      attr_reader :id, :first_name, :last_name, :fed, :born, :gender, :title, :rating, :games, :active
+      attr_reader :id, :first_name, :last_name, :fed, :born, :gender, :title, :rating, :games, :active, :rapid_rating, :blitz_rating
       NULL = '\N'
 
       def initialize(hash)
@@ -404,6 +405,8 @@ module FIDE
         self.gender = hash["sex"]      if hash["sex"]
         self.title  = hash["title"]    if hash["title"]
         self.rating = hash["rating"]   if hash["rating"]
+        self.rapid_rating = hash["rapid_rating"] if hash["rapid_rating"]
+        self.blitz_rating = hash["blitz_rating"] if hash["blitz_rating"]
         self.games  = hash["games"]    if hash["games"]
         self.active = hash["flag"]
         self.gender ||= 'M' # The special rule for when FIDE players don't have a gender. Only need it for one player.
@@ -447,6 +450,16 @@ module FIDE
         @rating = nil if @rating == 0
       end
 
+      def rapid_rating=(rating)
+        @rapid_rating = rating.to_i
+        @rapid_rating = nil if @rapid_rating == 0
+      end
+
+      def blitz_rating=(rating)
+        @blitz_rating = rating.to_i
+        @blitz_rating = nil if @blitz_rating == 0
+      end
+
       def games=(games)
         @games = games.to_i
       end
@@ -464,11 +477,11 @@ module FIDE
       end
 
       def to_s
-        "#{id}|#{first_name}|#{last_name}|#{fed}|#{born}|#{gender}|#{title}|#{rating}|#{games}|#{active}"
+        "#{id}|#{first_name}|#{last_name}|#{fed}|#{born}|#{gender}|#{title}|#{rating}|#{rapid_rating}|#{blitz_rating}|#{games}|#{active}"
       end
 
       def to_h
-        [:id, :first_name, :last_name, :fed, :born, :gender, :title, :rating, :games, :active].inject({}){ |m, a| m[a] = send(a); m }
+        [:id, :first_name, :last_name, :fed, :born, :gender, :title, :rating, :rapid_rating, :blitz_rating, :games, :active].inject({}){ |m, a| m[a] = send(a); m }
       end
 
       # This is used to create a CSV file to load into MySQL and must match the fide_players columns in order.
@@ -485,6 +498,8 @@ module FIDE
         csv.push NULL # ICU ID
         csv.push created_at
         csv.push updated_at
+        csv.push rapid_rating ? rapid_rating.to_s : NULL
+        csv.push blitz_rating ? blitz_rating.to_s : NULL
         csv.join(",")
       end
     end
@@ -494,7 +509,7 @@ module FIDE
 
       def initialize(&block)
         @block = block
-        @attrs = Regexp.new("^(fideid|name|country|sex|title|rating|games|birthday|flag)$")
+        @attrs = Regexp.new("^(fideid|name|country|sex|title|rating|rapid_rating|blitz_rating|games|birthday|flag)$")
         @state = ""
       end
 
