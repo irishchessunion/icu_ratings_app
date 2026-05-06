@@ -41,6 +41,8 @@
         %li= link_to "Top Juniors", juniors_icu_ratings_path
       - if can?(:juniors, IcuRating)
         %li= link_to "Top Seniors", seniors_icu_ratings_path
+      - if can?(:women, IcuRating)
+        %li= link_to "Top Women", women_icu_ratings_path
       - if can?(:juniors, IcuRating)
         %li= link_to "Top Improvers", improvers_icu_ratings_path
       - if can?(:juniors, IcuRating)
