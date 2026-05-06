@@ -1,0 +1,10 @@
+= form_tag women_icu_ratings_path, method: "get", id: handle_remote_id do
+  %table{class: "invisible"}
+    %tr
+      %th= label_tag :list, "List"
+      %th= label_tag :club
+      %th
+    %tr
+      %td= select_tag :list, options_for_select(icu_rating_list_menu("Any"), params[:list]), onchange: handle_remote
+      %td= select_tag :club, options_for_select(club_menu(nil), params[:club]), onchange: handle_remote
+      %td= submit_tag "Search"

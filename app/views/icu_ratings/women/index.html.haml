@@ -1,0 +1,23 @@
+.header
+  %span= @page_title = "Top Irish Women"
+
+#women_form_div
+  = render "icu_ratings/women/form"
+
+#women_results.turbaned
+  = render "icu_ratings/women/results"
+
+= render "shared/ratings_graph/dialog"
+
+#help
+  %dl
+    %dt What players are included in this list?
+    %dd
+      %p Those who satisfy the following criteria:
+      %ul
+        %li federation is not foreign,
+        %li are female,
+        - if @women.available?
+          %li
+            appeared in the selected rating list.
+    = render partial: "shared/search_form_help"
