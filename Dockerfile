@@ -11,6 +11,7 @@ RUN chmod +x /wait
 # Copy settings
 ADD . /var/apps/ratings/
 RUN cp config/database.docker.yml config/database.yml
+RUN cp config/secrets.docker.yml config/secrets.yml
 
 # Install Node
 RUN apt-get -y update
