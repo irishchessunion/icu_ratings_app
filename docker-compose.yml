@@ -4,20 +4,28 @@ services:
     tty: true
     build: .
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     links:
       - db
     ports:
       - "3000:3000"
     volumes:
       - .:/var/apps/ratings
-    command: sh -c "bin/rails s -b 0.0.0.0"
+    command: bundle exec rails s -b 0.0.0.0
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
   test:
     stdin_open: true
     tty: true
     build: .
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     links:
       - db
     environment:
@@ -29,7 +37,8 @@ services:
   db:
     image: mysql:8.0.42
     restart: always
-    volumes: 
+    volumes:
+      - mysql_data:/var/lib/mysql
       - ./init:/docker-entrypoint-initdb.d
     environment:
       MYSQL_USER: 'ratings'
@@ -37,3 +46,12 @@ services:
       MYSQL_ROOT_PASSWORD: 'password'
       MYSQL_DEBUG: false
     command: --log_error_verbosity=2 --local-infile=1 # local infile is needed for one migration script
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ppassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  mysql_data: # persists MySQL data across container restarts with default settings
