@@ -16,6 +16,7 @@ class Ability
     can :war, IcuRating
     can :juniors, IcuRating
     can :seniors, IcuRating
+    can :women, IcuRating
     can :improvers, IcuRating
     can :show, IcuRating
     can :graph, IcuPlayer
