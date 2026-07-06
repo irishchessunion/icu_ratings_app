@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2026_05_03_162110) do
 
-  create_table "articles", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "articles", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "headline"
     t.text "story"
     t.integer "user_id"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
-  create_table "downloads", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "downloads", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "comment"
     t.string "file_name"
     t.string "content_type"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.integer "rating_list_id"
   end
 
-  create_table "events", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "events", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.integer "time", limit: 2
     t.text "report"
@@ -42,24 +42,24 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.datetime "created_at"
   end
 
-  create_table "failures", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "failures", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.text "details"
     t.datetime "created_at"
   end
 
-  create_table "fees", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "fees", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "description"
     t.string "status", limit: 25
     t.string "category", limit: 3
     t.date "date"
     t.integer "icu_id"
     t.boolean "used", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "fide_player_files", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "fide_player_files", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "description"
     t.integer "players_in_file", limit: 2, default: 0
     t.integer "new_fide_records", limit: 1, default: 0
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.datetime "created_at"
   end
 
-  create_table "fide_players", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "fide_players", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "last_name"
     t.string "first_name"
     t.string "fed", limit: 3
@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["last_name", "first_name"], name: "index_fide_players_on_last_name_and_first_name"
   end
 
-  create_table "fide_ratings", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "fide_ratings", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "fide_id"
     t.integer "rating", limit: 2
     t.integer "games", limit: 2
@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["list"], name: "index_fide_ratings_on_list"
   end
 
-  create_table "icu_players", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "icu_players", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "email"
@@ -116,7 +116,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["last_name", "first_name"], name: "index_icu_players_on_last_name_and_first_name"
   end
 
-  create_table "icu_ratings", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "icu_ratings", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.date "list"
     t.integer "icu_id"
     t.integer "rating", limit: 2
@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["list"], name: "index_icu_ratings_on_list"
   end
 
-  create_table "live_ratings", id: :integer, charset: "latin1", force: :cascade do |t|
+  create_table "live_ratings", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "icu_id"
     t.integer "rating", limit: 2
     t.integer "games", limit: 2
@@ -138,7 +138,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["icu_id"], name: "index_live_ratings_on_icu_id", unique: true
   end
 
-  create_table "logins", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "logins", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id"
     t.string "ip", limit: 39
     t.string "problem", limit: 8, default: "none"
@@ -146,7 +146,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.datetime "created_at"
   end
 
-  create_table "old_rating_histories", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "old_rating_histories", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "old_tournament_id"
     t.integer "icu_player_id"
     t.integer "old_rating", limit: 2
@@ -163,7 +163,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["old_tournament_id"], name: "index_old_rating_histories_on_old_tournament_id"
   end
 
-  create_table "old_ratings", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "old_ratings", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "icu_id"
     t.integer "rating", limit: 2
     t.integer "games", limit: 2
@@ -171,13 +171,13 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["icu_id"], name: "index_old_ratings_on_icu_id", unique: true
   end
 
-  create_table "old_tournaments", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "old_tournaments", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.date "date"
     t.integer "player_count", limit: 2
   end
 
-  create_table "players", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "players", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "fed", limit: 3
@@ -228,7 +228,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["tournament_id"], name: "index_players_on_tournament_id"
   end
 
-  create_table "publications", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "publications", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "rating_list_id"
     t.integer "last_tournament_id"
     t.text "report"
@@ -242,7 +242,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["rating_list_id"], name: "index_publications_on_rating_list_id"
   end
 
-  create_table "rating_lists", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "rating_lists", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.date "date"
     t.date "tournament_cut_off"
     t.datetime "created_at"
@@ -250,7 +250,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["date"], name: "index_rating_lists_on_date"
   end
 
-  create_table "rating_runs", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "rating_runs", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id"
     t.string "status"
     t.text "report"
@@ -260,12 +260,12 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.integer "last_tournament_rorder"
     t.string "start_tournament_name"
     t.string "last_tournament_name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string "reason", limit: 100, default: "", null: false
   end
 
-  create_table "results", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "results", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "round", limit: 1
     t.integer "player_id"
     t.integer "opponent_id"
@@ -281,19 +281,19 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["rating_change"], name: "index_results_on_rating_change"
   end
 
-  create_table "subscriptions", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "subscriptions", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "icu_id"
     t.string "season", limit: 7
     t.string "category", limit: 8
     t.date "pay_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["category"], name: "index_subscriptions_on_category"
     t.index ["icu_id"], name: "index_subscriptions_on_icu_id"
     t.index ["season"], name: "index_subscriptions_on_season"
   end
 
-  create_table "tournaments", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "tournaments", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "city"
     t.string "site"
@@ -320,7 +320,6 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.integer "last_tournament_id"
     t.integer "old_last_tournament_id"
     t.datetime "first_rated"
-    t.integer "first_rated_msec", limit: 2
     t.datetime "last_rated"
     t.integer "last_rated_msec", limit: 2
     t.string "last_signature", limit: 32
@@ -331,6 +330,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.integer "iterations1", limit: 2, default: 0
     t.integer "iterations2", limit: 2, default: 0
     t.boolean "rerate", default: false
+    t.integer "first_rated_msec", limit: 2, default: 0
     t.index ["curr_signature"], name: "index_tournaments_on_curr_signature"
     t.index ["last_rated"], name: "index_tournaments_on_last_rated"
     t.index ["last_rated_msec"], name: "index_tournaments_on_last_rated_msec"
@@ -342,7 +342,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["user_id"], name: "index_tournaments_on_user_id"
   end
 
-  create_table "uploads", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "uploads", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "format"
     t.string "content_type"
@@ -356,7 +356,7 @@ ActiveRecord::Schema.define(version: 2026_05_03_162110) do
     t.index ["user_id"], name: "index_uploads_on_user_id"
   end
 
-  create_table "users", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "users", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", limit: 50
     t.string "preferred_email", limit: 50
     t.string "password", limit: 32
