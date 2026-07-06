@@ -32,6 +32,8 @@ module FIDE
         expect(me.gender).to eq("M")
         expect(me.born).to eq(1955)
         expect(me.rating).to eq(2240)
+        expect(me.rapid_rating).to be_nil
+        expect(me.blitz_rating).to be_nil
         expect(me.games).to eq(0)
         expect(me.title).to eq("IM")
         expect(me.fed).to eq("IRL")
@@ -43,6 +45,8 @@ module FIDE
         expect(april.gender).to eq("F")
         expect(april.born).to eq(1960)
         expect(april.rating).to eq(2055)
+        expect(april.rapid_rating).to be_nil
+        expect(april.blitz_rating).to be_nil
         expect(april.games).to eq(0)
         expect(april.title).to be_nil
         expect(april.fed).to eq("IRL")
@@ -54,6 +58,8 @@ module FIDE
         expect(gearoidin.gender).to eq("F")
         expect(gearoidin.born).to eq(1964)
         expect(gearoidin.rating).to eq(1894)
+        expect(gearoidin.rapid_rating).to be_nil
+        expect(gearoidin.blitz_rating).to be_nil
         expect(gearoidin.games).to eq(0)
         expect(gearoidin.title).to eq("WCM")
         expect(gearoidin.fed).to eq("IRL")
@@ -65,6 +71,8 @@ module FIDE
         expect(mark.gender).to eq("M")
         expect(mark.born).to eq(1976)
         expect(mark.rating).to eq(2388)
+        expect(mark.rapid_rating).to be_nil
+        expect(mark.blitz_rating).to be_nil
         expect(mark.games).to eq(0)
         expect(mark.title).to eq("IM")
         expect(mark.fed).to eq("IRL")
@@ -76,6 +84,8 @@ module FIDE
         expect(bernard.gender).to eq("M")
         expect(bernard.born).to eq(1955)
         expect(bernard.rating).to eq(2380)
+        expect(bernard.rapid_rating).to be_nil
+        expect(bernard.blitz_rating).to be_nil
         expect(bernard.games).to eq(0)
         expect(bernard.title).to be_nil
         expect(bernard.fed).to eq("IRL")
@@ -87,6 +97,8 @@ module FIDE
         expect(debbie.gender).to eq("F")
         expect(debbie.born).to eq(1969)
         expect(debbie.rating).to eq(1841)
+        expect(debbie.rapid_rating).to be_nil
+        expect(debbie.blitz_rating).to be_nil
         expect(debbie.games).to eq(0)
         expect(debbie.title).to be_nil
         expect(debbie.fed).to eq("IRL")
@@ -112,6 +124,8 @@ module FIDE
         expect(magnus.gender).to eq("M")
         expect(magnus.born).to eq(1990)
         expect(magnus.rating).to eq(2843)
+        expect(magnus.rapid_rating).to eq(2845)
+        expect(magnus.blitz_rating).to eq(2856)
         expect(magnus.games).to eq(10)
         expect(magnus.title).to eq("GM")
         expect(magnus.fed).to eq("NOR")
@@ -123,6 +137,8 @@ module FIDE
         expect(shakri.gender).to eq("M")
         expect(shakri.born).to eq(1985)
         expect(shakri.rating).to eq(2729)
+        expect(shakri.rapid_rating).to eq(2760)
+        expect(shakri.blitz_rating).to eq(2701)
         expect(shakri.games).to eq(0)
         expect(shakri.title).to eq("GM")
         expect(shakri.fed).to eq("AZE")
@@ -134,6 +150,8 @@ module FIDE
         expect(sofia.gender).to eq("F")
         expect(sofia.born).to be nil
         expect(sofia.rating).to eq(2080)
+        expect(sofia.rapid_rating).to be_nil
+        expect(sofia.blitz_rating).to be_nil
         expect(sofia.games).to eq(0)
         expect(sofia.title).to be_nil
         expect(sofia.fed).to eq("RUS")
@@ -144,7 +162,7 @@ module FIDE
     context "updating FIDE players" do
       before(:each) do
         @mark = FidePlayer.create!(first_name: "Mark", last_name: "Quinn", fed: "IRL", gender: "M", id: 2500450, rating: 2422, icu_id: 1402)
-        @shak = FidePlayer.create!(first_name: "Shakhriyar", last_name: "Mamedyarov", fed: "AZE",  gender: "M", id: 13401319, rating: 2700)
+        @shak = FidePlayer.create!(first_name: "Shakhriyar", last_name: "Mamedyarov", fed: "AZE",  gender: "M", id: 13401319, rating: 2700, rapid_rating: 2700, blitz_rating: 2700)
         @sofia = FidePlayer.create!(first_name: "Sofia", last_name: "Zyzlova", fed: "RUS", gender: "F", id: 24150797, icu_id: 2222)
 
         @download = FIDE::Download.new
@@ -166,6 +184,8 @@ module FIDE
       it "should update player rating" do
         expect(@mark.rating).to eq(2388)
         expect(@shak.rating).to eq(2729)
+        expect(@shak.rapid_rating).to eq(2760)
+        expect(@shak.blitz_rating).to eq(2701)
         expect(@sofia.rating).to eq(2080)
       end
 

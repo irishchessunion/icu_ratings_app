@@ -2,7 +2,7 @@
   = render partial: "admin/results/update_rateable", formats: :js
 
 %div.header
-  %span= @player.name(false)
+  %span{id: "player_name"}= @player.name(false)
 
 %table{class: "cushioned"}
   %tr

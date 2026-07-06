@@ -43,6 +43,11 @@ class IcuRatingsController < ApplicationController
     render "icu_ratings/seniors/#{ request.xhr? ? 'results' : 'index' }"
   end
 
+  def women
+    @women = IcuRatings::Women.new(params)
+    render "icu_ratings/women/#{ request.xhr? ? 'results' : 'index' }"
+  end
+
   def improvers
     @improvers = IcuRatings::Improvers.new(params)
     render "icu_ratings/improvers/#{ request.xhr? ? 'results' : 'index' }"
