@@ -3,10 +3,10 @@
   %head
     = render "layouts/head"
   %body
-    #header
+    %header{id: "header", "aria-label": "Header and Navigation"}
       = render "layouts/header"
-    #content
+    %main#content
       = flash_messages
       = yield
-    #footer
+    %footer{id: "footer", "aria-label": "Footer"}
       = render "layouts/footer"

@@ -3,109 +3,107 @@
 
 - if Rails.root.join("public", "system", "maintenance.html").exist?
   #maintenance Maintenance Mode
-
-%ul.sf-menu
-  %li
-    - if can? :my_home, ::Pages::MyHome
-      = link_to "My Home", my_home_path
-    - else
-      = link_to "Home", home_path
-    %ul
+%nav
+  %ul.sf-menu
+    %li
       - if can? :my_home, ::Pages::MyHome
-        %li= link_to "Home", home_path
-      %li
-        = link_to "Articles", articles_path
-        - if can? :create, Article
-          %ul
-            %li= link_to "New", new_article_path
-      %li= link_to "Contacts", contacts_path
-      %li= link_to_icu "Main ICU Site", "", ""
-  %li
-    = link_to "Tournaments", tournaments_path
-    - if can?(:manage, Upload) || can?(:read, OldTournament)
-      %ul
-        - if can? :read, Tournament
-          %li= link_to "Admin", admin_tournaments_path
-        - if can? :create, Upload
-          %li= link_to "New", new_admin_upload_path
-        - if can? :read, Upload
-          %li= link_to "Uploads", admin_uploads_path
-        - if can? :read, OldTournament
-          %li= link_to "Old", admin_old_tournaments_path
-  %li
-    = link_to "Ratings", icu_ratings_path
-    %ul
-      - if can?(:live, IcuRating)
-        %li= link_to "Live", live_ratings_path
-      - if can?(:juniors, IcuRating)
-        %li= link_to "Top Juniors", juniors_icu_ratings_path
-      - if can?(:juniors, IcuRating)
-        %li= link_to "Top Seniors", seniors_icu_ratings_path
-      - if can?(:women, IcuRating)
-        %li= link_to "Top Women", women_icu_ratings_path
-      - if can?(:juniors, IcuRating)
-        %li= link_to "Top Improvers", improvers_icu_ratings_path
-      - if can?(:juniors, IcuRating)
-        %li= link_to "WAR", war_icu_ratings_path
-      %li
-        = link_to "FIDE", fide_ratings_path
-        %ul
-          %li= link_to "Federations", federations_path
-      - if can?(:read, OldRating)
-        %li= link_to "Legacy", admin_old_ratings_path
-      - if can?(:read, RatingList)
-        %li= link_to "Lists", admin_rating_lists_path
-      - if can?(:read, RatingRun)
-        %li= link_to "Runs", admin_rating_runs_path
-  - if can? :read, FidePlayer
-    %li
-      - if can? :read, IcuPlayer
-        = link_to "Players", icu_players_path
+        = link_to "My Home", my_home_path
       - else
-        = link_to "FIDE Players", fide_players_path
+        = link_to "Home", home_path
       %ul
-        - if can? :manage, Player
-          %li= link_to "New Players", admin_new_players_path
-        %li= link_to "FIDE Players", fide_players_path
-        - if can? :read, FidePlayerFile
-          %li
-            = link_to "FIDE Player Files", admin_fide_player_files_path
-            - if can? :create, FidePlayerFile
-              %ul
-                %li= link_to "New", new_admin_fide_player_file_path
-  - if can? :read, Download
-    %li
-      = link_to "Admin", overview_path
-      %ul
-        - if can? :read, Login
-          %li= link_to "Logins", admin_logins_path
-        - if can? :read, User
-          %li= link_to "Users", admin_users_path
-        - if can? :read, Subscription
-          %li= link_to "Subs", admin_subscriptions_path
-        - if can? :read, Fee
-          %li= link_to "Fees", admin_fees_path
-        - if can? :read, Event
-          %li= link_to "Events", admin_events_path
-        - if can? :read, Failure
-          %li= link_to "Failures", admin_failures_path
-        - if can? :read, JuniorReport
-          %li= link_to "Junior Report", admin_junior_report_path
+        - if can? :my_home, ::Pages::MyHome
+          %li= link_to "Home", home_path
         %li
-          = link_to "Downloads", downloads_path
-          - if can? :create, Download
+          = link_to "Articles", articles_path
+          - if can? :create, Article
             %ul
-              %li= link_to "New", new_download_path
-        - if can? :system_info, ::Pages::SystemInfo
-          %li= link_to "System Info", system_info_path
-  %li= link_to "Help", "#", id: "help-link", class: "emphasize"
-  %li
-    - if current_user
-      = link_to "Log out", log_out_path
-    - else
-      = link_to "Log in", log_in_path
-  - add_top_link current_user.icu_player, current_user.role, "#{current_user.name(false)} (#{t(current_user.role, count: 1)})" if current_user
-  - add_top_links do |path, icon, text|
+              %li= link_to "New", new_article_path
+        %li= link_to "Contacts", contacts_path
+        %li= link_to_icu "Main ICU Site", "", ""
     %li
-      = link_to path do
-        = icon_tag icon, text
+      = link_to "Tournaments", tournaments_path
+      - if can?(:manage, Upload) || can?(:read, OldTournament)
+        %ul
+          - if can? :read, Tournament
+            %li= link_to "Admin", admin_tournaments_path
+          - if can? :create, Upload
+            %li= link_to "New", new_admin_upload_path
+          - if can? :read, Upload
+            %li= link_to "Uploads", admin_uploads_path
+          - if can? :read, OldTournament
+            %li= link_to "Old", admin_old_tournaments_path
+    %li
+      = link_to "Ratings", icu_ratings_path
+      %ul
+        - if can?(:live, IcuRating)
+          %li= link_to "Live", live_ratings_path
+        - if can?(:juniors, IcuRating)
+          %li= link_to "Top Juniors", juniors_icu_ratings_path
+        - if can?(:juniors, IcuRating)
+          %li= link_to "Top Seniors", seniors_icu_ratings_path
+        - if can?(:juniors, IcuRating)
+          %li= link_to "Top Improvers", improvers_icu_ratings_path
+        - if can?(:juniors, IcuRating)
+          %li= link_to "WAR", war_icu_ratings_path
+        %li
+          = link_to "FIDE", fide_ratings_path
+          %ul
+            %li= link_to "Federations", federations_path
+        - if can?(:read, OldRating)
+          %li= link_to "Legacy", admin_old_ratings_path
+        - if can?(:read, RatingList)
+          %li= link_to "Lists", admin_rating_lists_path
+        - if can?(:read, RatingRun)
+          %li= link_to "Runs", admin_rating_runs_path
+    - if can? :read, FidePlayer
+      %li
+        - if can? :read, IcuPlayer
+          = link_to "Players", icu_players_path
+        - else
+          = link_to "FIDE Players", fide_players_path
+        %ul
+          - if can? :manage, Player
+            %li= link_to "New Players", admin_new_players_path
+          %li= link_to "FIDE Players", fide_players_path
+          - if can? :read, FidePlayerFile
+            %li
+              = link_to "FIDE Player Files", admin_fide_player_files_path
+              - if can? :create, FidePlayerFile
+                %ul
+                  %li= link_to "New", new_admin_fide_player_file_path
+    - if can? :read, Download
+      %li
+        = link_to "Admin", overview_path
+        %ul
+          - if can? :read, Login
+            %li= link_to "Logins", admin_logins_path
+          - if can? :read, User
+            %li= link_to "Users", admin_users_path
+          - if can? :read, Subscription
+            %li= link_to "Subs", admin_subscriptions_path
+          - if can? :read, Fee
+            %li= link_to "Fees", admin_fees_path
+          - if can? :read, Event
+            %li= link_to "Events", admin_events_path
+          - if can? :read, Failure
+            %li= link_to "Failures", admin_failures_path
+          - if can? :read, JuniorReport
+            %li= link_to "Junior Report", admin_junior_report_path
+          %li
+            = link_to "Downloads", downloads_path
+            - if can? :create, Download
+              %ul
+                %li= link_to "New", new_download_path
+          - if can? :system_info, ::Pages::SystemInfo
+            %li= link_to "System Info", system_info_path
+    %li= link_to "Help", "#", id: "help-link", class: "emphasize"
+    %li
+      - if current_user
+        = link_to "Log out", log_out_path
+      - else
+        = link_to "Log in", log_in_path
+    - add_top_link current_user.icu_player, current_user.role, "#{current_user.name(false)} (#{t(current_user.role, count: 1)})" if current_user
+    - add_top_links do |path, icon, text|
+      %li
+        = link_to path do
+          = icon_tag icon, text
