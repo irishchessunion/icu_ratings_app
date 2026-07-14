@@ -89,6 +89,7 @@ module IcuRatings
       players = players.where("fed = 'IRL' OR fed IS NULL").where(deceased: false)
       players = players.where("list IN (?)", lists[:icu]).where("full = 1").where("rating >= #{threshold}")
       players = players.where("gender = 'F'") if @gender == "F"
+      players = players.where("deceased is NULL OR deceased = ?", false)
       players.inject({}) do |phash, player|
         row = Row.new(player)
         row.icu = player.icu_ratings.inject({}) { |rhash, icu_rating| rhash[icu_rating.list] = icu_rating.rating; rhash }

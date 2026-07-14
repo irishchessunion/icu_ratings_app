@@ -66,7 +66,9 @@ module ICU
 
       def adjacent_page(up)
         par = params.dup
-        par.permit!
+        if par.class == ActionController::Parameters
+          par.permit!
+        end
         par_hash = par.to_h.merge(page: page + (up ? 1 : -1), result: nil)
         path + "?" + par_hash.to_query
       end
