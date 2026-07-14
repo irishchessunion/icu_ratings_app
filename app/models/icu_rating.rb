@@ -34,6 +34,7 @@ class IcuRating < ApplicationRecord
     matches = matches.where("club = ?", params[:club]) if params[:club].present? && params[:club] != "None"
     matches = matches.where("gender = 'M' OR gender IS NULL") if params[:gender] == "M"
     matches = matches.where("gender = 'F'") if params[:gender] == "F"
+    matches = matches.where("deceased is NULL OR deceased = ?", false)
     matches = matches.where(icu_id: params[:icu_id].to_i) if params[:icu_id].to_i > 0
     matches = matches.where(full: params[:type] == "full") if params[:type].present?
     matches = matches.where(list: params[:list]) if params[:list].present?
