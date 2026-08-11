@@ -3,3 +3,9 @@
 @import "superfish";
 @import "bootstrap";
 @import "main";
+
+// temp for legacy form containers, can remove later
+table.invisible,
+tr.invisible {
+  visibility: visible !important;
+}
