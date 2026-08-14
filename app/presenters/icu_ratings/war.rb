@@ -86,7 +86,7 @@ module IcuRatings
     def icu_players
       threshold = @gender == "F" ? 1000 : 1800
       players = IcuPlayer.unscoped.joins(:icu_ratings).includes(:icu_ratings)
-      players = players.where("fed = 'IRL' OR fed IS NULL").where(deceased: false)
+      players = players.where("fed = 'IRL' OR fed IS NULL")
       players = players.where("list IN (?)", lists[:icu]).where("full = 1").where("rating >= #{threshold}")
       players = players.where("gender = 'F'") if @gender == "F"
       players = players.where("deceased is NULL OR deceased = ?", false)
