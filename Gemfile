@@ -20,7 +20,7 @@ gem "haml-rails"
 gem "sassc-rails"
 gem "coffee-rails"
 gem "therubyracer", platforms: :ruby
-gem "uglifier"
+gem "terser", "~> 1.2.6"
 gem "jbuilder"
 gem "mime-types"
 gem "public_suffix"
