@@ -7,6 +7,8 @@
 //= require jquery.min
 //= require jquery_ujs
 //= require jquery-ui
+//= require popper
+//= require bootstrap
 //= require hoverIntent
 //= require superfish
 //= require main

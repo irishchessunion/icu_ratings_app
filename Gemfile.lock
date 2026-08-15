@@ -70,6 +70,8 @@ GEM
       nokogiri (>= 1.4.1)
       rubyzip (>= 0.9.5)
     bcrypt_pbkdf (1.1.0)
+    bootstrap (5.3.8)
+      popper_js (>= 2.11.8, < 3)
     builder (3.2.4)
     cancancan (3.2.2)
     capistrano (3.16.0)
@@ -187,6 +189,7 @@ GEM
     parallel (1.20.1)
     parser (3.0.1.1)
       ast (~> 2.4.1)
+    popper_js (2.11.8)
     public_suffix (5.0.0)
     racc (1.6.2)
     rack (2.2.6.4)
@@ -319,6 +322,7 @@ PLATFORMS
 DEPENDENCIES
   axlsx
   bcrypt_pbkdf
+  bootstrap (= 5.3.8)
   cancancan
   capistrano-rails (~> 1.1)
   capybara (~> 3.36.0)
