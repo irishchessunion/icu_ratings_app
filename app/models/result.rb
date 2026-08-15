@@ -72,7 +72,7 @@ class Result < ApplicationRecord
 
     old_opponent = opponent
     return false unless update(attrs)
-    new_opponent = opponent(true)
+    new_opponent = opponent
 
     begin
       if new_opponent

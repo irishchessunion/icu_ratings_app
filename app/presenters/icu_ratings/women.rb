@@ -18,6 +18,7 @@ module IcuRatings
       @ratings = @ratings.where(list: list).where("icu_players.fed = 'IRL' OR icu_players.fed IS NULL")
       @ratings = @ratings.where("icu_players.gender = 'F'") # Filters for women
       @ratings = @ratings.where("icu_players.club = ?", @club) if @club.present?
+      @ratings = @ratings.where("icu_players.deceased is NULL OR icu_players.deceased = ?", false)
       @ratings
     end
 

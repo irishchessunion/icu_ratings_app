@@ -44,6 +44,7 @@ module IcuRatings
       @ratings = @ratings.where("icu_players.gender = 'F'") if @gender == "F"
       @ratings = @ratings.where("icu_players.club = ?", @club) if @club.present?
       @ratings = @ratings.where("icu_players.dob <=  ?", @over)
+      @ratings = @ratings.where("icu_players.deceased is NULL OR icu_players.deceased = ?", false)
       @ratings
     end
 

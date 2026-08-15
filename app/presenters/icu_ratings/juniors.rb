@@ -54,6 +54,7 @@ module IcuRatings
       @ratings = @ratings.where("icu_players.club = ?", @club) if @club.present?
       @ratings = @ratings.where("icu_players.dob >  ?", @under)
       @ratings = @ratings.where("icu_players.dob <= ?", @least)
+      @ratings = @ratings.where("icu_players.deceased is NULL OR icu_players.deceased = ?", false)
       if Juniors.use_hightide_sorting?
         @ratings.to_a.sort {|a, b| (b.hightide || 0) <=> (a.hightide || 0)}
       else
