@@ -11,8 +11,8 @@ module Admin
     end
 
     def create
+      authorize! :create, Result
       @result = Result.new(result_params)
-      authorize! :create, @result
       if @result.save
         @player = @result.player
         @tournament = @player.tournament
