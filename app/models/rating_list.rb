@@ -75,7 +75,7 @@ class RatingList < ApplicationRecord
 
   def self.search(params, path)
     matches = all
-    matches = matches.where("date LIKE '#{params[:year]}%'") if params[:year].present?
+    matches = matches.where("date LIKE ?", "#{params[:year]}%") if params[:year].present?
     paginate(matches, path, params)
   end
 
