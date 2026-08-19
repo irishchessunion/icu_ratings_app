@@ -19,7 +19,7 @@ Ratings::Application.configure do
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS
-  config.assets.js_compress = :uglifier
+  config.assets.js_compressor = :terser
   config.assets.css_compress = :sass
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
@@ -35,7 +35,7 @@ Ratings::Application.configure do
   # Specifies the header that your server uses for sending files
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
-  
+
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
 
