@@ -39,11 +39,13 @@
           %li= link_to "Live", live_ratings_path
         - if can?(:juniors, IcuRating)
           %li= link_to "Top Juniors", juniors_icu_ratings_path
-        - if can?(:juniors, IcuRating)
+        - if can?(:seniors, IcuRating)
           %li= link_to "Top Seniors", seniors_icu_ratings_path
-        - if can?(:juniors, IcuRating)
+        - if can?(:women, IcuRating)
+          %li= link_to "Top Women", women_icu_ratings_path
+        - if can?(:improvers, IcuRating)
           %li= link_to "Top Improvers", improvers_icu_ratings_path
-        - if can?(:juniors, IcuRating)
+        - if can?(:war, IcuRating)
           %li= link_to "WAR", war_icu_ratings_path
         %li
           = link_to "FIDE", fide_ratings_path
