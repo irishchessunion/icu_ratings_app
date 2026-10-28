@@ -1,3 +1,5 @@
+name: icu_ratings_app
+
 services:
   dev:
     stdin_open: true
@@ -9,10 +11,13 @@ services:
     links:
       - db
     ports:
-      - "3000:3000"
+      - target: 3000
+        published: "3000"
+        protocol: tcp
+        mode: ingress
     volumes:
       - .:/var/apps/ratings
-    command: bundle exec rails s -b 0.0.0.0
+    command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/"]
       interval: 30s
@@ -35,7 +40,7 @@ services:
       - WAIT_HOST_CONNECT_TIMEOUT=10
     command: sh -c "/wait && bin/rspec spec/"
   db:
-    image: mysql:8.0.42
+    image: docker.io/library/mysql:8.0.42
     restart: always
     volumes:
       - mysql_data:/var/lib/mysql

@@ -1,0 +1,36 @@
+{
+  // Open this project in the container with "Project: Open Remote".
+  // With Podman, first add this to your Zed settings.json:
+  //   { "use_podman": true }
+  "name": "ICU Ratings (Rails)",
+  "dockerComposeFile": ["../docker-compose.yml", "compose.yaml"],
+  "service": "dev",
+
+  // docker-compose.yml bind-mounts the repository here.
+  "workspaceFolder": "/var/apps/ratings",
+
+  // Only start the long-running services. Without this, `test` would also be
+  // started and would run the entire RSpec suite every time the container starts.
+  "runServices": ["db", "dev"],
+
+  // Keep the compose service's command (`bundle exec rails s -b 0.0.0.0`).
+  "overrideCommand": false,
+  "shutdownAction": "stopCompose",
+
+  // Run on host before container creation (required by some tools)
+  "initializeCommand": "echo 'initializing devcontainer'",
+
+  // Create/migrate the development database on first creation.
+  "postCreateCommand": "bundle exec rails db:prepare",
+
+  // Port 3000 is already published by docker-compose.yml, so the app is at
+  // http://localhost:3000 once the container is running.
+  "customizations": {
+    "vscode": {
+      "extensions": ["Shopify.ruby-lsp", "sst-dev.opencode"]
+    },
+    "zed": {
+      "extensions": ["ruby", "haml"]
+    }
+  }
+}
