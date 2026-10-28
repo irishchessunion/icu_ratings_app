@@ -89,6 +89,7 @@ class FidePlayer < ApplicationRecord
   private
 
   def name_mismatches(p)
+    return 0 if ICU::Name.new(first_name, last_name).match(p.first_name, p.last_name)
     m = 0
     m+= 1 unless ICU::Name.new(first_name, "Smith").match(p.first_name, "Smith")
     m+= 1 unless ICU::Name.new("Johnny", last_name).match("Johnny", p.last_name)
