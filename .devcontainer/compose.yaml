@@ -1,0 +1,30 @@
+# Compose overrides used only by .devcontainer/devcontainer.json.
+#
+# Paths are resolved relative to the first Compose file
+# (../docker-compose.yml), i.e. the repository root, as required by the
+# Compose merge rules.
+services:
+  dev:
+    # Zed's dev container support needs an explicit Dockerfile (or image) to
+    # determine the base image; compose's implicit `build: .` is not enough.
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    volumes:
+      # `z` tells Podman/Docker to relabel the bind mount for SELinux. This is
+      # needed for rootless Podman on Fedora/Silverblue, and is a no-op on
+      # hosts without SELinux.
+      - .:/var/apps/ratings:z
+
+      # The Dockerfile copies these files into the image, but the bind mount
+      # above hides them. Mount them explicitly so a fresh checkout has a
+      # working database.yml and secrets.yml without creating files on the host.
+      - ./config/database.docker.yml:/var/apps/ratings/config/database.yml:ro,z
+      - ./config/secrets.docker.yml:/var/apps/ratings/config/secrets.yml:ro,z
+
+  db:
+    volumes:
+      # Same SELinux relabel for the SQL files that create the ratings_dev and
+      # ratings_test databases on first start.
+      - ./init:/docker-entrypoint-initdb.d:z
