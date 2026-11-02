@@ -53,4 +53,5 @@ group :test, :development do
   gem "database_cleaner"
   gem "rubocop-rspec"
   gem "rubocop"
+  gem "simplecov", require: false
 end
