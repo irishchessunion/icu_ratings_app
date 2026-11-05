@@ -2,7 +2,12 @@
 ENV["RAILS_ENV"] ||= "test"
 # Coverage must start before the application is loaded, or its code is not tracked.
 require "simplecov"
-SimpleCov.start "rails"
+SimpleCov.start "rails" do
+  # Not in use yet, contains an invalid join needs a bugfix before it can be used and tested.
+  # Excluded from coverage so the figures reflect code that is used.
+  # Remove this filter when the file is picked up again.
+  add_filter "/lib/icu/ratings_app.rb"
+end
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'factory_bot_rails'

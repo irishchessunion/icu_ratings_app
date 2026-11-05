@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
 gem "rails", "=6.1.3.2"
 gem "sprockets", "~> 3.4" # sprockets 4.x needs more changes: https://stackoverflow.com/questions/58339607
@@ -54,4 +54,6 @@ group :test, :development do
   gem "rubocop-rspec"
   gem "rubocop"
   gem "simplecov", require: false
+  gem "bundler-audit", require: false
+  gem "rails-controller-testing"
 end

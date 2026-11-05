@@ -953,4 +953,92 @@ describe Tournament do
       expect(updates[:dob_unrecognized].count).to eq(0)
     end
   end
+
+  # The queue order decides the order in which tournaments are rated. Finish date is
+  # compared first, then start date, rounds, name and finally the id.
+  context "queue order when finish dates are the same" do
+    def make_tournament(attrs)
+      t = Tournament.new({ original_name: "T", name: "Alpha", start: "2024-02-08", finish: "2024-02-10", rounds: 6, user_id: 100, stage: "initial" }.merge(attrs))
+      t.save!
+      t
+    end
+
+    it "ranks by finish date first" do
+      early = make_tournament(finish: "2024-02-09", start: "2024-02-05")
+      late  = make_tournament(finish: "2024-02-10", start: "2024-02-01")
+      expect(late.send(:queue_position_higher, early)).to be true
+      expect(early.send(:queue_position_higher, late)).to be false
+    end
+
+    it "ranks a later start date higher" do
+      a = make_tournament(start: "2024-02-09", name: "Same")
+      b = make_tournament(start: "2024-02-08", name: "Same")
+      expect(a.send(:queue_position_higher, b)).to be true
+      expect(b.send(:queue_position_higher, a)).to be false
+    end
+
+    it "ranks by name when finish and start dates are the same" do
+      zulu  = make_tournament(name: "Zulu")
+      alpha = make_tournament(name: "Alpha")
+      expect(zulu.send(:queue_position_higher, alpha)).to be true
+      expect(alpha.send(:queue_position_higher, zulu)).to be false
+    end
+
+    it "uses the id as the final tie breaker" do
+      first  = make_tournament(name: "Same")
+      second = make_tournament(name: "Same")
+      expect(second.send(:queue_position_higher, first)).to be true
+      expect(first.send(:queue_position_higher, second)).to be false
+    end
+  end
+
+  context "#rate errors" do
+    before(:each) do
+      @t = make_rateable_stub
+    end
+
+    def make_rateable_stub
+      t = Tournament.new(original_name: "Stub", name: "Stub", start: "2024-02-08", finish: "2024-02-10", rounds: 6, user_id: @u.id, stage: "queued")
+      t.save!
+      t
+    end
+
+    it "returns the message and records an unexpected error as a failure" do
+      allow(@t).to receive(:rate!).and_raise(RuntimeError, "unexpected")
+      expect(@t.rate).to eq("unexpected")
+      expect(Failure.count).to eq(1)
+      expect(Failure.first.name).to eq("RuntimeError")
+    end
+
+    it "returns the message but doesn't record an ICU error as a failure" do
+      allow(@t).to receive(:rate!).and_raise(ICU::Error, "expected rule")
+      expect(@t.rate).to eq("expected rule")
+      expect(Failure.count).to eq(0)
+    end
+  end
+
+  context "#notes_snippet and #fide_url" do
+    it "has no snippet without notes" do
+      t = Tournament.new(original_name: "N", name: "N", start: "2024-02-08", finish: "2024-02-10", rounds: 6, user_id: @u.id, stage: "initial")
+      expect(t.notes_snippet).to be_nil
+    end
+
+    it "keeps short notes, without punctuation" do
+      t = Tournament.new(original_name: "N", name: "N", start: "2024-02-08", finish: "2024-02-10", rounds: 6, user_id: @u.id, stage: "initial", notes: "Short note!")
+      expect(t.notes_snippet).to eq("Short note")
+    end
+
+    it "shortens long notes to 29 characters and an ellipsis" do
+      t = Tournament.new(original_name: "N", name: "N", start: "2024-02-08", finish: "2024-02-10", rounds: 6, user_id: @u.id, stage: "initial",
+                         notes: "Hello, world! This is a long note that should be cut off after thirty characters.")
+      expect(t.notes_snippet).to eq("Hello world This is a long no...")
+    end
+
+    it "has a FIDE URL only when there is a FIDE event ID" do
+      t = Tournament.new(original_name: "N", name: "N", start: "2024-02-08", finish: "2024-02-10", rounds: 6, user_id: @u.id, stage: "initial")
+      expect(t.fide_url).to be_nil
+      t.fide_id = 123456
+      expect(t.fide_url).to eq("https://ratings.fide.com/tournament_information.phtml?event=123456")
+    end
+  end
 end
