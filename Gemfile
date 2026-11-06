@@ -40,6 +40,7 @@ group :development do
   # Include capistrano-ssh-doctor to check for ssh errors running capistrano
   # gem 'capistrano-ssh-doctor', '~> 1.0'
   gem "wirble"
+  gem "rufo", "0.17.1"
 end
 
 group :test, :development do

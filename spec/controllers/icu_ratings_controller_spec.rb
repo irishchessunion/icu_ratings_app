@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # IcuRatingsController: public read, officers can do more. Covers the CSV export,
 # the ratings graph, and the war/juniors/seniors/women/improvers reports, which each
@@ -48,7 +48,7 @@ describe IcuRatingsController, type: :controller do
     juniors: "juniors",
     seniors: "seniors",
     women: "women",
-    improvers: "improvers"
+    improvers: "improvers",
   }.each do |action, group|
     describe "GET #{action}" do
       it "renders the #{group} index view" do

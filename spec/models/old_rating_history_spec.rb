@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # OldRatingHistory.search: a player's history (newest tournament first), a tournament's
 # players (by surname), or the first 100 rows when there's no filter.

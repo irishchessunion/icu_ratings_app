@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # Admin::ResultsController. Permissions come from Ability:
 #   - officers: manage Result (so any unlocked tournament), and cannot modify locked tournaments

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe IcuPlayersHelper do
   it "summarises a personal attribute" do
@@ -90,10 +90,14 @@ end
 
 describe PlayersHelper do
   it "picks the right icon for each category" do
-    %w[icu_player foreign_player new_player].each do |cat|
+    {
+      "icu_player" => "user_green",
+      "foreign_player" => "user_blue",
+      "new_player" => "user_orange",
+    }.each do |cat, image|
       p = double("Player", status_ok?: true, category: cat)
-      allow(helper).to receive(:icon_tag).and_return("ICON")
       allow(helper).to receive(:t).and_return(cat)
+      expect(helper).to receive(:icon_tag).with(image, cat).and_return("ICON")
       expect(helper.category_icon(p)).to eq("ICON")
     end
   end

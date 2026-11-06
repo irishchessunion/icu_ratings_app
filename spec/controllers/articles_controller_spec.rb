@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # ArticlesController: public read, create/update/destroy need `can :manage, Article`
 # (officers and admins). Reporters can read and create; members can read.

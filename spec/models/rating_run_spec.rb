@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # Initialisation checks for RatingRun (run in the before_create callback, so a bad
 # request is saved with status "error" and an explanation in its report).

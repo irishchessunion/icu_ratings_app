@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # Admin::PublicationsController. Permissions come from Ability: officers may create
 # publications, admins may do everything. Publishing logic itself is covered in

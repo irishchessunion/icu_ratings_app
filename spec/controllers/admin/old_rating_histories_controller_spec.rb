@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # Admin::OldRatingHistoriesController#index. Readable by officers (Ability: `can :read, OldRatingHistory`).
 describe Admin::OldRatingHistoriesController, type: :controller do

@@ -1,18 +1,18 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Player do
   context "#changed_from_original?" do
     before(:each) do
       @p = Player.new(
-        first_name:  "Mark",
-        last_name:   "Orr",
-        icu_id:      1350,
-        fide_id:     2500035,
-        fed:         'IRL',
-        title:       "IM",
-        gender:      "M",
-        dob:         "1955-11-09",
-        icu_rating:  2192,
+        first_name: "Mark",
+        last_name: "Orr",
+        icu_id: 1350,
+        fide_id: 2500035,
+        fed: "IRL",
+        title: "IM",
+        gender: "M",
+        dob: "1955-11-09",
+        icu_rating: 2192,
         fide_rating: 2264,
       )
       @p.num = 1
@@ -72,15 +72,15 @@ describe Player do
   context "#update" do
     before(:each) do
       @p = Player.new(
-        first_name:  "Mark",
-        last_name:   "Orr",
-        icu_id:      1350,
-        fide_id:     2500035,
-        fed:         'IRL',
-        title:       "IM",
-        gender:      "M",
-        dob:         "1955-11-09",
-        icu_rating:  2192,
+        first_name: "Mark",
+        last_name: "Orr",
+        icu_id: 1350,
+        fide_id: 2500035,
+        fed: "IRL",
+        title: "IM",
+        gender: "M",
+        dob: "1955-11-09",
+        icu_rating: 2192,
         fide_rating: 2264,
       )
       @p.num = 1
@@ -97,7 +97,6 @@ describe Player do
       @p.update_column(:dob, "1955-05-09")
       expect(@p.dob).to eq Date.new(1955, 5, 9)
     end
-
   end
 
   context "#get_last_ratings" do
@@ -106,14 +105,14 @@ describe Player do
         id: 4941,
         first_name: "David",
         last_name: "Murray",
-        deceased: false
+        deceased: false,
       )
       @david.save!
       @john = IcuPlayer.new(
         id: 795,
         first_name: "John",
         last_name: "Loughran",
-        deceased: false
+        deceased: false,
       )
       @john.save!
 
@@ -125,7 +124,8 @@ describe Player do
         rorder: 1,
         rounds: 6,
         user_id: 100,
-        stage: "rated")
+        stage: "rated",
+      )
       @bunratty.save!
 
       @malahide = Tournament.new(
@@ -136,17 +136,18 @@ describe Player do
         rorder: 2,
         rounds: 6,
         user_id: 100,
-        stage: "rated")
+        stage: "rated",
+      )
       @malahide.save!
 
       @david_bunratty = Player.new(
-        first_name:  "David",
-        last_name:   "Murray",
+        first_name: "David",
+        last_name: "Murray",
         original_name: "Murray, David",
-        icu_id:      4941,
-        new_rating:  2100,
+        icu_id: 4941,
+        new_rating: 2100,
         num: 5,
-        tournament_id: @bunratty.id
+        tournament_id: @bunratty.id,
       )
       @david_bunratty.save!
       @david_malahide = @david_bunratty.dup
@@ -161,20 +162,20 @@ describe Player do
         icu_id: @john.id,
         new_rating: 1400,
         num: 6,
-        tournament_id: @bunratty.id
+        tournament_id: @bunratty.id,
       )
       @john_bunratty.save!
 
       @david_rating = IcuRating.new(
         list: Date.new(2024, 3, 1),
         icu_id: @david.id,
-        rating: 2100 # post-adjustment, though 2100 means no adjustment
+        rating: 2100, # post-adjustment, though 2100 means no adjustment
       )
 
       @john_rating = IcuRating.new(
         list: Date.new(2024, 3, 1),
         icu_id: @john.id,
-        rating: 1760 # post-adjustment rating
+        rating: 1760, # post-adjustment rating
       )
       @john_rating.save!
     end
@@ -239,8 +240,8 @@ describe Player do
     context "#rateable_games and #rateable_score" do
       before(:each) do
         @me = make_player(new_rating: 1900)
-        @a  = make_player(new_rating: 2000)
-        @b  = make_player(new_rating: 1800)
+        @a = make_player(new_rating: 2000)
+        @b = make_player(new_rating: 1800)
         make_result(@me, @a, "W", round: 1)
         make_result(@me, @b, "D", round: 2)
         make_result(@me, @a, "L", round: 3, rateable: false)

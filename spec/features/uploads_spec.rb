@@ -1,5 +1,5 @@
 # encoding: UTF-8
-require 'rails_helper'
+require "rails_helper"
 
 describe "Upload" do
   describe "guests" do
@@ -87,11 +87,11 @@ describe "Upload" do
   describe "valid files" do
     describe "junior championships" do
       before(:each) do
-        @user   = login("reporter")
-        @ryan   = FactoryBot.create(:icu_player, id: 6897,  last_name: "Griffiths", first_name: "Ryan-Rhys", dob: "1993-12-20")
-        @jamie  = FactoryBot.create(:icu_player, id: 5226,  last_name: "Flynn",     first_name: "Jamie")
-        @leon   = FactoryBot.create(:icu_player, id: 6409,  last_name: "Hulleman",  first_name: "Leon")
-        @thomas = FactoryBot.create(:icu_player, id: 10914, last_name: "Dunne",     first_name: "Thomas", dob: "1992-01-16")
+        @user = login("reporter")
+        @ryan = FactoryBot.create(:icu_player, id: 6897, last_name: "Griffiths", first_name: "Ryan-Rhys", dob: "1993-12-20")
+        @jamie = FactoryBot.create(:icu_player, id: 5226, last_name: "Flynn", first_name: "Jamie")
+        @leon = FactoryBot.create(:icu_player, id: 6409, last_name: "Hulleman", first_name: "Leon")
+        @thomas = FactoryBot.create(:icu_player, id: 10914, last_name: "Dunne", first_name: "Thomas", dob: "1992-01-16")
       end
 
       it "should process Swiss Perfect" do
@@ -114,7 +114,7 @@ describe "Upload" do
         expect(tournament.name).to eq("U-19 All Ireland")
         expect(tournament.start.to_s).to eq("2010-04-11")
         expect(tournament.finish.to_s).to eq("2010-04-11")
-        expect(tournament.players.map(&:name).join('|')).to eq("Dunne, Thomas|Flynn, Jamie|Griffiths, Ryan-Rhys|Hulleman, Leon")
+        expect(tournament.players.map(&:name).join("|")).to eq("Dunne, Thomas|Flynn, Jamie|Griffiths, Ryan-Rhys|Hulleman, Leon")
         thomas, jamie, ryan, leon = tournament.players
         expect(ryan.results.size).to eq(3)
         expect(thomas.results.map(&:round).join("|")).to eq("1|2|3")
@@ -150,7 +150,7 @@ describe "Upload" do
         expect(tournament.name).to eq("U-19 All Ireland")
         expect(tournament.start.to_s).to eq("2010-04-11")
         expect(tournament.finish.to_s).to eq("2010-04-11")
-        expect(tournament.players.map(&:name).join('|')).to eq("Dunne, Thomas|Flynn, Jamie|Griffiths, Ryan-Rhys|Hulleman, Leon")
+        expect(tournament.players.map(&:name).join("|")).to eq("Dunne, Thomas|Flynn, Jamie|Griffiths, Ryan-Rhys|Hulleman, Leon")
         thomas, jamie, ryan, leon = tournament.players
         expect(ryan.results.map(&:result).join("|")).to eq("W|W|W")
         expect(thomas.results.map(&:colour).join("|")).to eq("||")
@@ -187,7 +187,7 @@ describe "Upload" do
         expect(tournament.name).to eq("U-19 All Ireland")
         expect(tournament.start.to_s).to eq("2010-04-11")
         expect(tournament.finish.to_s).to eq("2010-04-13")
-        expect(tournament.players.map(&:name).join('|')).to eq("Dunne, Thomas|Flynn, Jamie|Griffiths, Ryan-Rhys|Hulleman, Leon")
+        expect(tournament.players.map(&:name).join("|")).to eq("Dunne, Thomas|Flynn, Jamie|Griffiths, Ryan-Rhys|Hulleman, Leon")
         thomas, jamie, ryan, leon = tournament.players
         expect(ryan.results.map(&:colour).join("|")).to eq("W|W|B")
         expect(ryan.icu_id).to eq(6897)
@@ -208,9 +208,9 @@ describe "Upload" do
 
     describe "isle of man" do
       before(:each) do
-        @user   = login("reporter")
-        @peter  = FactoryBot.create(:icu_player, id: 159,   last_name: "Cafolla",   first_name: "Peter")
-        @tony   = FactoryBot.create(:icu_player, id: 456,   last_name: "Fox",       first_name: "Tony")
+        @user = login("reporter")
+        @peter = FactoryBot.create(:icu_player, id: 159, last_name: "Cafolla", first_name: "Peter")
+        @tony = FactoryBot.create(:icu_player, id: 456, last_name: "Fox", first_name: "Tony")
       end
 
       it "should process Foreign CSV" do
@@ -231,7 +231,7 @@ describe "Upload" do
         expect(tony.results.size).to eq(9)
         expect(tony.results.find_by_round(1).opponent.name).to eq("Taylor, Peter P.")
         expect(tony.results.find_by_round(1).opponent.original_name).to eq("Taylor, Peter P")
-        expect(tony.results.find_by_round(4).colour).to eq('W')
+        expect(tony.results.find_by_round(4).colour).to eq("W")
         expect(tony.results.find_by_round(6).rateable).to be false
         expect(tony.results.find_by_round(9).result).to eq("D")
         expect(peter.results.size).to eq(9)

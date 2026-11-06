@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 describe Admin::FidePlayerFilesController, type: :controller do
   before(:each) do
     @user = FactoryBot.create(:user, role: "admin")

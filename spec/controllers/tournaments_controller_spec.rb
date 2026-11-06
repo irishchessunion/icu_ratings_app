@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # TournamentsController: the public tournament pages, and the form that creates a tournament
 # from a single ICU player's entry (with their results). Creating needs `can :create, Tournament`
@@ -16,7 +16,7 @@ describe TournamentsController, type: :controller do
       r1_last_name: "Brown", r1_first_name: "Ben", r1_fed: "IRL", r1_fide_title: "", r1_fide_elo: "2100",
       r1_result: "Win", r1_colour: "White",
       r2_last_name: "Clarke", r2_first_name: "Cat", r2_fed: "ENG", r2_fide_title: "FM", r2_fide_elo: "2200",
-      r2_result: "Draw", r2_colour: "Black"
+      r2_result: "Draw", r2_colour: "Black",
     }.merge(overrides)
   end
 

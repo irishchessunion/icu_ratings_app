@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # Result: the score helpers, and Result#update_results, which edits a game and mirrors
 # the change onto the opponent's record for the same round. Expected values are worked

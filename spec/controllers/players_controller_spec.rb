@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # PlayersController#show. Any member can see a player (Ability: members `can :show, Player`).
 describe PlayersController, type: :controller do

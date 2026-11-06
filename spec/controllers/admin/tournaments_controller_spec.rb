@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # Admin::TournamentsController: officer/admin only (Ability: `can :manage, Tournament`).
 describe Admin::TournamentsController, type: :controller do

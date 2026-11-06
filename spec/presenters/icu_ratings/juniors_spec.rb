@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 module IcuRatings
   describe Juniors do
@@ -85,7 +85,6 @@ module IcuRatings
         ratings = j.ratings
         expect(ratings.size).to eq(1)
       end
-
     end
 
     describe "beginning of month" do

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe "OldRating" do
   describe "listing" do
@@ -18,7 +18,7 @@ describe "OldRating" do
       visit "/admin/old_ratings"
       expect(page).to have_selector("#old_rating_results table tr", count: 4)
       expect(page).to have_selector(:xpath, @fmt1 % ["Orr, Mark", 1350, 2198, "full", 329, "full"])
-      expect(page).to have_selector(:xpath, @fmt1 % ["Orr, John", 1349, 1349, "full",  51, "full"])
+      expect(page).to have_selector(:xpath, @fmt1 % ["Orr, John", 1349, 1349, "full", 51, "full"])
       expect(page).to have_selector(:xpath, @fmt1 % ["Bannon, Aoife", 10349, -58, "provisional", 4, "prov"])
       page.fill_in "Last Name", with: "Orr"
       click_button "Search"

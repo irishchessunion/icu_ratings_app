@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Admin::RatingRunsController, type: :controller do
   before(:each) do
@@ -34,8 +34,10 @@ describe Admin::RatingRunsController, type: :controller do
   end
 
   it "redirects with an error when the run cannot be created" do
-    post :create, params: { rating_run: { start_tournament_id: 987654 } }
-    expect(response).to redirect_to(admin_rating_runs_path).or redirect_to([:admin, RatingRun.last])
+    expect {
+      post :create, params: { rating_run: { start_tournament_id: 987654 } }
+    }.not_to change(RatingRun, :count)
+    expect(response).to redirect_to(admin_rating_runs_path)
   end
 
   it "edits a rating run" do

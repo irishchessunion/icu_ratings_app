@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Admin::FeesController, type: :controller do
   before(:each) do

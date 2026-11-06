@@ -1,19 +1,23 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe IcuRating do
   before(:each) do
     @player = FactoryBot.create(:icu_player, first_name: "Ann", last_name: "Adams", fed: "IRL", gender: "F", club: "Dublin")
     @rating = FactoryBot.create(:icu_rating, icu_player: @player, rating: 1500, full: true, list: Date.new(2026, 10, 1))
+    @other_player = FactoryBot.create(:icu_player, first_name: "Ben", last_name: "Brown", fed: "ENG", gender: "M", club: "London")
+    @other_rating = FactoryBot.create(:icu_rating, icu_player: @other_player, rating: 1600, full: false, list: Date.new(2026, 11, 1))
   end
 
   it "searches by name" do
     result = IcuRating.search({ first_name: "Ann", last_name: "Adams" }, "/path")
     expect(result.matches).to include(@rating)
+    expect(result.matches).not_to include(@other_rating)
   end
 
   it "searches by club" do
     result = IcuRating.search({ club: "Dublin" }, "/path")
     expect(result.matches).to include(@rating)
+    expect(result.matches).not_to include(@other_rating)
   end
 
   it "searches by club None" do
@@ -21,31 +25,37 @@ describe IcuRating do
     rating2 = FactoryBot.create(:icu_rating, icu_player: player2, rating: 1600, full: true, list: Date.new(2026, 10, 1))
     result = IcuRating.search({ club: "None" }, "/path")
     expect(result.matches).to include(rating2)
+    expect(result.matches).not_to include(@rating)
   end
 
   it "searches by gender" do
     result = IcuRating.search({ gender: "F" }, "/path")
     expect(result.matches).to include(@rating)
+    expect(result.matches).not_to include(@other_rating)
   end
 
   it "searches by type" do
     result = IcuRating.search({ type: "full" }, "/path")
     expect(result.matches).to include(@rating)
+    expect(result.matches).not_to include(@other_rating)
   end
 
   it "searches by icu_id" do
     result = IcuRating.search({ icu_id: @player.id }, "/path")
     expect(result.matches).to include(@rating)
+    expect(result.matches).not_to include(@other_rating)
   end
 
   it "searches by list" do
     result = IcuRating.search({ list: "2026-10-01" }, "/path")
     expect(result.matches).to include(@rating)
+    expect(result.matches).not_to include(@other_rating)
   end
 
   it "searches by fed" do
     result = IcuRating.search({ fed: "IRL" }, "/path")
     expect(result.matches).to include(@rating)
+    expect(result.matches).not_to include(@other_rating)
   end
 
   it "returns all when no filters" do

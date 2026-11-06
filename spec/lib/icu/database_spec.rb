@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe ICU::Database do
   let(:mysql_client) { double("Mysql2::Client") }
@@ -19,7 +19,7 @@ describe ICU::Database do
 
     it "returns user hash when valid and verified" do
       allow(mysql_client).to receive(:query).with(/users.*WHERE id = 123/).and_return([
-        { email: "a@b.com", status: "OK", encrypted_password: "a" * 32, salt: "b" * 32, expires_on: Date.new(2026, 12, 31), verified_at: Time.now }
+        { email: "a@b.com", status: "OK", encrypted_password: "a" * 32, salt: "b" * 32, expires_on: Date.new(2026, 12, 31), verified_at: Time.now },
       ])
       result = db.get_user(123, "a@b.com")
       expect(result).to include(password: "a" * 32, salt: "b" * 32, status: "ok")
@@ -27,7 +27,7 @@ describe ICU::Database do
 
     it "returns 'pending' status when verified_at is blank" do
       allow(mysql_client).to receive(:query).and_return([
-        { email: "a@b.com", status: "OK", encrypted_password: "a" * 32, salt: "b" * 32, expires_on: Date.today, verified_at: nil }
+        { email: "a@b.com", status: "OK", encrypted_password: "a" * 32, salt: "b" * 32, expires_on: Date.today, verified_at: nil },
       ])
       expect(db.get_user(123, "a@b.com")[:status]).to eq("pending")
     end
@@ -106,7 +106,6 @@ describe ICU::Database do
     end
   end
 end
-
 
 describe ICU::Database::Push do
   let(:mysql_client) { double("Mysql2::Client") }
@@ -226,7 +225,6 @@ describe ICU::Database::Push do
   end
 end
 
-
 describe ICU::Database::Pull::Player do
   let(:mysql_client) { double("Mysql2::Client") }
   let(:www_db_config) { { host: "x", username: "x", password: "x", database: "x" } }
@@ -339,7 +337,6 @@ describe ICU::Database::Pull::Player do
   end
 end
 
-
 describe ICU::Database::Pull::User do
   let(:mysql_client) { double("Mysql2::Client") }
   let(:www_db_config) { { host: "x", username: "x", password: "x", database: "x" } }
@@ -420,7 +417,6 @@ describe ICU::Database::Pull::User do
     end
   end
 end
-
 
 describe ICU::Database::Pull::Item do
   let(:mysql_client) { double("Mysql2::Client") }
@@ -518,7 +514,6 @@ describe ICU::Database::Pull::Item do
   end
 end
 
-
 describe ICU::Database::Pull::Subs do
   let(:mysql_client) { double("Mysql2::Client") }
   let(:www_db_config) { { host: "x", username: "x", password: "x", database: "x" } }
@@ -614,7 +609,6 @@ describe ICU::Database::Pull::Subs do
   end
 end
 
-
 describe ICU::Database::Pull::Stats do
   let(:mysql_client) { double("Mysql2::Client") }
   let(:www_db_config) { { host: "x", username: "x", password: "x", database: "x" } }
@@ -669,7 +663,6 @@ describe ICU::Database::Pull::Stats do
     end
   end
 end
-
 
 describe ICU::Database::Pull::User do
   let(:mysql_client) { double("Mysql2::Client") }
@@ -747,7 +740,6 @@ describe ICU::Database::Pull::User do
   end
 end
 
-
 describe ICU::Database::Pull::Item do
   let(:mysql_client) { double("Mysql2::Client") }
   let(:www_db_config) { { host: "x", username: "x", password: "x", database: "x" } }
@@ -808,7 +800,6 @@ describe ICU::Database::Pull::Item do
     end
   end
 end
-
 
 describe ICU::Database::Pull::Subs do
   let(:mysql_client) { double("Mysql2::Client") }
@@ -907,7 +898,6 @@ describe ICU::Database::Pull::Subs do
   end
 end
 
-
 describe ICU::Database::Pull::Player do
   let(:mysql_client) { double("Mysql2::Client") }
   let(:www_db_config) { { host: "x", username: "x", password: "x", database: "x" } }
@@ -940,7 +930,6 @@ describe ICU::Database::Pull::Player do
     end
   end
 end
-
 
 describe ICU::Database::Pull::Stats do
   let(:mysql_client) { double("Mysql2::Client") }
@@ -1048,7 +1037,6 @@ describe ICU::Database::Pull::Stats do
   end
 end
 
-
 describe ICU::Database::Pull::Player do
   let(:mysql_client) { double("Mysql2::Client") }
   let(:www_db_config) { { host: "x", username: "x", password: "x", database: "x" } }
@@ -1085,7 +1073,6 @@ describe ICU::Database::Pull::Player do
   end
 end
 
-
 describe ICU::Database::Pull::User do
   let(:mysql_client) { double("Mysql2::Client") }
   let(:www_db_config) { { host: "x", username: "x", password: "x", database: "x" } }
@@ -1117,7 +1104,6 @@ describe ICU::Database::Pull::User do
   end
 end
 
-
 describe ICU::Database::Pull::Item do
   let(:mysql_client) { double("Mysql2::Client") }
   let(:www_db_config) { { host: "x", username: "x", password: "x", database: "x" } }
@@ -1147,7 +1133,6 @@ describe ICU::Database::Pull::Item do
     end
   end
 end
-
 
 describe ICU::Database::Pull::Subs do
   let(:mysql_client) { double("Mysql2::Client") }

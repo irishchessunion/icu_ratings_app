@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Admin::EventsController, type: :controller do
   before(:each) do

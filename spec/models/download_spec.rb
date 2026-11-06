@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # Download model: the Excel export. Only the easy branches are covered here.
 describe Download do

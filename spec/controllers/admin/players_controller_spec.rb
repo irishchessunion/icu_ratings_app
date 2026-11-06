@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # Admin::PlayersController. Permissions: officers and admins can manage players.
 describe Admin::PlayersController, type: :controller do

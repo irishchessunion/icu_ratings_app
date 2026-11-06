@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # Publication edge cases for RatingList that the end-to-end specs in rating_list_spec.rb
 # don't reach. Every expected value was worked out by hand from the rules.

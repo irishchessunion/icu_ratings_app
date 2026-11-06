@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe "Sessions" do
   describe "logging in" do
@@ -98,7 +98,7 @@ describe "Sessions" do
     end
 
     it "invalid logins triggers pulls to check for changes" do
-      hash = [:password, :salt, :status, :expiry].inject({}) { |h,k| h[k] = @user.send(k); h }
+      hash = [:password, :salt, :status, :expiry].inject({}) { |h, k| h[k] = @user.send(k); h }
       allow(ICU::Database::Pull).to receive_message_chain(:new, :get_user).with(@user.id, @user.email).and_return(hash)
       page.fill_in "Email", with: @user.email
       page.fill_in "Password", with: "rubbish"
@@ -110,7 +110,7 @@ describe "Sessions" do
     end
 
     it "an out of date date password can be refreshed from pulled data" do
-      hash = [:salt, :status, :expiry].inject({}) { |h,k| h[k] = @user.send(k); h }.merge(password: @password[1].fetch(:encrypted))
+      hash = [:salt, :status, :expiry].inject({}) { |h, k| h[k] = @user.send(k); h }.merge(password: @password[1].fetch(:encrypted))
       allow(ICU::Database::Pull).to receive_message_chain(:new, :get_user).with(@user.id, @user.email).and_return(hash)
       page.fill_in "Email", with: @user.email
       page.fill_in "Password", with: @password[1].fetch(:password)
@@ -122,7 +122,7 @@ describe "Sessions" do
     end
 
     it "data is never pulled more than once in quick succession" do
-      hash = [:salt, :status, :expiry, :password].inject({}) { |h,k| h[k] = @user.send(k); h }
+      hash = [:salt, :status, :expiry, :password].inject({}) { |h, k| h[k] = @user.send(k); h }
       allow(ICU::Database::Pull).to receive_message_chain(:new, :get_user).with(@user.id, @user.email).and_return(hash)
       page.fill_in "Email", with: @user.email
       page.fill_in "Password", with: "rubbish"

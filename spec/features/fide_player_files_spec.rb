@@ -1,7 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe "FidePlayerFile" do
-  def load_file(file, update=false)
+  def load_file(file, update = false)
     visit "/admin/fide_player_files/new"
     page.attach_file "fide_player_file[file]", test_file_path(file)
     page.check "Update" if update

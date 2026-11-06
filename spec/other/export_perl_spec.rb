@@ -1,7 +1,7 @@
-require 'rails_helper'
-require 'open3'
-require 'tmpdir'
-require 'dbf'
+require "rails_helper"
+require "open3"
+require "tmpdir"
+require "dbf"
 
 # Characterisation specs for bin/export.pl, the Perl script that writes the
 # published and live ratings downloads (SwissPerfect DBF and Swiss Manager text,
@@ -17,12 +17,12 @@ describe "bin/export.pl", truncation: true do
   # Season logic from the script: a new season starts in August.
   def season_for(year, month)
     y = month < 8 ? year - 1 : year
-    "#{y}-#{format('%02d', (y + 1) % 100)}"
+    "#{y}-#{format("%02d", (y + 1) % 100)}"
   end
 
   let(:now) { Time.now }
   let(:this_season) { season_for(now.year, now.month) }
-  let(:mmyy) { now.strftime('%b%y') }
+  let(:mmyy) { now.strftime("%b%y") }
 
   # Swiss Manager line layout: "%-8s  %-32s  %-2s  %3s  %-4s  %3d  %-4s  %s"
   def sm_line(id, name, title, fed, rating, year, flags)
@@ -113,10 +113,10 @@ describe "bin/export.pl", truncation: true do
     it "lists players by last name then first name, with the published rating, sex, club and date of birth" do
       rows = read_dbf("#{@dir}/swiss_perfect_pub.dbf")
       expect(rows).to eq([
-        { "ICU_CODE" => "1004", "FIRST_NAME" => "Eve",   "LAST_NAME" => "Adams",  "ICU_RATING" => "0",    "SEX" => "F", "CLUB" => "U",             "DOB" => "" },
-        { "ICU_CODE" => "1002", "FIRST_NAME" => "David", "LAST_NAME" => "Murray", "ICU_RATING" => "2100", "SEX" => "M", "CLUB" => "L Dublin",    "DOB" => "" },
-        { "ICU_CODE" => "1003", "FIRST_NAME" => "Timer", "LAST_NAME" => "Old",    "ICU_RATING" => "1700", "SEX" => "",  "CLUB" => "U",             "DOB" => "" },
-        { "ICU_CODE" => "1001", "FIRST_NAME" => "Ann",   "LAST_NAME" => "Smith",  "ICU_RATING" => "1900", "SEX" => "F", "CLUB" => "S Dublin Westwood", "DOB" => "06-05-1990" },
+        { "ICU_CODE" => "1004", "FIRST_NAME" => "Eve", "LAST_NAME" => "Adams", "ICU_RATING" => "0", "SEX" => "F", "CLUB" => "U", "DOB" => "" },
+        { "ICU_CODE" => "1002", "FIRST_NAME" => "David", "LAST_NAME" => "Murray", "ICU_RATING" => "2100", "SEX" => "M", "CLUB" => "L Dublin", "DOB" => "" },
+        { "ICU_CODE" => "1003", "FIRST_NAME" => "Timer", "LAST_NAME" => "Old", "ICU_RATING" => "1700", "SEX" => "", "CLUB" => "U", "DOB" => "" },
+        { "ICU_CODE" => "1001", "FIRST_NAME" => "Ann", "LAST_NAME" => "Smith", "ICU_RATING" => "1900", "SEX" => "F", "CLUB" => "S Dublin Westwood", "DOB" => "06-05-1990" },
       ])
     end
   end
@@ -144,10 +144,10 @@ describe "bin/export.pl", truncation: true do
     it "writes one line per player, with title, federation, rating, year of birth and flags" do
       lines = File.readlines("#{@dir}/swiss_manager_pub.#{mmyy}.txt", encoding: "UTF-8")
       expect(lines.drop(1)).to eq([
-        sm_line(1004, "Adams, Eve",    "wi", "IRL", "",     "",     "wU"),
-        sm_line(1002, "Murray, David", "i",  "IRL", 2100,   "",     "L Dublin"),
-        sm_line(1003, "Old, Timer",    "",   "",    1700,   "",     "U"),
-        sm_line(1001, "Smith, Ann",    "",   "IRL", 1900,   "1990", "wS Dublin Uestuood"),
+        sm_line(1004, "Adams, Eve", "wi", "IRL", "", "", "wU"),
+        sm_line(1002, "Murray, David", "i", "IRL", 2100, "", "L Dublin"),
+        sm_line(1003, "Old, Timer", "", "", 1700, "", "U"),
+        sm_line(1001, "Smith, Ann", "", "IRL", 1900, "1990", "wS Dublin Uestuood"),
       ])
     end
 

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # Admin::JuniorReportsController#show sends a CSV. Only officers and admins may read it
 # (Ability: officers `can :read, JuniorReport`, admins `can :manage, :all`).

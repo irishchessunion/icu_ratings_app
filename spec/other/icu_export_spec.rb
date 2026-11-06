@@ -1,6 +1,6 @@
-require 'rails_helper'
-require 'tmpdir'
-require 'fileutils'
+require "rails_helper"
+require "tmpdir"
+require "fileutils"
 
 # Characterisation specs for lib/icu/export.rb.
 #
@@ -11,7 +11,7 @@ require 'fileutils'
 describe ICU::Export do
   EXPECTED_HEADER = %w[ID_no Fide_no Name Title Fed Rtg_Nat Rtg_Int Games Birthday Sub Sex ClubName].freeze
   XLSX_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".freeze
-  ZIP_TYPE  = "application/zip".freeze
+  ZIP_TYPE = "application/zip".freeze
 
   # Run each example from an empty directory, so the tmp/ files written by the
   # export never touch the real tmp/ directory of the repo.
@@ -28,8 +28,8 @@ describe ICU::Export do
     @list = RatingList.create!(date: Date.new(2026, 10, 1), tournament_cut_off: Date.new(2026, 10, 15), payment_cut_off: Date.new(2026, 10, 31))
     IcuRating.create!(list: @list.date, icu_id: 1001, rating: 1800)
     IcuPlayer.create!(id: 1001, first_name: "Ann", last_name: "Smith", deceased: false, fed: "IRL", gender: "F", dob: Date.new(1990, 5, 6), club: "Dublin")
-    @month_yy = Time.now.strftime('%b%y')
-    @old_month_yy = 1.month.ago.strftime('%b%y')
+    @month_yy = Time.now.strftime("%b%y")
+    @old_month_yy = 1.month.ago.strftime("%b%y")
   end
 
   def write_fixture(path, content = "zip-bytes-#{path}")

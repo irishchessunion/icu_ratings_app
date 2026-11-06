@@ -1,18 +1,21 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Failure do
   before(:each) do
     @failure = Failure.create!(name: "RuntimeError", details: "boom")
+    @other = Failure.create!(name: "OtherError", details: "other")
   end
 
   it "searches by name" do
     result = Failure.search({ name: "Runtime" }, "/path")
     expect(result.matches).to include(@failure)
+    expect(result.matches).not_to include(@other)
   end
 
   it "searches by age" do
     result = Failure.search({ age: 1 }, "/path")
     expect(result.matches).to include(@failure)
+    expect(result.matches).not_to include(@other)
   end
 
   it "returns all when no filters" do

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # Specs for lib/fide/download.rb. Network, zip and file I/O are stubbed. XML is built
 # in the spec (small synthetic lists), so every assertion is a hand-checked value.
@@ -590,7 +590,7 @@ module FIDE
           { fideid: 3000001, name: "Smith, John", country: "ENG", sex: "M", rating: 2000 },
           { fideid: 3000002, name: "Icu, Foreign", country: "ENG", sex: "M" },
           { fideid: 3000001, name: "Smith, John", country: "ENG", sex: "M" },
-          { fideid: 3000003, country: "ENG", sex: "M" }
+          { fideid: 3000003, country: "ENG", sex: "M" },
         ])
         allow(zip).to receive(:read).and_return(list)
         allow(File).to receive(:open).and_call_original
