@@ -1,7 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe "Tournament" do
-  def load_tournament(file, arg={})
+  def load_tournament(file, arg = {})
     visit "/admin/uploads/new"
     set_upload_format(page, file)
     set_tournament_name(page, file, arg)
@@ -19,7 +19,7 @@ describe "Tournament" do
       when /\.tab$/ then "FIDE-Krause"
       when /\.txt$/ then "Swiss Perfect Export"
       when /\.zip$/ then "Swiss Perfect"
-    end
+      end
     page.select value, from: "upload_format"
   end
 
@@ -36,20 +36,20 @@ describe "Tournament" do
   def set_feds_option(page, file, arg)
     return unless file =~ /\.(tab|txt|zip)/
     value = case arg[:feds]
-      when "skip"   then "Skip if invalid"
+      when "skip" then "Skip if invalid"
       when "ignore" then "Ignore all"
       else "Error if invalid"
-    end
+      end
     page.select value, from: "feds"
   end
 
   def set_ratings_option(page, file, arg)
     return unless file =~ /\.(tab)/
     value = case arg[:ratings]
-      when "ICU"   then "ICU"
-      when "FIDE"  then "FIDE"
+      when "ICU" then "ICU"
+      when "FIDE" then "FIDE"
       else ""
-    end
+      end
     page.select value, from: "ratings"
   end
 
@@ -259,7 +259,6 @@ describe "Tournament" do
     end
   end
 
-
   describe "removing players" do
     before(:each) do
       file = "junior_championships_plus.tab"
@@ -269,7 +268,7 @@ describe "Tournament" do
     end
 
     def signature(t)
-      t.reload.players.sort { |a,b| a.num <=> b.num }.map { |p| "#{p.num}|#{p.last_name}|#{p.rank}" }.join("||")
+      t.reload.players.sort { |a, b| a.num <=> b.num }.map { |p| "#{p.num}|#{p.last_name}|#{p.rank}" }.join("||")
     end
 
     # potentially flaky test, but seems to be capybara issue. Hopefully better in later versions.
@@ -361,8 +360,8 @@ describe "Tournament" do
 
       # This button seems to need a little bit more time to complete.
       @update = Proc.new do
-        expect(page).to have_button('Update')
-        page.find_button('Update').click
+        expect(page).to have_button("Update")
+        page.find_button("Update").click
         sleep 0.2
       end
     end
@@ -524,7 +523,7 @@ describe "Tournament" do
       end
 
       [["admin", true], ["officer", true], ["reporter", false], [nil, false], ["member", false], ["guest", false]].each do |role, able|
-        it "#{role || 'owning reporter'} #{able ? 'can' : 'can not'}", js: true do
+        it "#{role || "owning reporter"} #{able ? "can" : "can not"}", js: true do
           expect(@t.status).to eq("ok")
           expect(@t.stage).to eq("ready")
 

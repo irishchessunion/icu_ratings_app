@@ -22,4 +22,19 @@ describe Emailer do
       expect(email.body).to include("Link: http://ratings.icu.ie/admin/tournaments/#{@t.id}")
     end
   end
+
+  context "#test_email" do
+    it "sends a test email to the given address" do
+      n = ActionMailer::Base.deliveries.size
+      email = Emailer.test_email("foo@example.com").deliver_now
+      expect(ActionMailer::Base.deliveries.size).to eq(n + 1)
+      expect(email.to).to include("foo@example.com")
+      expect(email.subject).to eq("Test of Mail Server")
+    end
+
+    it "defaults to ratings@icu.ie" do
+      email = Emailer.test_email.deliver_now
+      expect(email.to).to include("ratings@icu.ie")
+    end
+  end
 end

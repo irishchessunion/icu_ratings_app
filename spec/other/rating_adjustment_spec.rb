@@ -1,5 +1,4 @@
-require 'rails_helper'
-
+require "rails_helper"
 
 describe RatingAdjustment do
   it "adjusts ratings on 2024-03-01" do

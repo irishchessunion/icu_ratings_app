@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe "RatingList" do
   describe "#auto_populate" do

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe RatingList do
   before(:all) do
@@ -86,7 +86,7 @@ describe RatingList do
       pub_date = Date.new(2012, 1, 16)
       pay_date = Date.new(2012, 2, 1)
       @l1.publish(pub_date)
-      subs1 = @subs.values.find_all{ |s| s.category == "lifetime" || (s.season == "2011-12" && (!s.pay_date || s.pay_date < pay_date)) }.count
+      subs1 = @subs.values.find_all { |s| s.category == "lifetime" || (s.season == "2011-12" && (!s.pay_date || s.pay_date < pay_date)) }.count
       expect(IcuRating.count).to eq(subs1)
       expect(@l1.publications.size).to eq(1)
       p = @l1.publications[0]
@@ -200,7 +200,7 @@ describe RatingList do
       pub_date = Date.new(2012, 5, 16)
       pay_date = Date.new(2012, 6, 1)
       @l2.publish(pub_date)
-      subs2 = @subs.values.find_all{ |s| s.category == "lifetime" || (s.season == "2011-12" && (!s.pay_date || s.pay_date < pay_date)) }.count
+      subs2 = @subs.values.find_all { |s| s.category == "lifetime" || (s.season == "2011-12" && (!s.pay_date || s.pay_date < pay_date)) }.count
       expect(IcuRating.count).to eq(subs1 + subs2)
       expect(@l2.publications.size).to eq(1)
       p = @l2.publications[0]
@@ -300,7 +300,6 @@ describe RatingList do
       rating = IcuRating.find_by_list_and_icu_id(@l3.date, 12664)
       expect(rating).to_not be_nil
       expect(rating.rating).to be > player.new_rating
-
     end
   end
 end

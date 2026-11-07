@@ -1,20 +1,20 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe "Pages" do
   describe "contacts" do
     before(:each) do
-      @members   = (1..4).map { |i| FactoryBot.create(:user, role: "member") }
+      @members = (1..4).map { |i| FactoryBot.create(:user, role: "member") }
       @reporters = (1..3).map { |i| FactoryBot.create(:user, role: "reporter") }
-      @officers  = (1..2).map { |i| FactoryBot.create(:user, role: "officer") }
-      @admins    = (1..1).map { |i| FactoryBot.create(:user, role: "admin") }
+      @officers = (1..2).map { |i| FactoryBot.create(:user, role: "officer") }
+      @admins = (1..1).map { |i| FactoryBot.create(:user, role: "admin") }
     end
 
     it "should have correctly pluralized headers and correct numbers of contacts under each" do
       visit "/contacts"
       expect(page).to have_no_selector("h3", text: /member/i)
       {
-        "Tournament Reporters"  => 3,
-        "Rating Officers"       => 2,
+        "Tournament Reporters" => 3,
+        "Rating Officers" => 2,
         "Website Administrator" => 1,
       }.each_pair do |h, n|
         expect(page.find("h3", text: h).find(:xpath, "following-sibling::ul[1]").all("li").size).to eq n

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Tournament do
   before(:all) do
@@ -26,8 +26,8 @@ describe Tournament do
       sig = Array.new
       %w[num rank first_name last_name fed title gender rating fide_rating id fide_id dob].each { |attr| sig << p.send(attr) }
       p.results.each do |r|
-        rsig = %w[round score colour].map { |attr| r.send(attr) }.join('')
-        rsig.concat(r.rateable ? 'r' : 'u')
+        rsig = %w[round score colour].map { |attr| r.send(attr) }.join("")
+        rsig.concat(r.rateable ? "r" : "u")
         if r.opponent
           o = t.player(r.opponent)
           rsig.concat(o.first_name[0])
@@ -35,7 +35,7 @@ describe Tournament do
         end
         sig << rsig
       end
-      sig.join('|')
+      sig.join("|")
     end
 
     before(:each) do
@@ -52,33 +52,33 @@ describe Tournament do
         expect(@icut.send(attr)).to eq(@t.send(attr))
       end
       expect(@icut.players.size).to eq(@t.players.size)
-      expect(player_signature(@icut, 35)).to eq('35|35|David|Murray|||M|||4941|||1LBrMP|2DWrLP|6Lu')
-      expect(player_signature(@icut,  6)).to eq('6|6|Nigel|Short|ENG|GM|M||2658|||1965-06-01|1WWrKM|2DBrAH|3WWrSC|4LBrGJ|5DWrDF|6WBrPS')
-      expect(player_signature(@icut, 30)).to eq('30|30|Alexandra|Wilson||WCM|F|||7938|||1LBrMH|2LWrRW|3DBrSD|4LWrJC|5DBrRM|6WWrKO')
+      expect(player_signature(@icut, 35)).to eq("35|35|David|Murray|||M|||4941|||1LBrMP|2DWrLP|6Lu")
+      expect(player_signature(@icut, 6)).to eq("6|6|Nigel|Short|ENG|GM|M||2658|||1965-06-01|1WWrKM|2DBrAH|3WWrSC|4LBrGJ|5DWrDF|6WBrPS")
+      expect(player_signature(@icut, 30)).to eq("30|30|Alexandra|Wilson||WCM|F|||7938|||1LBrMH|2LWrRW|3DBrSD|4LWrJC|5DBrRM|6WWrKO")
     end
   end
 
   context "#tie_break_selections" do
     before(:each) do
-      @t = Tournament.new(name: 'Test', start: "2000-01-01")
+      @t = Tournament.new(name: "Test", start: "2000-01-01")
     end
 
     it "should create an ordered array of a tie break rule paired with a true or false value" do
-      @t.tie_breaks = 'buchholz,modified_median'
-      expect(@t.tie_break_selections.map(&:first).map(&:code).join('|')).to eq("BH|MM|HK|NB|NW|PN|SB|SR|SP")
-      expect(@t.tie_break_selections.map(&:last).join('_')).to match(/^true_true(_false){7}$/)
+      @t.tie_breaks = "buchholz,modified_median"
+      expect(@t.tie_break_selections.map(&:first).map(&:code).join("|")).to eq("BH|MM|HK|NB|NW|PN|SB|SR|SP")
+      expect(@t.tie_break_selections.map(&:last).join("_")).to match(/^true_true(_false){7}$/)
     end
 
     it "should ignore invalid tie break identifiers" do
-      @t.tie_breaks = 'invalid,harkness'
-      expect(@t.tie_break_selections.map(&:first).map(&:code).join('|')).to eq("HK|BH|MM|NB|NW|PN|SB|SR|SP")
-      expect(@t.tie_break_selections.map(&:last).join('_')).to match(/^true(_false){8}$/)
+      @t.tie_breaks = "invalid,harkness"
+      expect(@t.tie_break_selections.map(&:first).map(&:code).join("|")).to eq("HK|BH|MM|NB|NW|PN|SB|SR|SP")
+      expect(@t.tie_break_selections.map(&:last).join("_")).to match(/^true(_false){8}$/)
     end
 
     it "second of the pairs should be false if there are no tie breaks" do
       @t.tie_breaks = nil
-      expect(@t.tie_break_selections.map(&:first).map(&:code).join('|')).to eq("BH|HK|MM|NB|NW|PN|SB|SR|SP")
-      expect(@t.tie_break_selections.map(&:last).join('_')).to match(/^false(_false){8}$/)
+      expect(@t.tie_break_selections.map(&:first).map(&:code).join("|")).to eq("BH|HK|MM|NB|NW|PN|SB|SR|SP")
+      expect(@t.tie_break_selections.map(&:last).join("_")).to match(/^false(_false){8}$/)
     end
   end
 
@@ -363,14 +363,14 @@ describe Tournament do
       expect(p.curr_signature).to eq(p.last_signature)
 
       # The number of players who start without any rating.
-      expect(@t1.players.find_all{ |p| p.old_rating.nil? }.count).to eq(5)
+      expect(@t1.players.find_all { |p| p.old_rating.nil? }.count).to eq(5)
 
       # K-factors.
-      expect(@t1.players.find_all{ |p| p.k_factor == 16 }.size).to eq(18)
-      expect(@t1.players.find_all{ |p| p.k_factor == 24 }.size).to eq(8)
-      expect(@t1.players.find_all{ |p| p.k_factor == 32 }.size).to eq(1)
-      expect(@t1.players.find_all{ |p| p.k_factor == 40 }.size).to eq(4)
-      expect(@t1.players.find_all{ |p| p.k_factor.nil?  }.size).to eq(9)
+      expect(@t1.players.find_all { |p| p.k_factor == 16 }.size).to eq(18)
+      expect(@t1.players.find_all { |p| p.k_factor == 24 }.size).to eq(8)
+      expect(@t1.players.find_all { |p| p.k_factor == 32 }.size).to eq(1)
+      expect(@t1.players.find_all { |p| p.k_factor == 40 }.size).to eq(4)
+      expect(@t1.players.find_all { |p| p.k_factor.nil? }.size).to eq(9)
 
       # New tournament data.
       expect(@t1.reratings).to eq(1)
@@ -799,8 +799,8 @@ describe Tournament do
       @t.rate!
       expect(@t.last_signature).to_not be_nil
       expect(@t.curr_signature).to eq(@t.last_signature)
-      @t.players[0].results[1].result = 'D'
-      @t.players[1].results[1].result = 'D'
+      @t.players[0].results[1].result = "D"
+      @t.players[1].results[1].result = "D"
       @t.check_for_changes
       expect(@t.curr_signature).to_not eq(@t.last_signature)
     end
@@ -818,7 +818,7 @@ describe Tournament do
 
     it "should fail if wrong stage" do
       @t.move_stage("ready", @u)
-      expect{ @t.rate! }.to raise_error(/stage.*ready/)
+      expect { @t.rate! }.to raise_error(/stage.*ready/)
     end
 
     it "should fail if there are any player issues" do
@@ -826,7 +826,7 @@ describe Tournament do
       p.icu_id = p.icu_id + 1
       p.save
       @t.reload
-      expect{ @t.rate! }.to raise_error(/bad status/)
+      expect { @t.rate! }.to raise_error(/bad status/)
     end
 
     it "should not alter database if calculation fails" do
@@ -835,7 +835,7 @@ describe Tournament do
       p = @t.players.find_by_last_name("Cafolla")
       expect(p.old_rating).to be_nil
       expect(@t).to receive(:update_tournament_after_rating).and_raise(RuntimeError.new("oops"))
-      expect{ @t.rate! }.to raise_error(/oops/)
+      expect { @t.rate! }.to raise_error(/oops/)
       @t.reload
       expect(@t.reratings).to eq(0)
       expect(@t.stage).to eq("queued")
@@ -853,9 +853,9 @@ describe Tournament do
     end
 
     it "initial and updated status" do
-      expect(@t.players.select{ |p| p.fide_id }.count).to eq(0)
-      expect(@t.players.select{ |p| p.fed }.count).to eq(3)
-      expect(@t.players.select{ |p| p.dob }.count).to eq(2)
+      expect(@t.players.select { |p| p.fide_id }.count).to eq(0)
+      expect(@t.players.select { |p| p.fed }.count).to eq(3)
+      expect(@t.players.select { |p| p.dob }.count).to eq(2)
       data = Tournaments::FideData.new(@t)
       expect(data.status.size).to be 3
 
@@ -866,7 +866,7 @@ describe Tournament do
       ].each_with_index do |e, i|
         expect(data.status[i].sig).to eq(e[0])
         expect(data.status[i].count).to eq(e[1])
-        expect(data.status[i].samples.map{ |p| p ? p.last_name : "-" }.join("|")).to eq(e[2])
+        expect(data.status[i].samples.map { |p| p ? p.last_name : "-" }.join("|")).to eq(e[2])
       end
 
       data = Tournaments::FideData.new(@t, true)
@@ -874,12 +874,12 @@ describe Tournament do
       [
         ["TTF", 21, "Baburin|Cafolla|Collins|Courtney|Doyle|-|Short"],
         ["FTT", 15, "Cooper|Daianu|Eliens|Fehr|Graham|-|Wynarczyk"],
-        ["FTF",  2, "Hebden|Maroroa"],
-        ["FFF",  2, "Baczkowski|Grennel"],
+        ["FTF", 2, "Hebden|Maroroa"],
+        ["FFF", 2, "Baczkowski|Grennel"],
       ].each_with_index do |e, i|
         expect(data.status[i].sig).to eq(e[0])
         expect(data.status[i].count).to eq(e[1])
-        expect(data.status[i].samples.map{ |p| p ? p.last_name : "-" }.join("|")).to eq(e[2])
+        expect(data.status[i].samples.map { |p| p ? p.last_name : "-" }.join("|")).to eq(e[2])
       end
 
       updates = data.updates
@@ -905,31 +905,31 @@ describe Tournament do
 
     it "updated status corner cases" do
       [
-        ["Baburin",  :fide_id,  2500914],  # correct ID
-        ["Orr",      :fide_id,  2500000],  # incorrect ID
-        ["Cafolla",  :fed,        "IRL"],  # correct fed
-        ["Duffy",    :fed,        "ENG"],  # incorrect fed
+        ["Baburin", :fide_id, 2500914],  # correct ID
+        ["Orr", :fide_id, 2500000],  # incorrect ID
+        ["Cafolla", :fed, "IRL"],  # correct fed
+        ["Duffy", :fed, "ENG"],  # incorrect fed
         ["McMorrow", :dob, "1988-02-07"],  # correct DOB for player with FIDE ID
-        ["Kosten",   :dob, "1958-07-24"],  # correct DOB for player without FIDE ID
+        ["Kosten", :dob, "1958-07-24"],  # correct DOB for player without FIDE ID
         ["Williams", :dob, "1979-11-03"],  # incorrect DOB for player without FIDE ID
-      ].each { |x| @t.players.find{ |p| p.last_name == x[0] }.update_column(x[1], x[2]) }
+      ].each { |x| @t.players.find { |p| p.last_name == x[0] }.update_column(x[1], x[2]) }
 
       IcuPlayer.find_by_last_name("Osborne").update_column(:fed, "ENG")   # artificially create a federation mismatch
-      @t.players.find{ |p| p.last_name == "Osborne" }.icu_player.reload   # the icu_player needs reloaded
+      @t.players.find { |p| p.last_name == "Osborne" }.icu_player.reload   # the icu_player needs reloaded
       FidePlayer.find_by_last_name("Freeman").update_column(:born, 1981)  # artificially create a DOB mismatch
 
       data = Tournaments::FideData.new(@t, true)
       expect(data.status.size).to be 5
       [
         ["TTF", 20, "Baburin|Cafolla|Collins|Courtney|Doyle|-|Short"],
-        ["TFF",  1, "Osborne"],
+        ["TFF", 1, "Osborne"],
         ["FTT", 15, "Cooper|Daianu|Eliens|Fehr|Graham|-|Wynarczyk"],
-        ["FTF",  2, "Hebden|Maroroa"],
-        ["FFF",  2, "Baczkowski|Grennel"],
+        ["FTF", 2, "Hebden|Maroroa"],
+        ["FFF", 2, "Baczkowski|Grennel"],
       ].each_with_index do |e, i|
         expect(data.status[i].sig).to eq(e[0])
         expect(data.status[i].count).to eq(e[1])
-        expect(data.status[i].samples.map{ |p| p ? p.last_name : "-" }.join("|")).to eq(e[2])
+        expect(data.status[i].samples.map { |p| p ? p.last_name : "-" }.join("|")).to eq(e[2])
       end
 
       updates = data.updates
@@ -951,6 +951,198 @@ describe Tournament do
       expect(updates[:dob_mismatch].map(&:last_name).join("|")).to eq("Freeman")
       expect(updates[:dob_removed].count).to eq(1)
       expect(updates[:dob_unrecognized].count).to eq(0)
+    end
+  end
+
+  # The queue order decides the order in which tournaments are rated. Finish date is
+  # compared first, then start date, rounds, name and finally the id.
+  context "queue order when finish dates are the same" do
+    def make_tournament(attrs)
+      t = Tournament.new({ original_name: "T", name: "Alpha", start: "2024-02-08", finish: "2024-02-10", rounds: 6, user_id: 100, stage: "initial" }.merge(attrs))
+      t.save!
+      t
+    end
+
+    it "ranks by finish date first" do
+      early = make_tournament(finish: "2024-02-09", start: "2024-02-05")
+      late = make_tournament(finish: "2024-02-10", start: "2024-02-01")
+      expect(late.send(:queue_position_higher, early)).to be true
+      expect(early.send(:queue_position_higher, late)).to be false
+    end
+
+    it "ranks a later start date higher" do
+      a = make_tournament(start: "2024-02-09", name: "Same")
+      b = make_tournament(start: "2024-02-08", name: "Same")
+      expect(a.send(:queue_position_higher, b)).to be true
+      expect(b.send(:queue_position_higher, a)).to be false
+    end
+
+    it "ranks by name when finish and start dates are the same" do
+      zulu = make_tournament(name: "Zulu")
+      alpha = make_tournament(name: "Alpha")
+      expect(zulu.send(:queue_position_higher, alpha)).to be true
+      expect(alpha.send(:queue_position_higher, zulu)).to be false
+    end
+
+    it "uses the id as the final tie breaker" do
+      first = make_tournament(name: "Same")
+      second = make_tournament(name: "Same")
+      expect(second.send(:queue_position_higher, first)).to be true
+      expect(first.send(:queue_position_higher, second)).to be false
+    end
+  end
+
+  context "#rate errors" do
+    before(:each) do
+      @t = make_rateable_stub
+    end
+
+    def make_rateable_stub
+      t = Tournament.new(original_name: "Stub", name: "Stub", start: "2024-02-08", finish: "2024-02-10", rounds: 6, user_id: @u.id, stage: "queued")
+      t.save!
+      t
+    end
+
+    it "returns the message and records an unexpected error as a failure" do
+      allow(@t).to receive(:rate!).and_raise(RuntimeError, "unexpected")
+      expect(@t.rate).to eq("unexpected")
+      expect(Failure.count).to eq(1)
+      expect(Failure.first.name).to eq("RuntimeError")
+    end
+
+    it "returns the message but doesn't record an ICU error as a failure" do
+      allow(@t).to receive(:rate!).and_raise(ICU::Error, "expected rule")
+      expect(@t.rate).to eq("expected rule")
+      expect(Failure.count).to eq(0)
+    end
+  end
+
+  context "#notes_snippet and #fide_url" do
+    it "has no snippet without notes" do
+      t = Tournament.new(original_name: "N", name: "N", start: "2024-02-08", finish: "2024-02-10", rounds: 6, user_id: @u.id, stage: "initial")
+      expect(t.notes_snippet).to be_nil
+    end
+
+    it "keeps short notes, without punctuation" do
+      t = Tournament.new(original_name: "N", name: "N", start: "2024-02-08", finish: "2024-02-10", rounds: 6, user_id: @u.id, stage: "initial", notes: "Short note!")
+      expect(t.notes_snippet).to eq("Short note")
+    end
+
+    it "shortens long notes to 29 characters and an ellipsis" do
+      t = Tournament.new(original_name: "N", name: "N", start: "2024-02-08", finish: "2024-02-10", rounds: 6, user_id: @u.id, stage: "initial",
+                         notes: "Hello, world! This is a long note that should be cut off after thirty characters.")
+      expect(t.notes_snippet).to eq("Hello world This is a long no...")
+    end
+
+    it "has a FIDE URL only when there is a FIDE event ID" do
+      t = Tournament.new(original_name: "N", name: "N", start: "2024-02-08", finish: "2024-02-10", rounds: 6, user_id: @u.id, stage: "initial")
+      expect(t.fide_url).to be_nil
+      t.fide_id = 123456
+      expect(t.fide_url).to eq("https://ratings.fide.com/tournament_information.phtml?event=123456")
+    end
+  end
+
+  context "#search" do
+    before(:each) do
+      @t = Tournament.create!(original_name: "Extra T", name: "Extra T", start: "2026-03-07", finish: "2026-03-08", rorder: 1, rounds: 2, user_id: @u.id, stage: "ready", fide_id: 12345)
+      @p1 = Player.create!(first_name: "Ann", last_name: "Adams", original_name: "Adams, Ann", category: "icu_player", num: 1, bonus: 0, tournament_id: @t.id, status: "ok")
+      @p2 = Player.create!(first_name: "Ben", last_name: "Brown", original_name: "Brown, Ben", category: "icu_player", num: 2, bonus: 0, tournament_id: @t.id, status: "ok")
+      @other = Tournament.create!(original_name: "Other T", name: "Other T", start: "2025-03-07", finish: "2025-03-08", rorder: 2, rounds: 2, user_id: @u.id, stage: "queued", fide_id: nil)
+    end
+
+    it "searches by name" do
+      result = Tournament.search({ name: "Extra" }, "/path")
+      expect(result.matches).to include(@t)
+      expect(result.matches).not_to include(@other)
+    end
+
+    it "searches by year" do
+      result = Tournament.search({ year: 2026 }, "/path")
+      expect(result.matches).to include(@t)
+      expect(result.matches).not_to include(@other)
+    end
+
+    it "searches by first and last name" do
+      result = Tournament.search({ first_name: "Ann", last_name: "Adams" }, "/path")
+      expect(result.matches).to include(@t)
+      expect(result.matches).not_to include(@other)
+    end
+
+    it "searches by fide_rated" do
+      result = Tournament.search({ fide_rated: "true" }, "/path")
+      expect(result.matches).to include(@t)
+      expect(result.matches).not_to include(@other)
+      result2 = Tournament.search({ fide_rated: "false" }, "/path")
+      expect(result2.matches).not_to include(@t)
+      expect(result2.matches).to include(@other)
+    end
+
+    it "searches by status ok" do
+      result = Tournament.search({ status: "ok" }, "/path")
+      expect(result.matches).to include(@t)
+    end
+
+    it "searches by user_id" do
+      result = Tournament.search({ user_id: @u.id, admin: true }, "/path")
+      expect(result.matches).to include(@t)
+    end
+
+    it "searches by stage" do
+      result = Tournament.search({ stage: "ready", admin: true }, "/path")
+      expect(result.matches).to include(@t)
+      expect(result.matches).not_to include(@other)
+    end
+  end
+
+  context "#ordered_players" do
+    before(:each) do
+      @t = Tournament.create!(original_name: "Extra T", name: "Extra T", start: "2026-03-07", finish: "2026-03-08", rorder: 1, rounds: 2, user_id: @u.id, stage: "ready", fide_id: 12345)
+      @p1 = Player.create!(first_name: "Ann", last_name: "Adams", original_name: "Adams, Ann", category: "icu_player", num: 1, bonus: 0, tournament_id: @t.id, status: "ok")
+      @p2 = Player.create!(first_name: "Ben", last_name: "Brown", original_name: "Brown, Ben", category: "icu_player", num: 2, bonus: 0, tournament_id: @t.id, status: "ok")
+    end
+
+    it "returns ordered players by name when not rankable" do
+      players = @t.ordered_players
+      expect(players).to eq([@p1, @p2])
+    end
+  end
+
+  context "#find_first_player_with_errors" do
+    before(:each) do
+      @t = Tournament.create!(original_name: "Extra T", name: "Extra T", start: "2026-03-07", finish: "2026-03-08", rorder: 1, rounds: 2, user_id: @u.id, stage: "ready", fide_id: 12345)
+      @p1 = Player.create!(first_name: "Ann", last_name: "Adams", original_name: "Adams, Ann", category: "icu_player", num: 1, bonus: 0, tournament_id: @t.id, status: "ok")
+      @p2 = Player.create!(first_name: "Ben", last_name: "Brown", original_name: "Brown, Ben", category: "icu_player", num: 2, bonus: 0, tournament_id: @t.id, status: "ok")
+    end
+
+    it "finds the first player with errors" do
+      @p2.update_column(:status, "error")
+      expect(@t.find_first_player_with_errors).to eq(@p2)
+    end
+
+    it "returns nil when no players have errors" do
+      expect(@t.find_first_player_with_errors).to be_nil
+    end
+  end
+
+  context "#export_formats" do
+    before(:each) do
+      @t = Tournament.create!(original_name: "Extra T", name: "Extra T", start: "2026-03-07", finish: "2026-03-08", rorder: 1, rounds: 2, user_id: @u.id, stage: "ready", fide_id: 12345)
+    end
+
+    it "returns export formats excluding SwissPerfect" do
+      formats = @t.export_formats
+      expect(formats).not_to be_nil
+      expect(formats.map(&:last)).not_to include("SwissPerfect")
+    end
+  end
+
+  context "#rankable" do
+    before(:each) do
+      @t = Tournament.create!(original_name: "Extra T", name: "Extra T", start: "2026-03-07", finish: "2026-03-08", rorder: 1, rounds: 2, user_id: @u.id, stage: "ready", fide_id: 12345)
+    end
+
+    it "is not rankable when no players have ranks" do
+      expect(@t.rankable).to eq(false)
     end
   end
 end

@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
 gem "rails", "=6.1.3.2"
 gem "sprockets", "~> 3.4" # sprockets 4.x needs more changes: https://stackoverflow.com/questions/58339607
@@ -40,6 +40,7 @@ group :development do
   # Include capistrano-ssh-doctor to check for ssh errors running capistrano
   # gem 'capistrano-ssh-doctor', '~> 1.0'
   gem "wirble"
+  gem "rufo", "0.17.1"
 end
 
 group :test, :development do
@@ -53,4 +54,7 @@ group :test, :development do
   gem "database_cleaner"
   gem "rubocop-rspec"
   gem "rubocop"
+  gem "simplecov", require: false
+  gem "bundler-audit", require: false
+  gem "rails-controller-testing"
 end

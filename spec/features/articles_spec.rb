@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe "Article" do
   describe "officer" do
@@ -50,7 +50,7 @@ describe "Article" do
     describe type do
       before(:each) do
         @user = login(type)
-        @article = [ FactoryBot.create(:article), FactoryBot.create(:article, user: @user) ]
+        @article = [FactoryBot.create(:article), FactoryBot.create(:article, user: @user)]
       end
 
       it "cannot manage articles, even their own" do

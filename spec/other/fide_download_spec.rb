@@ -1,5 +1,5 @@
 # encoding: UTF-8
-require 'rails_helper'
+require "rails_helper"
 
 module FIDE
   describe Download do
@@ -103,7 +103,6 @@ module FIDE
         expect(debbie.title).to be_nil
         expect(debbie.fed).to eq("IRL")
         expect(debbie.active).to be false
-
       end
 
       it "should retrieve foreign players" do
@@ -162,7 +161,7 @@ module FIDE
     context "updating FIDE players" do
       before(:each) do
         @mark = FidePlayer.create!(first_name: "Mark", last_name: "Quinn", fed: "IRL", gender: "M", id: 2500450, rating: 2422, icu_id: 1402)
-        @shak = FidePlayer.create!(first_name: "Shakhriyar", last_name: "Mamedyarov", fed: "AZE",  gender: "M", id: 13401319, rating: 2700, rapid_rating: 2700, blitz_rating: 2700)
+        @shak = FidePlayer.create!(first_name: "Shakhriyar", last_name: "Mamedyarov", fed: "AZE", gender: "M", id: 13401319, rating: 2700, rapid_rating: 2700, blitz_rating: 2700)
         @sofia = FidePlayer.create!(first_name: "Sofia", last_name: "Zyzlova", fed: "RUS", gender: "F", id: 24150797, icu_id: 2222)
 
         @download = FIDE::Download.new
@@ -194,7 +193,6 @@ module FIDE
         expect(@shak.icu_id).to be_nil
         expect(@sofia.icu_id).to eq(2222)
       end
-
     end
   end
 end
