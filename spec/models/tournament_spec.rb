@@ -1047,7 +1047,7 @@ describe Tournament do
       @t = Tournament.create!(original_name: "Extra T", name: "Extra T", start: "2026-03-07", finish: "2026-03-08", rorder: 1, rounds: 2, user_id: @u.id, stage: "ready", fide_id: 12345)
       @p1 = Player.create!(first_name: "Ann", last_name: "Adams", original_name: "Adams, Ann", category: "icu_player", num: 1, bonus: 0, tournament_id: @t.id, status: "ok")
       @p2 = Player.create!(first_name: "Ben", last_name: "Brown", original_name: "Brown, Ben", category: "icu_player", num: 2, bonus: 0, tournament_id: @t.id, status: "ok")
-      @other = Tournament.create!(original_name: "Other T", name: "Other T", start: "2025-03-07", finish: "2025-03-08", rorder: 2, rounds: 2, user_id: @u.id, stage: "initial", fide_id: nil)
+      @other = Tournament.create!(original_name: "Other T", name: "Other T", start: "2025-03-07", finish: "2025-03-08", rorder: 2, rounds: 2, user_id: @u.id, stage: "queued", fide_id: nil)
     end
 
     it "searches by name" do
@@ -1088,7 +1088,7 @@ describe Tournament do
     end
 
     it "searches by stage" do
-      result = Tournament.search({ stage: "ready" }, "/path")
+      result = Tournament.search({ stage: "ready", admin: true }, "/path")
       expect(result.matches).to include(@t)
       expect(result.matches).not_to include(@other)
     end

@@ -5,7 +5,7 @@ describe Login do
     @user = FactoryBot.create(:user)
     @login = Login.create!(user: @user, ip: "127.0.0.1", problem: "none", role: "member")
     @other_user = FactoryBot.create(:user, email: "other@example.com")
-    @other_login = Login.create!(user: @other_user, ip: "192.168.1.1", problem: "bad", role: "admin")
+    @other_login = Login.create!(user: @other_user, ip: "192.168.1.1", problem: "password", role: "admin")
   end
 
   it "searches by email" do

@@ -3,7 +3,7 @@ require "rails_helper"
 describe Failure do
   before(:each) do
     @failure = Failure.create!(name: "RuntimeError", details: "boom")
-    @other = Failure.create!(name: "OtherError", details: "other")
+    @other = Failure.create!(name: "OtherError", details: "other", created_at: 2.days.ago)
   end
 
   it "searches by name" do
@@ -30,7 +30,7 @@ describe Failure do
     rescue => e
       Failure.record(e)
     end
-    f = Failure.order(:id).last
+    f = Failure.unscoped.order(:id).last
     expect(f.name).to eq("StandardError")
     expect(f.details).to include("test error")
     expect(Failure.count).to eq(count + 1)

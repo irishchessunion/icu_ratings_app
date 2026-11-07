@@ -114,8 +114,9 @@ class Tournament < ApplicationRecord
     end
 
     # FIDE rated.
-    matches = matches.where("tournaments.fide_id IS NOT NULL") if params[:fide_rated] == "true"
-    matches = matches.where("tournaments.fide_id IS NULL")     if params[:fide_rated] == "false"
+    fide_rated = params[:fide_rated].to_s
+    matches = matches.where.not(fide_id: nil) if fide_rated == "true"
+    matches = matches.where(fide_id: nil)     if fide_rated == "false"
 
     if params[:admin]
       # Reporter.
