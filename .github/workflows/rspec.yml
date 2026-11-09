@@ -57,3 +57,13 @@ jobs:
         run: |
           bundler exec rspec spec/
 
+      - name: Generate golden outputs
+        run: |
+          bundler exec rails runner script/golden_outputs.rb Upgrade00
+
+      - name: Upload golden outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: golden-outputs
+          path: golden/
+

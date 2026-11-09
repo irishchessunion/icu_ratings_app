@@ -4,11 +4,16 @@
 # inputs so upgrade stages can diff against the baseline.
 #
 # Usage:
-#   RAILS_ENV=test bundle exec rails runner script/golden_outputs.rb
+#   RAILS_ENV=test bundle exec rails runner script/golden_outputs.rb [folder]
 #
-# Output: golden/<input_name>.txt (one file per input). Not committed to git.
+# The optional folder name (e.g. "Upgrade00") selects the output subdirectory
+# under golden/; a bare run writes to golden/ itself.
+#
+# Output: golden/<folder>/<input_name>.txt (one file per input). Not committed to git.
 
 require "fileutils"
+
+raise "Run this script with RAILS_ENV=test" unless Rails.env.test?
 
 User.pulls_disabled = true if defined?(User)
 
@@ -71,6 +76,14 @@ INPUTS.each do |file|
   # Clean slate per input.
   DatabaseCleaner.clean_with(:truncation) if defined?(DatabaseCleaner)
 
+  # Reload ICU players and old ratings so tournament players match existing records.
+  icu_players_cache = YAML.load(File.read(Rails.root.join("spec/factories/icu_players.yml")))
+  icu_players_cache.each { |id, data| FactoryBot.create(:icu_player, data.merge(id: id)) }
+  old_ratings_cache = YAML.load(File.read(Rails.root.join("spec/factories/old_ratings.yml")))
+  old_ratings_cache.each do |icu_id, data|
+    FactoryBot.create(:old_rating, icu_id: icu_id, rating: data[0], games: data[1], full: data[2])
+  end
+
   user = FactoryBot.create(:user, role: "admin")
   tournament = load_tournament(file, user.id)
 
@@ -89,13 +102,14 @@ INPUTS.each do |file|
 
   # Move to a rateable stage, then rate.
   tournament.move_stage("ready", user)
+  tournament.move_stage("queued", user)
   err = tournament.rate
   out << "rate_result: #{err.nil? ? 'ok' : err}"
 
   out << ""
   out << "=== PLAYERS (sorted by id) ==="
   tournament.players.reload.sort_by(&:id).each do |p|
-    out << "#{p.id}\t#{p.name}\tstart=#{p.start_rating}\tend=#{p.new_rating rescue p.end_rating rescue nil}\tprov=#{p.provisional? rescue 'n/a'}\trg=#{p.rateable_games}\trs=#{p.rateable_score}\taor=#{p.ave_opp_rating}\tpr=#{p.performance_rating}"
+    out << "#{p.id}\t#{p.name}\tstart=#{p.start_rating}\tend=#{p.new_rating rescue p.end_rating rescue nil}\trg=#{p.rateable_games}\trs=#{p.rateable_score}\taor=#{p.ave_opp_rating}\tpr=#{p.performance_rating}"
   end
 
   out << ""
