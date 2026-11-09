@@ -26,11 +26,7 @@ class RatingRun < ApplicationRecord
   belongs_to :start_tournament, class_name: "Tournament"
   belongs_to :last_tournament, class_name: "Tournament"
 
-  validates :user, presence: true
-  validates :start_tournament, presence: true
-
   before_create :complete
-
   after_create :throw_flag
   before_update :truncate_reason
 

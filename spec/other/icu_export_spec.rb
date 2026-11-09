@@ -5,9 +5,8 @@ require "fileutils"
 # Characterisation specs for lib/icu/export.rb.
 #
 # ICU::Export.ratings normally runs bin/export.pl (Perl), which writes the zip files
-# into tmp/. Those Perl modules are not installed in the devcontainer, so the command
-# output is stubbed here. Everything on the Ruby side is real: the download records,
-# the Excel workbook, and the event report.
+# into tmp/. The Perl command is stubbed here so these examples exercise only the
+# Ruby side: the download records, the Excel workbook, and the event report.
 describe ICU::Export do
   EXPECTED_HEADER = %w[ID_no Fide_no Name Title Fed Rtg_Nat Rtg_Int Games Birthday Sub Sex ClubName].freeze
   XLSX_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".freeze

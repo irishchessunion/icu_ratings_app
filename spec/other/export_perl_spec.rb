@@ -14,9 +14,11 @@ require "dbf"
 # The season names depend on today's date (the script works out the season from
 # the clock), so they're calculated here the same way.
 describe "bin/export.pl", truncation: true do
-  # Season logic from the script: a new season starts in August.
+  # Season logic from the script: a new season starts in September.
+  # NOTE: discrepancy - Perl localtime is 0-indexed (month 8 = September),
+  # while Ruby Time#month is 1-indexed (month 8 = August).
   def season_for(year, month)
-    y = month < 8 ? year - 1 : year
+    y = month < 9 ? year - 1 : year
     "#{y}-#{format("%02d", (y + 1) % 100)}"
   end
 
