@@ -1,8 +1,16 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= "test"
+# Coverage must start before the application is loaded, or its code is not tracked.
+require "simplecov"
+SimpleCov.start "rails" do
+  # Not in use yet, contains an invalid join needs a bugfix before it can be used and tested.
+  # Excluded from coverage so the figures reflect code that is used.
+  # Remove this filter when the file is picked up again.
+  add_filter "/lib/icu/ratings_app.rb"
+end
 require File.expand_path("../../config/environment", __FILE__)
-require 'rspec/rails'
-require 'factory_bot_rails'
+require "rspec/rails"
+require "factory_bot_rails"
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -19,7 +27,7 @@ end
 Capybara.server = :webrick
 
 Capybara.register_driver :selenium do |app|
-  options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
+  options = Selenium::WebDriver::Firefox::Options.new(args: ["-headless"])
   Capybara::Selenium::Driver.new app, browser: :firefox, options: options
 end
 
@@ -58,7 +66,7 @@ RSpec.configure do |config|
 end
 
 # Return a saved Tournament derived from one of the test files.
-def test_tournament(file, user_id, arg={})
+def test_tournament(file, user_id, arg = {})
   opt = Hash.new
   case file
   when "bunratty_masters_2011.tab", "kilkenny_masters_2011.tab"
@@ -107,7 +115,7 @@ end
 
 # Load players in the given tournament(s) only and return hash from ICU ID to record.
 def load_icu_players_for(tournaments)
-  @tournaments_cache = YAML.load(File.read(File.expand_path('../factories/tournaments.yml', __FILE__)))
+  @tournaments_cache = YAML.load(File.read(File.expand_path("../factories/tournaments.yml", __FILE__)))
   tournaments = [tournaments] unless tournaments.is_a?(Array)
   tournaments.inject([]) do |a, t|
     name = t.sub(/\.[a-z]+$/, "")
@@ -120,7 +128,7 @@ end
 
 # Load all players in all tournaments and return hash from ICU ID to record.
 def load_icu_players
-  @icu_players_cache ||= YAML.load(File.read(File.expand_path('../factories/icu_players.yml', __FILE__)))
+  @icu_players_cache ||= YAML.load(File.read(File.expand_path("../factories/icu_players.yml", __FILE__)))
   @icu_players_cache.inject({}) do |h, (id, data)|
     h[id] = FactoryBot.create(:icu_player, data.merge(id: id))
     h
@@ -129,13 +137,13 @@ end
 
 # Load a single ICU player given by ID.
 def load_icu_player(id)
-  @icu_players_cache ||= YAML.load(File.read(File.expand_path('../factories/icu_players.yml', __FILE__)))
+  @icu_players_cache ||= YAML.load(File.read(File.expand_path("../factories/icu_players.yml", __FILE__)))
   @icu_players_cache[id] ? FactoryBot.create(:icu_player, @icu_players_cache[id].merge(id: id)) : nil
 end
 
 # Load all FIDE players and return hash from FIDE ID to record.
 def load_fide_players
-  @fide_players_cache ||= YAML.load(File.read(File.expand_path('../factories/fide_players.yml', __FILE__)))
+  @fide_players_cache ||= YAML.load(File.read(File.expand_path("../factories/fide_players.yml", __FILE__)))
   @fide_players_cache.inject({}) do |h, (id, data)|
     h[id] = FactoryBot.create(:fide_player_with_icu_id, data.merge(id: id))
     h
@@ -145,7 +153,7 @@ end
 # Load all old ratings and return hash from ICU ID to record.
 def load_old_ratings
   return @old_ratings_cache if @old_ratings_cache
-  hash = YAML.load(File.read(File.expand_path('../factories/old_ratings.yml', __FILE__)))
+  hash = YAML.load(File.read(File.expand_path("../factories/old_ratings.yml", __FILE__)))
   @old_ratings_cache = hash.keys.inject({}) do |memo, icu_id|
     data = hash[icu_id]
     memo[icu_id] = FactoryBot.create(:old_rating, icu_id: icu_id, rating: data[0], games: data[1], full: data[2])
@@ -156,7 +164,7 @@ end
 # Load all subscriptions and return a hash from ICU ID to record.
 def load_subscriptions
   return @subscriptions_cache if @subscriptions_cache
-  hash = YAML.load(File.read(File.expand_path('../factories/subscriptions.yml', __FILE__)))
+  hash = YAML.load(File.read(File.expand_path("../factories/subscriptions.yml", __FILE__)))
   @subscriptions_cache = hash.keys.inject({}) do |memo, icu_id|
     data = hash[icu_id]
     memo[icu_id] = FactoryBot.create(:subscription, icu_id: icu_id, category: data[0], season: data[1], pay_date: data[2])
@@ -172,6 +180,6 @@ def get_parser(file)
     when /\.zip$/ then "SwissPerfect"
     when /\.tab$/ then "Krause"
     when /\.csv$/ then "ForeignCSV"
-  end
+    end
   "ICU::Tournament::#{parser}".constantize.new
 end

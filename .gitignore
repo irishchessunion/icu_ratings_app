@@ -14,3 +14,7 @@ config/secrets.yml
 .vscode/
 *.swp
 
+
+# SimpleCov output
+/coverage
+golden/

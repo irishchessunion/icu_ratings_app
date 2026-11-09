@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 module IcuRatings
   describe Seniors do
@@ -53,6 +53,5 @@ module IcuRatings
         expect(ratings).to include(@r2)
       end
     end
-
   end
 end

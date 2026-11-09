@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe ICU::RatingRun do
   context "basic errors" do
@@ -163,6 +163,44 @@ describe ICU::RatingRun do
       expect(@t2.reratings).to eq(0)
 
       expect(Tournament.next_for_rating).to eq(@t2)
+    end
+
+    it "failure due to the run not being in the waiting state" do
+      @rating_run.update_column(:status, "processing")
+
+      ICU::RatingRun.new.rate_all
+
+      expect(Failure.count).to eq(1)
+      expect(Failure.first.details).to match /not in waiting state/
+
+      @rating_run.reload
+      expect(@rating_run.status).to eq("error")
+      expect(@rating_run.report).to match /Error: rating run is not in waiting state/
+
+      [@t1, @t2].each { |o| o.reload }
+      expect(@t1.stage).to eq("queued")
+      expect(@t1.reratings).to eq(0)
+    end
+
+    it "failure due to another run being unfinished" do
+      # The newer run takes the flag, but the older one is still waiting.
+      other = RatingRun.create!(user_id: @u.id, start_tournament_id: @t1.id)
+
+      ICU::RatingRun.new.rate_all
+
+      expect(Failure.count).to eq(1)
+      expect(Failure.first.details).to match /other unfinished runs \(#{@rating_run.id}\)/
+
+      other.reload
+      expect(other.status).to eq("error")
+      expect(other.report).to match /Error: there are other unfinished runs/
+
+      @rating_run.reload
+      expect(@rating_run.status).to eq("waiting")
+
+      [@t1, @t2].each { |o| o.reload }
+      expect(@t1.stage).to eq("queued")
+      expect(@t1.reratings).to eq(0)
     end
   end
 end

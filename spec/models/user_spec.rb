@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe User do
   context "validation" do
@@ -116,7 +116,7 @@ describe User do
 
     it "with salt special case for admin" do
       expect(@u1.password_ok?(@u1.password, false)).to be false
-      expect(@u1.password_ok?(@u1.password,  true)).to be true
+      expect(@u1.password_ok?(@u1.password, true)).to be true
     end
   end
 
@@ -252,12 +252,12 @@ describe User do
   context "#pull_www_user" do
     before(:each) do
       @h =
-      {
-        salt:     "abcdefabcdefabcdefabcdefabcdef10",
-        password: "abcdefabcdefabcdefabcdefabcdef20",
-        status:   "ok",
-        expiry:   Date.new(2012, 12, 31),
-      }
+        {
+          salt: "abcdefabcdefabcdefabcdefabcdef10",
+          password: "abcdefabcdefabcdefabcdefabcdef20",
+          status: "ok",
+          expiry: Date.new(2012, 12, 31),
+        }
       @user = FactoryBot.create(:user, @h)
     end
 
@@ -272,11 +272,11 @@ describe User do
     it "no change" do
       allow(ICU::Database::Pull).to receive_message_chain(:new, :get_user).with(@user.id, @user.email).and_return(@h)
       @user.pull_www_user
-      expect(@user.password).to  eq(@h[:password])
-      expect(@user.salt).to      eq(@h[:salt])
-      expect(@user.status).to    eq(@h[:status])
-      expect(@user.expiry).to    eq(@h[:expiry])
-      expect(Failure.count).to   eq(0)
+      expect(@user.password).to eq(@h[:password])
+      expect(@user.salt).to eq(@h[:salt])
+      expect(@user.status).to eq(@h[:status])
+      expect(@user.expiry).to eq(@h[:expiry])
+      expect(Failure.count).to eq(0)
       expect(@user.last_pull).to eq("none")
       expect(@user.last_pulled_at).to be_within(1).of(Time.now)
     end
@@ -285,25 +285,25 @@ describe User do
       password = "abcdefabcdefabcdefabcdefabcdef11"
       allow(ICU::Database::Pull).to receive_message_chain(:new, :get_user).with(@user.id, @user.email).and_return(@h.merge(password: password))
       @user.pull_www_user
-      expect(@user.password).to  eq(password)
-      expect(@user.salt).to      eq(@h[:salt])
-      expect(@user.status).to    eq(@h[:status])
-      expect(@user.expiry).to    eq(@h[:expiry])
-      expect(Failure.count).to   eq(0)
+      expect(@user.password).to eq(password)
+      expect(@user.salt).to eq(@h[:salt])
+      expect(@user.status).to eq(@h[:status])
+      expect(@user.expiry).to eq(@h[:expiry])
+      expect(Failure.count).to eq(0)
       expect(@user.last_pull).to eq("password")
       expect(@user.last_pulled_at).to be_within(1).of(Time.now)
     end
 
     it "changed salt and password" do
       password = "abcdefabcdefabcdefabcdefabcdef12"
-      salt     = "abcdefabcdefabcdefabcdefabcdef22"
+      salt = "abcdefabcdefabcdefabcdefabcdef22"
       allow(ICU::Database::Pull).to receive_message_chain(:new, :get_user).with(@user.id, @user.email).and_return(@h.merge(password: password, salt: salt))
       @user.pull_www_user
-      expect(@user.password).to  eq(password)
-      expect(@user.salt).to      eq(salt)
-      expect(@user.status).to    eq(@h[:status])
-      expect(@user.expiry).to    eq(@h[:expiry])
-      expect(Failure.count).to   eq(0)
+      expect(@user.password).to eq(password)
+      expect(@user.salt).to eq(salt)
+      expect(@user.status).to eq(@h[:status])
+      expect(@user.expiry).to eq(@h[:expiry])
+      expect(Failure.count).to eq(0)
       expect(@user.last_pull).to eq("password, salt")
       expect(@user.last_pulled_at).to be_within(1).of(Time.now)
     end
@@ -313,11 +313,11 @@ describe User do
       expiry = Date.new(2013, 12, 31)
       allow(ICU::Database::Pull).to receive_message_chain(:new, :get_user).with(@user.id, @user.email).and_return(@h.merge(status: status, expiry: expiry))
       @user.pull_www_user
-      expect(@user.password).to  eq(@h[:password])
-      expect(@user.salt).to      eq(@h[:salt])
-      expect(@user.status).to    eq(status)
-      expect(@user.expiry).to    eq(expiry)
-      expect(Failure.count).to   eq(0)
+      expect(@user.password).to eq(@h[:password])
+      expect(@user.salt).to eq(@h[:salt])
+      expect(@user.status).to eq(status)
+      expect(@user.expiry).to eq(expiry)
+      expect(Failure.count).to eq(0)
       expect(@user.last_pull).to eq("status, expiry")
       expect(@user.last_pulled_at).to be_within(1).of(Time.now)
     end
@@ -325,13 +325,13 @@ describe User do
     it "an error" do
       allow(ICU::Database::Pull).to receive_message_chain(:new, :get_user).with(@user.id, @user.email).and_return("error xxx")
       @user.pull_www_user
-      expect(@user.password).to  eq(@h[:password])
-      expect(@user.salt).to      eq(@h[:salt])
-      expect(@user.status).to    eq(@h[:status])
-      expect(@user.expiry).to    eq(@h[:expiry])
+      expect(@user.password).to eq(@h[:password])
+      expect(@user.salt).to eq(@h[:salt])
+      expect(@user.status).to eq(@h[:status])
+      expect(@user.expiry).to eq(@h[:expiry])
       expect(@user.last_pull).to be_nil
       expect(@user.last_pulled_at).to be_nil
-      expect(Failure.count).to   eq(1)
+      expect(Failure.count).to eq(1)
       expect(Failure.first.details).to match(/error xxx/)
     end
   end

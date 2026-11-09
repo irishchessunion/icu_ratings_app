@@ -36,15 +36,18 @@ ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERS
 RUN chmod +x /wait
 
 RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends curl wget && \
+    apt-get install -y --no-install-recommends curl wget perl cpanminus && \
     # Install node and firefox - required for unit tests
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
-    apt-get install -y --no-install-recommends nodejs firefox-esr && \
+    apt-get install -y --no-install-recommends nodejs firefox-esr \
+      libdbi-perl libdbd-mysql-perl libyaml-perl libarchive-zip-perl && \
     # Download geckodriver
     wget -q https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz && \
     tar -xzf geckodriver-v0.32.0-linux64.tar.gz -C /usr/local/bin && \
     chmod +x /usr/local/bin/geckodriver && \
     rm geckodriver-v0.32.0-linux64.tar.gz && \
+    # Install CAM::DBF (not packaged for Debian)
+    cpanm CAM::DBF && \
     # Remove apt index files as they are not needed
     rm -rf /var/lib/apt/lists/*
 
