@@ -1,8 +1,9 @@
 source "https://rubygems.org"
 
-gem "rails", "=6.1.3.2"
+gem "rails", "=6.1.7.10"
 gem "sprockets", "~> 3.4" # sprockets 4.x needs more changes: https://stackoverflow.com/questions/58339607
 gem "bootstrap", "=5.3.8"
+gem "logger"
 gem "mysql2"
 gem "icu_tournament", ">= 1.12.0"
 gem "icu_utils", ">= 1.3.2"
@@ -29,7 +30,6 @@ gem "parallel"
 
 gem "nio4r"
 gem "axlsx"
-
 # Legacy gem for axlsx which requires rubyzip <= 0.9.9
 gem "zip-zip"
 

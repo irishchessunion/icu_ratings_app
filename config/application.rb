@@ -1,5 +1,6 @@
 require File.expand_path("../boot", __FILE__)
 require "yaml"
+require "logger"
 require "rails/all"
 
 Bundler.require(*Rails.groups)
@@ -32,6 +33,5 @@ module Ratings
 
     # no-reply@icu.ie used to cause an error when we were with register365.
     config.action_mailer.default_options = { from: "NO-REPLY@icu.ie" }
-
   end
 end
