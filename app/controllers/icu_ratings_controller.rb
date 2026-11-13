@@ -24,32 +24,32 @@ class IcuRatingsController < ApplicationController
 
   def show
     @ratings_graph = IcuRatings::Graph.new(IcuRating.find(params[:id]))
-    render "shared/ratings_graph/show.js"
+    render "shared/ratings_graph/show", formats: [:js]
   end
 
   def war
     @war = IcuRatings::WAR.new(params)
-    render "icu_ratings/war/#{ request.xhr? ? 'results' : 'index' }"
+    render "icu_ratings/war/#{request.xhr? ? "results" : "index"}"
   end
 
   def juniors
     @use_hightide_ratings = IcuRatings::Juniors.use_hightide_sorting?
     @juniors = IcuRatings::Juniors.new(params)
-    render "icu_ratings/juniors/#{ request.xhr? ? 'results' : 'index' }"
+    render "icu_ratings/juniors/#{request.xhr? ? "results" : "index"}"
   end
 
   def seniors
     @seniors = IcuRatings::Seniors.new(params)
-    render "icu_ratings/seniors/#{ request.xhr? ? 'results' : 'index' }"
+    render "icu_ratings/seniors/#{request.xhr? ? "results" : "index"}"
   end
 
   def women
     @women = IcuRatings::Women.new(params)
-    render "icu_ratings/women/#{ request.xhr? ? 'results' : 'index' }"
+    render "icu_ratings/women/#{request.xhr? ? "results" : "index"}"
   end
 
   def improvers
     @improvers = IcuRatings::Improvers.new(params)
-    render "icu_ratings/improvers/#{ request.xhr? ? 'results' : 'index' }"
+    render "icu_ratings/improvers/#{request.xhr? ? "results" : "index"}"
   end
 end

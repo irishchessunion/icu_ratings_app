@@ -9,6 +9,6 @@ class FideRatingsController < ApplicationController
 
   def show
     @ratings_graph = IcuRatings::Graph.new(FideRating.find(params[:id]))
-    render "shared/ratings_graph/show.js"
+    render "shared/ratings_graph/show", formats: [:js]
   end
 end

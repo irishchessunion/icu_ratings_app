@@ -23,7 +23,7 @@
   // Create/migrate the development database on first creation, then install the
   // Perl modules that bin/export.pl needs (DBI, DBD::mysql, YAML, Archive::Zip from
   // Debian; CAM::DBF from CPAN, as it isn't packaged for Debian).
-  "postCreateCommand": "bundle exec rails db:prepare && apt-get update && apt-get install -y --no-install-recommends libdbi-perl libdbd-mysql-perl libyaml-perl libarchive-zip-perl cpanminus && cpanm --notest CAM::DBF",
+  "postCreateCommand": "bundle exec rails db:create db:schema:load && apt-get update && apt-get install -y --no-install-recommends libdbi-perl libdbd-mysql-perl libyaml-perl libarchive-zip-perl cpanminus && cpanm --notest CAM::DBF",
 
   // Port 3000 is already published by docker-compose.yml, so the app is at
   // http://localhost:3000 once the container is running.

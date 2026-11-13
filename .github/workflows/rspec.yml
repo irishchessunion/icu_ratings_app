@@ -59,7 +59,7 @@ jobs:
 
       - name: Generate golden outputs
         run: |
-          bundler exec rails runner script/golden_outputs.rb Upgrade00
+          bundler exec rails runner script/golden_outputs.rb
 
       - name: Upload golden outputs
         uses: actions/upload-artifact@v4
