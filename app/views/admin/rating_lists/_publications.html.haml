@@ -20,7 +20,7 @@
     - @publications.each_with_index do |p, i|
       %tr
         %td.centered= @publications.size - i
-        %td= p.created_at.to_s(:db)
+        %td= p.created_at.to_fs(:db)
         %td= link_to p.last_tournament.name_with_year, [:admin, p.last_tournament] if p.last_tournament
         %td.centered= p.total
         %td.centered= p.creates

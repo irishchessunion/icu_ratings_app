@@ -740,7 +740,7 @@ module ICU
         updates.push "encrypted_password = '#{pass}'" if pass && pass != user[:encrypted_password]
         updates.push "salt = '#{salt}'"               if salt && salt != user[:salt]
         if status == "ok" && user[:verfied_at].blank?
-          updates.push "verified_at = '#{Time.now.to_s(:db)}'"
+          updates.push "verified_at = '#{Time.now.to_fs(:db)}'"
         elsif status == "pending" && user[:verfied_at].present?
           updates.push "verified_at = NULL"
         end

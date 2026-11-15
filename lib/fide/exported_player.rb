@@ -73,7 +73,7 @@ module FIDE
     def icu_dob_mismatch
       return false unless dob && icu_player && icu_player.dob
       return @_icu_dob_mismatch unless @_icu_dob_mismatch.nil?
-      @_icu_dob_mismatch = dob != icu_player.dob.to_s(:db)
+      @_icu_dob_mismatch = dob != icu_player.dob.to_fs(:db)
     end
 
     def icu_sex_mismatch

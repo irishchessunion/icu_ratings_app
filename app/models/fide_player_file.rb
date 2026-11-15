@@ -103,9 +103,9 @@ class FidePlayerFile < ApplicationRecord
       items.push " * FIDE born #{fep.fide_player.born}"        if fep.fide_dob_mismatch
       items.push " * FIDE sex #{fep.fide_player.gender}"       if fep.fide_sex_mismatch
       items.push " * ICU name #{fep.icu_player.name}"          if fep.icu_name_mismatch
-      items.push " * ICU DOB #{fep.icu_player.dob.to_s(:db)}"  if fep.icu_dob_mismatch
+      items.push " * ICU DOB #{fep.icu_player.dob.to_fs(:db)}"  if fep.icu_dob_mismatch
       items.push " * ICU sex #{fep.icu_player.gender}"         if fep.icu_sex_mismatch
-      items.push " * #{dob || fep.icu_player.dob.to_s(:db)}"   if fep.transferable_dob
+      items.push " * #{dob || fep.icu_player.dob.to_fs(:db)}"   if fep.transferable_dob
       if fep.icu_suggestions.size > 0
         fep.icu_suggestions.each { |s| items.push " * #{s.name} (#{s.id}) #{s.dob}"}
       end

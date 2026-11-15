@@ -28,7 +28,7 @@ class IcuRatingsController < ApplicationController
   end
 
   def war
-    @war = IcuRatings::WAR.new(params)
+    @war = IcuRatings::War.new(params)
     render "icu_ratings/war/#{request.xhr? ? "results" : "index"}"
   end
 

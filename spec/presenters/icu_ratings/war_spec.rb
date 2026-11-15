@@ -1,7 +1,7 @@
 require "rails_helper"
 
 module IcuRatings
-  describe WAR do
+  describe War do
     it "enough ratings for a 3 year average" do
       p1 = FactoryBot.create(:icu_player)
       FactoryBot.create(:icu_rating, rating: 2000, list: "2008-09-01", icu_player: p1)
@@ -23,7 +23,7 @@ module IcuRatings
       f3 = FactoryBot.create(:fide_player, icu_player: p3)
       FactoryBot.create(:fide_rating, rating: 2100, list: "2010-11-01", fide_player: f3)
 
-      w = WAR.new(method: "war")
+      w = War.new(method: "war")
 
       expect(w.available?).to be true
       expect(w.years).to eq(3)
@@ -35,14 +35,14 @@ module IcuRatings
       expect(w.players.last.player).to eq(p3)
       expect(w.players.last.average).to be_within(0.01).of(2017.5)
 
-      w = WAR.new(method: "war", gender: "F")
+      w = War.new(method: "war", gender: "F")
 
       expect(w.available?).to be true
       expect(w.players.size).to eq(1)
       expect(w.players.first.player).to eq(p2)
       expect(w.players.first.average).to be_within(0.01).of(1070.0)
 
-      w = WAR.new(method: "simple")
+      w = War.new(method: "simple")
 
       expect(w.available?).to be true
       expect(w.years).to eq(1)
@@ -66,11 +66,11 @@ module IcuRatings
       f3 = FactoryBot.create(:fide_player, icu_player: p3)
       FactoryBot.create(:fide_rating, rating: 2100, list: "2010-11-01", fide_player: f3)
 
-      w = WAR.new(method: "war")
+      w = War.new(method: "war")
 
       expect(w.available?).to be false
 
-      w = WAR.new(method: "simple")
+      w = War.new(method: "simple")
 
       expect(w.available?).to be true
       expect(w.years).to eq(1)
@@ -80,7 +80,7 @@ module IcuRatings
       expect(w.players.first.average).to be_within(0.01).of(2200.0)
       expect(w.players.last.average).to be_within(0.01).of(2050.0)
 
-      w = WAR.new(method: "simple", gender: "F")
+      w = War.new(method: "simple", gender: "F")
 
       expect(w.available?).to be true
       expect(w.players.size).to eq(1)
@@ -88,8 +88,8 @@ module IcuRatings
     end
 
     it "no data at all" do
-      expect(WAR.new(method: "war").available?).to be false
-      expect(WAR.new(method: "simple").available?).to be false
+      expect(War.new(method: "war").available?).to be false
+      expect(War.new(method: "simple").available?).to be false
     end
   end
 end

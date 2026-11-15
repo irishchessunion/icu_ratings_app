@@ -1,5 +1,5 @@
 module IcuRatings
-  class WAR
+  class War
     Row = Struct.new(:player, :icu, :fide, :average)
 
     def initialize(params)

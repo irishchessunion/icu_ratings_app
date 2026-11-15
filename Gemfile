@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "=6.1.7.10"
+gem "rails", "=7.0.10"
 gem "sprockets", "~> 3.4" # sprockets 4.x needs more changes: https://stackoverflow.com/questions/58339607
 gem "bootstrap", "=5.3.8"
 gem "logger"

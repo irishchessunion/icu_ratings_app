@@ -21,7 +21,7 @@ class Failure < ApplicationRecord
     matches = all
     matches = matches.where("name LIKE ?", "%#{params[:name]}%") if params[:name].present?
     age = params[:age].to_i
-    matches = matches.where("created_at > '#{age.days.ago.to_s(:db)}'") if age > 0
+    matches = matches.where("created_at > '#{age.days.ago.to_fs(:db)}'") if age > 0
     paginate(matches, path, params)
   end
 

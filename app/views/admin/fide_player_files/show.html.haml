@@ -17,7 +17,7 @@
     .times
       created
       %span
-        = @fide_player_file.created_at.to_s(:db)
+        = @fide_player_file.created_at.to_fs(:db)
   .description
     = markdown(@fide_player_file.description)
 
