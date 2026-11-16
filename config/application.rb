@@ -5,6 +5,25 @@ require "rails/all"
 
 Bundler.require(*Rails.groups)
 
+# Silence Rails.application.secrets deprecation (removed in 7.2).
+# TODO: migrate to Rails.application.credentials or config_for in Stage 8.
+module Rails
+  class Application
+    def secrets
+      @secrets ||= begin
+        secrets = ActiveSupport::OrderedOptions.new
+        files = config.paths["config/secrets"].existent
+        files = files.reject { |path| path.end_with?(".enc") } unless config.read_encrypted_secrets
+        parsed = Rails::Secrets.parse(files, env: Rails.env)
+        parsed.delete(:secret_key_base) if parsed.respond_to?(:delete)
+        secrets.merge!(parsed)
+        secrets.secret_key_base = config.secret_key_base
+        secrets
+      end
+    end
+  end
+end
+
 module Ratings
   class Application < Rails::Application
     # Express preference for double quoted attributes (single quoted is HAML's default).
@@ -40,8 +59,12 @@ module Ratings
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    # Rails 7.0: use the new connection handling (required for Rails 7.1+).
-    config.active_record.legacy_connection_handling = false
+    # Rails 7.1: opt into the new cache format (silences deprecation warning).
+    config.active_support.cache_format_version = 7.0
+
+    # Rails 7.1: ActionMailer railtie freezes preview_paths; set to empty to avoid FrozenError.
+    # The preview path is already in autoload_paths by default.
+    config.action_mailer.preview_paths = []
 
     # no-reply@icu.ie used to cause an error when we were with register365.
     config.action_mailer.default_options = { from: "NO-REPLY@icu.ie" }
