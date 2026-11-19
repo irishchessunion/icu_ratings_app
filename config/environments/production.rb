@@ -63,7 +63,7 @@ Ratings::Application.configure do
     port: 587,
     domain: "icu.ie",
     user_name: "postmaster@icu.ie",
-    password: Rails.application.secrets.mailgun["password"],
+    password: Rails.application.secrets.mailgun[:password],
     enable_starttls_auto: true,
   }
 

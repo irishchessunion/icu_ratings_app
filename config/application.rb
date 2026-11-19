@@ -5,27 +5,15 @@ require "rails/all"
 
 Bundler.require(*Rails.groups)
 
-# Silence Rails.application.secrets deprecation (removed in 7.2).
-# TODO: migrate to Rails.application.credentials or config_for in Stage 8.
-module Rails
-  class Application
-    def secrets
-      @secrets ||= begin
-        secrets = ActiveSupport::OrderedOptions.new
-        files = config.paths["config/secrets"].existent
-        files = files.reject { |path| path.end_with?(".enc") } unless config.read_encrypted_secrets
-        parsed = Rails::Secrets.parse(files, env: Rails.env)
-        parsed.delete(:secret_key_base) if parsed.respond_to?(:delete)
-        secrets.merge!(parsed)
-        secrets.secret_key_base = config.secret_key_base
-        secrets
-      end
-    end
-  end
-end
-
 module Ratings
   class Application < Rails::Application
+    # Rails 7.2 removed Rails.application.secrets. This shim adds it back via config_for
+    # so the rest of the codebase keeps working until a proper migration to credentials.
+    # config_for returns nil when the current environment has no section in secrets.yml
+    # (e.g. staging on a host that only defines production/development), so fall back
+    # to an empty OrderedOptions to keep booting instead of crashing.
+    config.secrets = config_for(:secrets) || ActiveSupport::OrderedOptions.new
+    config.secret_key_base = config.secrets[:secret_key_base] if config.secrets.respond_to?(:[]) && config.secrets[:secret_key_base].present?
     # Express preference for double quoted attributes (single quoted is HAML's default).
     Haml::Template.options[:attr_wrapper] = '"'
 
@@ -68,5 +56,9 @@ module Ratings
 
     # no-reply@icu.ie used to cause an error when we were with register365.
     config.action_mailer.default_options = { from: "NO-REPLY@icu.ie" }
+
+    def secrets
+      config.secrets
+    end
   end
 end
