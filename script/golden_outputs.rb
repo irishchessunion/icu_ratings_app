@@ -77,9 +77,9 @@ INPUTS.each do |file|
   DatabaseCleaner.clean_with(:truncation) if defined?(DatabaseCleaner)
 
   # Reload ICU players and old ratings so tournament players match existing records.
-  icu_players_cache = YAML.load(File.read(Rails.root.join("spec/factories/icu_players.yml")))
+  icu_players_cache = YAML.load(File.read(Rails.root.join("spec/factories/icu_players.yml")), permitted_classes: [Date, Time, Regexp])
   icu_players_cache.each { |id, data| FactoryBot.create(:icu_player, data.merge(id: id)) }
-  old_ratings_cache = YAML.load(File.read(Rails.root.join("spec/factories/old_ratings.yml")))
+  old_ratings_cache = YAML.load(File.read(Rails.root.join("spec/factories/old_ratings.yml")), permitted_classes: [Date, Time, Regexp])
   old_ratings_cache.each do |icu_id, data|
     FactoryBot.create(:old_rating, icu_id: icu_id, rating: data[0], games: data[1], full: data[2])
   end

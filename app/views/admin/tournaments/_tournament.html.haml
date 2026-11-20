@@ -135,12 +135,12 @@
     - if @tournament.stage == "rated"
       %tr
         %th First Rated
-        %td= @tournament.first_rated.to_s(:db)
+        %td= @tournament.first_rated.to_fs(:db)
         %th{class: "floater"}
       - if @tournament.first_rated != @tournament.last_rated
         %tr
           %th Last Rated
-          %td= @tournament.last_rated.to_s(:db)
+          %td= @tournament.last_rated.to_fs(:db)
           %th{class: "floater"}
         %tr
           %th Number of Reratings

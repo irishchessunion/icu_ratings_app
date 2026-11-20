@@ -24,7 +24,7 @@ class RatingList < ApplicationRecord
 
   def publish(today = Date.today)
     @stats = Publication::STATS.inject({}) { |h, k| h[k] = 0; h }
-    @stats[:report] = "Starting publication of #{date.strftime('%Y %b')} list at #{Time.now.to_s(:dbm)}\n"
+    @stats[:report] = "Starting publication of #{date.strftime('%Y %b')} list at #{Time.now.to_fs(:dbm)}\n"
 
     begin
       @first = first_publication?
@@ -104,7 +104,7 @@ class RatingList < ApplicationRecord
     tournament_ratings = get_tournament_ratings(rorder, icu_ids)
     legacy_ratings = get_legacy_ratings(icu_ids)
     t1 = Time.now
-    report_header "Starting rating updates at #{t1.to_s(:tbm)}"
+    report_header "Starting rating updates at #{t1.to_fs(:tbm)}"
 
     legacy, tournaments = 0, 0
     changes = Hash.new { |h, k| h[k] = [] }
@@ -166,7 +166,7 @@ class RatingList < ApplicationRecord
     end
 
     t2 = Time.now
-    report_item "finished rating updates at #{t2.to_s(:tbm)} (#{((t2 - t1) * 1000.0).round} ms)"
+    report_item "finished rating updates at #{t2.to_fs(:tbm)} (#{((t2 - t1) * 1000.0).round} ms)"
 
     @stats[:creates] = creates.size
     @stats[:remains] = remains.size
@@ -188,7 +188,7 @@ class RatingList < ApplicationRecord
 
     if last_list?
       t3 = Time.now
-      report_header "Starting live rating recalculation at #{t1.to_s(:tbm)}"
+      report_header "Starting live rating recalculation at #{t1.to_fs(:tbm)}"
       count = LiveRating.recalculate
       t4 = Time.now
       report_item "recalculated #{count} live ratings in #{((t4 - t3) * 1000.0).round} ms"
@@ -240,10 +240,10 @@ class RatingList < ApplicationRecord
 
     report_header "Getting latest player ratings from tournaments"
     t1 = Time.now
-    report_item "started at:  #{t1.to_s(:tbm)}"
+    report_item "started at:  #{t1.to_fs(:tbm)}"
     ratings = Player.get_last_ratings(icu_ids, max_rorder: rorder - 1, max_date: date)
     t2 = Time.now
-    report_item "finished at: #{t2.to_s(:tbm)} (#{((t2 - t1) * 1000.0).round} ms)"
+    report_item "finished at: #{t2.to_fs(:tbm)} (#{((t2 - t1) * 1000.0).round} ms)"
     report_item "matching subscriptions: #{ratings.size}"
     ratings
   end

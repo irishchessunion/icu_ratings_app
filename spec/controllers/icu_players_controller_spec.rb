@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Admin::IcuPlayersController, type: :controller do
+describe IcuPlayersController, type: :controller do
   before(:each) do
     @user = FactoryBot.create(:user, role: "officer")
     session[:user_id] = @user.id

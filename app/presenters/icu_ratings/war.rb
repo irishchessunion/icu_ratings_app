@@ -1,5 +1,6 @@
 module IcuRatings
-  class WAR
+  # "WAR" stands for "Weighted Average Rating".
+  class War
     Row = Struct.new(:player, :icu, :fide, :average)
 
     def initialize(params)

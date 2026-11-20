@@ -229,7 +229,7 @@ module FIDE
         @records = 0
         @count = 0
         got_id = Hash.new
-        created_at = Time.now.to_s(:db)
+        created_at = Time.now.to_fs(:db)
         updated_at = created_at
         icu_id = '\N'
 
